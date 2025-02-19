@@ -1,0 +1,67 @@
+package com.salesianos.FitQuestPrototype.User.Services;
+
+import com.salesianos.FitQuestPrototype.User.Dto.CreateUserRequest;
+import com.salesianos.FitQuestPrototype.User.Error.ActivationExpiredException;
+import com.salesianos.FitQuestPrototype.User.Model.UserRole;
+import com.salesianos.FitQuestPrototype.User.Model.Usuario;
+import com.salesianos.FitQuestPrototype.User.Repos.UsuarioRepository;
+import com.salesianos.FitQuestPrototype.User.Util.SendGridMailSender;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.Set;
+import java.util.UUID;
+
+@Service
+@RequiredArgsConstructor
+public class UsuarioService{
+
+    private final UsuarioRepository usuarioRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final SendGridMailSender mailSender;
+
+    @Value("${activation.duration}")
+    private int activationDuration;
+
+    public Usuario createUser(CreateUserRequest createUserRequest) {
+        Usuario user = Usuario.builder()
+                .username(createUserRequest.username())
+                .password(passwordEncoder.encode(createUserRequest.password()))
+                .email(createUserRequest.email())
+                .roles(Set.of(UserRole.USER))
+                .activationToken(generateRandomActivationCode())
+                .build();
+
+        try {
+            mailSender.sendMail(createUserRequest.email(), "Activación de cuenta", user.getActivationToken());
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,"Error al enviar el email de activación");
+        }
+
+
+        return usuarioRepository.save(user);
+    }
+
+    public String generateRandomActivationCode() {
+        return UUID.randomUUID().toString();
+    }
+
+    public Usuario activateAccount(String token) {
+
+        return usuarioRepository.findByActivationToken(token)
+                .filter(usuario -> ChronoUnit.MINUTES.between(Instant.now(), usuario.getCreatedAt()) - activationDuration < 0)
+                .map(usuario -> {
+                    usuario.setEnabled(true);
+                    usuario.setActivationToken(null);
+                    return usuarioRepository.save(usuario);
+                })
+                .orElseThrow(() -> new ActivationExpiredException("El código de activación no existe o ha caducado"));
+    }
+
+}
