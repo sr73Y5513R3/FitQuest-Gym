@@ -1,4 +1,4 @@
-package com.salesianos.protoProyectoFitQuest.Model;
+package com.salesianos.protoProyectoFitQuest.User.Model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
