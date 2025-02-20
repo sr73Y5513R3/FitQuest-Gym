@@ -26,6 +26,16 @@ public class EntrenamientoService {
         return entrenamientoRepository.findAllEntrenamientos();
     }
 
+
+    public Entrenamiento findEntrenamientoById(Long id){
+        Optional<Entrenamiento> entrenamiento = entrenamientoRepository.findById(id);
+
+        if(entrenamiento.isEmpty())
+            throw new EntityNotFoundException("Entrenamiento no encontrado");
+
+        return entrenamiento.get();
+    }
+
     public Entrenamiento save (CreateEntrenoCmd createEntrenoCmd){
         Entrenamiento entrenamiento = new Entrenamiento();
 
