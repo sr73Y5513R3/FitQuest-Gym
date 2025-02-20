@@ -23,7 +23,7 @@ public class RefreshTokenService {
     private int durationInMinutes;
 
     public RefreshToken create(Usuario usuario) {
-        refreshTokenRepository.deleteByUser(usuario);
+        refreshTokenRepository.deleteByUsuario(usuario);
         return refreshTokenRepository.save(
                 RefreshToken.builder()
                         .usuario(usuario)
