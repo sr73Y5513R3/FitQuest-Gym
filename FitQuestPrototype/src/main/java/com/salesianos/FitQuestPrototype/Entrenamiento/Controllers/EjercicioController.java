@@ -47,6 +47,22 @@ public class EjercicioController {
     }
 
 
+    @Operation(summary = "Busca un ejercicio por id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se han encontrado el ejercicio buscado",
+                    content = {@Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = GetEjercicioDto.class)))}),
+            @ApiResponse(responseCode = "404",
+                    description = "No se han encontrado ejercicios con ese id",
+                    content = @Content)
+    })
+    @GetMapping("/{id}")
+    public GetEjercicioDto findEjercicioById(@PathVariable Long id){
+        return GetEjercicioDto.of(ejercicioService.findEjercicioById(id));
+    }
+
+
     @Operation(summary = "Crea un ejercicio")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201",
