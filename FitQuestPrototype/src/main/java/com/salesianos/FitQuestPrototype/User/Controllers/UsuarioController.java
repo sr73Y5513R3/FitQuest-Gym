@@ -23,7 +23,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-public class UsuarioController {
+public class
+
+
+
+UsuarioController {
 
     private final UsuarioService usuarioService;
     private final AuthenticationManager authenticationManager;
@@ -73,7 +77,7 @@ public class UsuarioController {
 
     }
 
-    @PostMapping("/activate/account/")
+    @PostMapping("/activate/account")
     public ResponseEntity<?> activateAccount(@RequestBody ActivateAccountRequest req) {
         String token = req.token();
         return ResponseEntity.status(HttpStatus.CREATED)
