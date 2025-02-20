@@ -2,6 +2,7 @@ package com.salesianos.FitQuestPrototype.Entrenamiento.Controllers;
 
 import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Entrenamiento.CreateEntrenoCmd;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Entrenamiento.GetEntrenamientoDto;
+import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Entrenamiento.GetEntrenoConEjercicioDto;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Services.EntrenamientoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -12,10 +13,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -49,5 +47,20 @@ public class EntrenamientoController {
                 .body(GetEntrenamientoDto.of(entrenamientoService.save(createEntrenoCmd)));
     }
 
+    @Operation(summary = "Añade un ejercicio a un entrenamiento")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201",
+                    description = "Se ha añadido correctamente el ejercicio",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = GetEntrenoConEjercicioDto.class))}),
+            @ApiResponse(responseCode = "400",
+                    description = "Alguno de los id son inválidos",
+                    content = @Content)
+    })
+    @PostMapping("{idEntrenamiento}/ejercicio/{idEjercicio}")
+    public ResponseEntity<GetEntrenoConEjercicioDto> addEjercicio (@PathVariable Long idEntrenamiento, @PathVariable Long idEjercicio) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(GetEntrenoConEjercicioDto.of(entrenamientoService.añadirEjercicio(idEntrenamiento, idEjercicio)));
+    }
 
 }
