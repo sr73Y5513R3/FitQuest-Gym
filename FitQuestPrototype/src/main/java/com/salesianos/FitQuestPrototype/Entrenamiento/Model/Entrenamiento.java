@@ -42,7 +42,7 @@ public class Entrenamiento {
     //Métodos helpers
 
     public void addEjercicio(Ejercicio ejercicio) {
-        if (!this.ejercicios.contains(ejercicio)) {  // Evita la recursión infinita
+        if (!this.ejercicios.contains(ejercicio)) {
             this.ejercicios.add(ejercicio);
             ejercicio.addEntrenamiento(this);
         }

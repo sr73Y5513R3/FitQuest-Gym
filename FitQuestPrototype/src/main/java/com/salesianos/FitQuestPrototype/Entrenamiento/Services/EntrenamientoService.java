@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -19,6 +20,11 @@ public class EntrenamientoService {
 
     private final EntrenamientoRepository entrenamientoRepository;
     private final EjercicioRepository ejercicioRepository;
+
+
+    public List<Entrenamiento> findAllEntrenamientos(){
+        return entrenamientoRepository.findAllEntrenamientos();
+    }
 
     public Entrenamiento save (CreateEntrenoCmd createEntrenoCmd){
         Entrenamiento entrenamiento = new Entrenamiento();

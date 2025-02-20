@@ -32,7 +32,7 @@ public class Ejercicio {
 
     private String urlImagenes;
 
-    @ManyToMany(mappedBy = "ejercicios", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "ejercicios", fetch = FetchType.LAZY)
     @Builder.Default
     @Setter(AccessLevel.NONE)
     @ToString.Exclude

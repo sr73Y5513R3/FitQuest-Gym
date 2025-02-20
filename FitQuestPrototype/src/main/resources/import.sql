@@ -1,0 +1,4 @@
+INSERT INTO ENTRENAMIENTO (ID, NOMBRE, DESCRIPCION, DURACION, CALORIAS, PUNTOS, AUTOR) VALUES (NEXTVAL('entrenamiento_seq'), 'Entrenamiento básico 01', 'Entrenamiento con unos ejercicios para principiantes', 0, 100, 100, 'Pablo Teyssiere');
+
+INSERT INTO EJERCICIO (ID, NOMBRE, DESCRIPCION, SERIES, REPETICIONES, DURACION, URL_IMAGENES) VALUES (NEXTVAL('ejercicio_seq'), 'Ejercicio de pecho', 'Consiste en coger una barra y levantarla por encima de nuestro pecho', 4, 10, 30, 'No hay');
+INSERT INTO EJERCICIO (ID, NOMBRE, DESCRIPCION, SERIES, REPETICIONES, DURACION, URL_IMAGENES) VALUES (NEXTVAL('ejercicio_seq'), 'Ejercicio de tricep', 'Consiste en levantar una pesa por encima de nuestra cabeza', 4, 10, 20, 'No hay')
