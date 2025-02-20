@@ -7,7 +7,7 @@ public record GetEntrenamientoDto(
         Long id,
         String nombre,
         String descripcion,
-        double duracion,
+        //double duracion,
         double calorias,
         double puntos,
         String autor
@@ -18,7 +18,7 @@ public record GetEntrenamientoDto(
                 entrenamiento.getId(),
                 entrenamiento.getNombre(),
                 entrenamiento.getDescripcion(),
-                entrenamiento.getDuracion(),
+                //entrenamiento.getDuracion(),
                 entrenamiento.getCalorias(),
                 entrenamiento.getPuntos(),
                 entrenamiento.getAutor()

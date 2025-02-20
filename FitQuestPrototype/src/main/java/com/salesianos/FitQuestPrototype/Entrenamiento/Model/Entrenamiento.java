@@ -39,5 +39,20 @@ public class Entrenamiento {
     @Builder.Default
     private Set<Ejercicio> ejercicios = new HashSet<>();
 
+    //Métodos helpers
+
+    public void addEjercicio(Ejercicio ejercicio) {
+        if (!this.ejercicios.contains(ejercicio)) {  // Evita la recursión infinita
+            this.ejercicios.add(ejercicio);
+            ejercicio.addEntrenamiento(this);
+        }
+    }
+
+
+    public void removeEjercicio(Ejercicio ejercicio) {
+        this.getEjercicios().remove(ejercicio);
+        ejercicio.removeEntrenamiento(this);
+    }
+
 
 }

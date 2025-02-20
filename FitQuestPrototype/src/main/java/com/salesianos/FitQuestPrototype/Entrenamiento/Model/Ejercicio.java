@@ -38,4 +38,19 @@ public class Ejercicio {
     @ToString.Exclude
     private Set<Entrenamiento> entrenamientos = new HashSet<> ();
 
+    //Métodos helpers
+
+    public void addEntrenamiento(Entrenamiento entrenamiento) {
+        if (!this.entrenamientos.contains(entrenamiento)) {  // Evita la recursión infinita
+            this.entrenamientos.add(entrenamiento);
+            entrenamiento.addEjercicio(this);
+        }
+    }
+
+
+    public void removeEntrenamiento(Entrenamiento entrenamiento) {
+        this.getEntrenamientos().remove(entrenamiento);
+        entrenamiento.removeEjercicio(this);
+    }
+
 }
