@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @ToString
 @Table(name= "usuario")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Usuario implements UserDetails {
 
     @Id
