@@ -1,7 +1,7 @@
 package com.salesianos.FitQuestPrototype.Entrenamiento.Controllers;
 
-import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.CreateEntrenoCmd;
-import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.GetEntrenamientoDto;
+import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Entrenamiento.CreateEntrenoCmd;
+import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Entrenamiento.GetEntrenamientoDto;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Services.EntrenamientoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

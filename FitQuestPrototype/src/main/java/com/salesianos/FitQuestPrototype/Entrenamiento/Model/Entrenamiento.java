@@ -1,10 +1,11 @@
 package com.salesianos.FitQuestPrototype.Entrenamiento.Model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
+
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -12,6 +13,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@Builder
 @Table(name = "entrenamiento")
 public class Entrenamiento {
 
@@ -27,4 +29,15 @@ public class Entrenamiento {
     String autor;
 
     //double valoracionMedia
+
+    @ManyToMany
+    @JoinTable(name = "entrenamiento_ejercicio",
+    joinColumns = @JoinColumn(name = "entrenamiento_id"),
+    inverseJoinColumns = @JoinColumn(name= "ejercicio_id"),
+            foreignKey = @ForeignKey(name = "fk_entrenamiento_ejercicio_entrenamiento"),
+            inverseForeignKey = @ForeignKey(name = "fk_entrenamiento_ejercicio_ejercicio"))
+    @Builder.Default
+    private Set<Ejercicio> ejercicios = new HashSet<>();
+
+
 }

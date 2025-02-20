@@ -1,4 +1,4 @@
-package com.salesianos.FitQuestPrototype.Entrenamiento.Dto;
+package com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Entrenamiento;
 
 public record CreateEntrenoCmd(
         String nombre,

@@ -1,4 +1,4 @@
-package com.salesianos.FitQuestPrototype.Entrenamiento.Dto;
+package com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Entrenamiento;
 
 import com.salesianos.FitQuestPrototype.Entrenamiento.Model.Entrenamiento;
 

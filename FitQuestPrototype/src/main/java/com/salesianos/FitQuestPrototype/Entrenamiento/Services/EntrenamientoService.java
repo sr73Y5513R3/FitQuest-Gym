@@ -1,6 +1,6 @@
 package com.salesianos.FitQuestPrototype.Entrenamiento.Services;
 
-import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.CreateEntrenoCmd;
+import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Entrenamiento.CreateEntrenoCmd;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Model.Entrenamiento;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Repos.EntrenamientoRepository;
 import lombok.RequiredArgsConstructor;
