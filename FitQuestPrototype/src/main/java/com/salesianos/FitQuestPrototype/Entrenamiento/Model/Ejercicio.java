@@ -38,6 +38,18 @@ public class Ejercicio {
     @ToString.Exclude
     private Set<Entrenamiento> entrenamientos = new HashSet<> ();
 
+    
+    //Relación unidireccional
+
+    @ManyToMany
+    @JoinTable(name = "ejercicio_material",
+            joinColumns = @JoinColumn(name = "ejercicio_id"),
+            inverseJoinColumns = @JoinColumn(name= "material_id"),
+            foreignKey = @ForeignKey(name = "fk_ejercicio_material_ejercicio"),
+            inverseForeignKey = @ForeignKey(name = "fk_ejercicio_material_material"))
+    @Builder.Default
+    private Set<Material> materiales = new HashSet<Material> ();
+
     //Métodos helpers
 
     public void addEntrenamiento(Entrenamiento entrenamiento) {
