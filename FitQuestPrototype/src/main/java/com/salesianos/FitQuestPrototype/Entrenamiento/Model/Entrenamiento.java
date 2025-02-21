@@ -39,6 +39,12 @@ public class Entrenamiento {
     @Builder.Default
     private Set<Ejercicio> ejercicios = new HashSet<>();
 
+    @ManyToOne
+    @JoinColumn(name = "nivel_id",
+        foreignKey = @ForeignKey(name = "fk_entrenamiento_nivel"))
+    @ToString.Exclude
+    private Nivel nivel;
+
     //Métodos helpers
 
     public void addEjercicio(Ejercicio ejercicio) {

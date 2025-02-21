@@ -38,6 +38,12 @@ public class Ejercicio {
     @ToString.Exclude
     private Set<Entrenamiento> entrenamientos = new HashSet<> ();
 
+    @ManyToOne
+    @JoinColumn(name = "nivel_id",
+    foreignKey = @ForeignKey(name = "fk_ejercicio_nivel"))
+    @ToString.Exclude
+    private Nivel nivel;
+
     
     //Relación unidireccional
 
