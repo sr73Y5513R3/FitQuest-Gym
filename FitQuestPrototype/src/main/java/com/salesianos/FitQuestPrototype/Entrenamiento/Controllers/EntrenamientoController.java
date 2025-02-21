@@ -29,7 +29,7 @@ public class EntrenamientoController {
     @Operation(summary = "Obtiene todas los entrenamientos")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
-                    description = "Se han encontrado todas los entrenamientos",
+                    description = "Se han encontrado todos los entrenamientos",
                     content = {@Content(mediaType = "application/json",
                             array = @ArraySchema(schema = @Schema(implementation = GetEntrenoConEjercicioDto.class)))}),
             @ApiResponse(responseCode = "404",
@@ -42,6 +42,21 @@ public class EntrenamientoController {
                 .stream()
                 .map(GetEntrenoConEjercicioDto::of)
                 .toList();
+    }
+
+    @Operation(summary = "Busca un entrenamietno por id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se han encontrado el entrenamiento buscado",
+                    content = {@Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = GetEntrenoConEjercicioDto.class)))}),
+            @ApiResponse(responseCode = "404",
+                    description = "No se han encontrado el entrenamiento con ese id",
+                    content = @Content)
+    })
+    @GetMapping("/{id}")
+    public GetEntrenoConEjercicioDto findById(@PathVariable Long id){
+        return GetEntrenoConEjercicioDto.of(entrenamientoService.findEntrenamientoById(id));
     }
 
     @Operation(summary = "Crea un entrenamiento")
