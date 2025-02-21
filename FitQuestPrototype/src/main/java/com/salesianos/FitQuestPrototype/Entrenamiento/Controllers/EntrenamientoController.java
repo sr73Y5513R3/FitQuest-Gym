@@ -29,7 +29,7 @@ public class EntrenamientoController {
     @Operation(summary = "Obtiene todas los entrenamientos")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
-                    description = "Se han encontrado todas los entrenamientos",
+                    description = "Se han encontrado todos los entrenamientos",
                     content = {@Content(mediaType = "application/json",
                             array = @ArraySchema(schema = @Schema(implementation = GetEntrenoConEjercicioDto.class)))}),
             @ApiResponse(responseCode = "404",

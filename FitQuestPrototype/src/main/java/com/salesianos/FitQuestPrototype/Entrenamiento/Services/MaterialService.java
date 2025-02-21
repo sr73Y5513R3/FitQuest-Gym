@@ -3,10 +3,12 @@ package com.salesianos.FitQuestPrototype.Entrenamiento.Services;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Material.CreateMateriaCmd;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Model.Material;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Repos.MaterialRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +26,16 @@ public class MaterialService {
 
     public List<Material> findAllMateriales() {
         return materialRepository.FindAllMateriales();
+    }
+
+    public Material findMaterialById(Long id) {
+        Optional<Material> material = materialRepository.findMaterialById(id);
+
+        if (material.isEmpty())
+            throw new EntityNotFoundException("Material no encontrado con ese id");
+
+        return material.get();
+
     }
 
 }
