@@ -85,4 +85,9 @@ public class NivelController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(GetNivelDto.of(nivelService.save(newNivel)));
     }
+
+    @PostMapping("/{idNivel}/entrenamiento/{idEntreno}")
+    public GetNivelConEntrenoDto addEntreno (@PathVariable Long idEntreno, @PathVariable Long idNivel) {
+        return GetNivelConEntrenoDto.of(nivelService.addEntrenamiento(idNivel, idEntreno));
+    }
 }
