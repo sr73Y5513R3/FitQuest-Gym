@@ -22,6 +22,8 @@ public class Material {
 
     private String nombre;
     private String descripcion;
+
+    @Enumerated(EnumType.STRING)
     private Tipo tipo;
 
 

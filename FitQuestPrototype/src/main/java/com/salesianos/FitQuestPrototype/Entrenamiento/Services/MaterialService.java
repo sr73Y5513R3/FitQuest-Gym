@@ -6,6 +6,8 @@ import com.salesianos.FitQuestPrototype.Entrenamiento.Repos.MaterialRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class MaterialService {
@@ -18,6 +20,10 @@ public class MaterialService {
                 .descripcion(newMaterial.descripcion())
                 .tipo(newMaterial.tipo())
                 .build());
+    }
+
+    public List<Material> findAllMateriales() {
+        return materialRepository.FindAllMateriales();
     }
 
 }
