@@ -2,6 +2,7 @@ package com.salesianos.FitQuestPrototype.Entrenamiento.Controllers;
 
 import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Ejercicio.GetEjercicioDto;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Material.CreateMateriaCmd;
+import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Material.EditTipoMaterial;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Material.GetMaterialDto;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Services.MaterialService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -84,6 +85,20 @@ public class MaterialController {
                 .body(GetMaterialDto.of(materialService.save(newMaterial)));
     }
 
+    @Operation(summary = "Edita el tipo de un material")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201",
+                    description = "Tipo de material actualizado con éxito",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = GetMaterialDto.class))}),
+            @ApiResponse(responseCode = "400",
+                    description = "Datos inválidos para editar el tipo de un material",
+                    content = @Content)
+    })
+    @PutMapping("/{id}/editTipo")
+    public GetMaterialDto editTipo (@PathVariable Long id, @RequestBody EditTipoMaterial newTipo){
+        return GetMaterialDto.of(materialService.editTipoMaterial(id, newTipo));
+    }
 
 
 }
