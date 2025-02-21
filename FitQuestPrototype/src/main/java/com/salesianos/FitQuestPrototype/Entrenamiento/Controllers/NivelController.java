@@ -47,6 +47,21 @@ public class NivelController {
                 .toList();
     }
 
+    @Operation(summary = "Obtiene un nivel buscado por id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se han encontrado el nivel con ese id",
+                    content = {@Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = GetNivelConEntrenoDto.class)))}),
+            @ApiResponse(responseCode = "404",
+                    description = "No se han encontrado niveles con ese id",
+                    content = @Content)
+    })
+    @GetMapping("/{id}")
+    public GetNivelConEntrenoDto getNivelById(@PathVariable Long id) {
+        return GetNivelConEntrenoDto.of(nivelService.findNivelById(id));
+    }
+
     @Operation(summary = "Crea un nivel")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201",
