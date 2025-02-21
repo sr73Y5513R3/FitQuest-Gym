@@ -4,6 +4,7 @@ import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Ejercicio.GetEjercicio
 import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Entrenamiento.GetEntrenoConEjercicioDto;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Material.CreateMateriaCmd;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Nivel.CreateNivelCmd;
+import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Nivel.GetNivelConEjercicioDto;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Nivel.GetNivelConEntrenoDto;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Nivel.GetNivelDto;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Model.Nivel;
@@ -87,7 +88,12 @@ public class NivelController {
     }
 
     @PostMapping("/{idNivel}/entrenamiento/{idEntreno}")
-    public GetNivelConEntrenoDto addEntreno (@PathVariable Long idEntreno, @PathVariable Long idNivel) {
+    public GetNivelConEntrenoDto addEntreno (@PathVariable Long idNivel, @PathVariable Long idEntreno) {
         return GetNivelConEntrenoDto.of(nivelService.addEntrenamiento(idNivel, idEntreno));
+    }
+
+    @PostMapping("/{idNivel}/ejercicio/{idEjercicio}")
+    public GetNivelConEjercicioDto addEjercicio (@PathVariable Long idNivel, @PathVariable Long idEjercicio) {
+        return GetNivelConEjercicioDto.of(nivelService.addEjercicio(idNivel, idEjercicio));
     }
 }

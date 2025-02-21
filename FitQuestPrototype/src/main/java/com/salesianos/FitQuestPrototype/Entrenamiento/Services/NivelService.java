@@ -1,8 +1,10 @@
 package com.salesianos.FitQuestPrototype.Entrenamiento.Services;
 
 import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Nivel.CreateNivelCmd;
+import com.salesianos.FitQuestPrototype.Entrenamiento.Model.Ejercicio;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Model.Entrenamiento;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Model.Nivel;
+import com.salesianos.FitQuestPrototype.Entrenamiento.Repos.EjercicioRepository;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Repos.EntrenamientoRepository;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Repos.NivelRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -19,6 +21,7 @@ public class NivelService {
 
     private final NivelRepository nivelRepository;
     private final EntrenamientoRepository entrenamientoRepository;
+    private final EjercicioRepository ejercicioRepository;
 
     public List<Nivel> findAllNiveles(){
         return nivelRepository.findAllNiveles();
@@ -62,6 +65,33 @@ public class NivelService {
 
         if (!yaExiste) {
             nivel.addEntrenamiento(entrenamiento);
+        }
+
+        return nivelRepository.save(nivel);
+    }
+
+    @Transactional
+    public Nivel addEjercicio(Long idNivel, Long idEjercicio) {
+        Optional<Nivel> nivelOpt = nivelRepository.findNivelById(idNivel);
+        Optional<Ejercicio> ejercicioOpt = ejercicioRepository.findById(idEjercicio);
+
+        if (nivelOpt.isEmpty()) {
+            throw new EntityNotFoundException("Nivel no encontrado con ese ID");
+        }
+
+        if (ejercicioOpt.isEmpty()) {
+            throw new EntityNotFoundException("Ejercicio no encontrado con ese ID");
+        }
+
+        Nivel nivel = nivelOpt.get();
+        Ejercicio ejercicio = ejercicioOpt.get();
+
+        boolean yaExiste = nivel.getEjercicios()
+                .stream()
+                .anyMatch(e -> e.getId().equals(idEjercicio));
+
+        if (!yaExiste) {
+            nivel.addEjercicio(ejercicio);
         }
 
         return nivelRepository.save(nivel);
