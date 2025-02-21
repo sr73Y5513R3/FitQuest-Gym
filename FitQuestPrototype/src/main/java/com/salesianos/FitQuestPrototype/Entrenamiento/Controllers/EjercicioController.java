@@ -31,7 +31,7 @@ public class EjercicioController {
     @Operation(summary = "Obtiene todas los ejercicios")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
-                    description = "Se han encontrado todas los ejercicios",
+                    description = "Se han encontrado todos los ejercicios",
                     content = {@Content(mediaType = "application/json",
                             array = @ArraySchema(schema = @Schema(implementation = GetEjercicioDto.class)))}),
             @ApiResponse(responseCode = "404",
