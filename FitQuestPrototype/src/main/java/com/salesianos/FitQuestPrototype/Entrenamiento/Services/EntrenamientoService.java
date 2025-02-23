@@ -49,6 +49,23 @@ public class EntrenamientoService {
         return entrenamientoRepository.save(entrenamiento);
     }
 
+    public Entrenamiento edit (Long id, CreateEntrenoCmd editEntreno){
+        Optional<Entrenamiento> entrenamientoOpt = entrenamientoRepository.findEntrenamientoById(id);
+
+        if (entrenamientoOpt.isEmpty())
+            throw new EntityNotFoundException("Entrenamiento no encontrado");
+
+        Entrenamiento entrenamiento = entrenamientoOpt.get();
+
+        entrenamiento.setNombre(editEntreno.nombre());
+        entrenamiento.setDescripcion(editEntreno.descripcion());
+        entrenamiento.setCalorias(editEntreno.calorias());
+        entrenamiento.setPuntos(editEntreno.puntos());
+        entrenamiento.setAutor(editEntreno.autor());
+
+        return entrenamientoRepository.save(entrenamiento);
+    }
+
     @Transactional
     public Entrenamiento añadirEjercicio(Long idEntrenamiento, Long idEjercicio){
         Optional<Entrenamiento> entrenamiento = entrenamientoRepository.findEntrenamientoById(idEntrenamiento);
