@@ -40,4 +40,22 @@ public class EjercicioService {
                 .build());
     }
 
+    public Ejercicio edit (Long id, CreateEjercicioCmd createEjercicioCmd){
+        Optional<Ejercicio> ejercicioOpt = ejercicioRepository.findById(id);
+
+        if (ejercicioOpt.isEmpty())
+            throw new EntityNotFoundException("Ejercicio no encontrado con ese id");
+
+        Ejercicio ejercicio = ejercicioOpt.get();
+
+        ejercicio.setNombre(createEjercicioCmd.nombre());
+        ejercicio.setDescripcion(createEjercicioCmd.descripcion());
+        ejercicio.setSeries(createEjercicioCmd.series());
+        ejercicio.setRepeticiones(createEjercicioCmd.repeticiones());
+        ejercicio.setDuracion(createEjercicioCmd.duracion());
+        ejercicio.setUrlImagenes(createEjercicioCmd.urlImagen());
+
+        return ejercicioRepository.save(ejercicio);
+    }
+
 }

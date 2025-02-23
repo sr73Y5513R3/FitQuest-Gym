@@ -86,4 +86,27 @@ public class EjercicioController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(GetEjercicioDto.of(ejercicioService.save(createEjercicioCmd)));
     }
+
+    @Operation(summary = "Edita un ejercicio")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201",
+                    description = "Ejercicio editado con éxito",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = GetEjercicioDto.class))}),
+            @ApiResponse(responseCode = "400",
+                    description = "Datos inválidos para editar el ejercicio",
+                    content = @Content)
+    })
+    @PutMapping("/edit/{id}")
+    public GetEjercicioDto editEjercicio(@PathVariable Long id,@io.swagger.v3.oas.annotations.parameters.RequestBody(
+            description = "Cuerpo del ejercicio", required = true,
+            content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = CreateEjercicioCmd.class),
+                    examples = @ExampleObject(value = """
+                                                     {
+                                                          "nombre": "Electrónica"
+                                                      }
+                            """))) @RequestBody CreateEjercicioCmd createEjercicioCmd){
+        return GetEjercicioDto.of(ejercicioService.edit(id, createEjercicioCmd));
+    }
 }
