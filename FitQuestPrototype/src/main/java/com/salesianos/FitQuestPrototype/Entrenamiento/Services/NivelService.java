@@ -43,6 +43,19 @@ public class NivelService {
                 .build());
     }
 
+    public Nivel edit (Long id, CreateNivelCmd newNivel){
+        Optional<Nivel> nivelOpt = nivelRepository.findNivelById(id);
+
+        if (nivelOpt.isEmpty())
+            throw new EntityNotFoundException("Nivel no encontrado con ese id");
+
+        Nivel nivel = nivelOpt.get();
+
+        nivel.setNombre(newNivel.nombre());
+
+        return nivelRepository.save(nivel);
+    }
+
     @Transactional
     public Nivel addEntrenamiento(Long idNivel, Long idEntrenamiento) {
         Optional<Nivel> nivelOpt = nivelRepository.findNivelById(idNivel);

@@ -87,11 +87,54 @@ public class NivelController {
                 .body(GetNivelDto.of(nivelService.save(newNivel)));
     }
 
+    @Operation(summary = "Edita un nivel")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201",
+                    description = "Nivel editado con éxito",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = GetNivelDto.class))}),
+            @ApiResponse(responseCode = "400",
+                    description = "Datos inválidos para editar un nivel",
+                    content = @Content)
+    })
+    @PutMapping("/edit/{id}")
+    public GetNivelDto editNivel(@PathVariable Long id, @io.swagger.v3.oas.annotations.parameters.RequestBody(
+            description = "Cuerpo del nivel", required = true,
+            content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = CreateNivelCmd.class),
+                    examples = @ExampleObject(value = """
+                                                     {
+                                                          "nombre": "Profesional"
+                                                      }
+                            """)))@RequestBody CreateNivelCmd editNivel) {
+        return GetNivelDto.of(nivelService.edit(id, editNivel));
+    }
+
+    @Operation(summary = "Añade un entrenamiento a un nivel")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201",
+                    description = "Entrenamiento añadido con éxito",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = GetNivelDto.class))}),
+            @ApiResponse(responseCode = "400",
+                    description = "Datos inválidos para añadir un entrenamiento a un nivel",
+                    content = @Content)
+    })
     @PostMapping("/{idNivel}/entrenamiento/{idEntreno}")
     public GetNivelConEntrenoDto addEntreno (@PathVariable Long idNivel, @PathVariable Long idEntreno) {
         return GetNivelConEntrenoDto.of(nivelService.addEntrenamiento(idNivel, idEntreno));
     }
 
+    @Operation(summary = "Añade un ejercicio a un nivel")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201",
+                    description = "Ejercicio añadido con éxito",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = GetNivelDto.class))}),
+            @ApiResponse(responseCode = "400",
+                    description = "Datos inválidos para añadir un ejercicio a un nivel",
+                    content = @Content)
+    })
     @PostMapping("/{idNivel}/ejercicio/{idEjercicio}")
     public GetNivelConEjercicioDto addEjercicio (@PathVariable Long idNivel, @PathVariable Long idEjercicio) {
         return GetNivelConEjercicioDto.of(nivelService.addEjercicio(idNivel, idEjercicio));
