@@ -2,10 +2,12 @@ package com.salesianos.FitQuestPrototype.Entrenamiento.Controllers;
 
 
 import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Ejercicio.CreateEjercicioCmd;
+import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Ejercicio.GetEjercicioConNivelDto;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Ejercicio.GetEjercicioDto;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Entrenamiento.CreateEntrenoCmd;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Entrenamiento.GetEntrenamientoDto;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Entrenamiento.GetEntrenoConEjercicioDto;
+import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Entrenamiento.GetEntrenoConNivelDto;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Services.EjercicioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -108,5 +110,20 @@ public class EjercicioController {
                                                       }
                             """))) @RequestBody CreateEjercicioCmd createEjercicioCmd){
         return GetEjercicioDto.of(ejercicioService.edit(id, createEjercicioCmd));
+    }
+
+    @Operation(summary = "Edita el nivel de un ejercicio")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201",
+                    description = "Se ha actualizado correctamente el nivel",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = GetEntrenoConNivelDto.class))}),
+            @ApiResponse(responseCode = "400",
+                    description = "Alguno de los id son inválidos",
+                    content = @Content)
+    })
+    @PostMapping("/{id}/editNivel/{idNivel}")
+    public GetEjercicioConNivelDto editNivel (@PathVariable Long id, @PathVariable Long idNivel) {
+        return GetEjercicioConNivelDto.of(ejercicioService.actualizarNivel(id, idNivel));
     }
 }

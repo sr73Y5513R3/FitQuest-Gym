@@ -41,10 +41,10 @@ public class NivelController {
                     content = @Content)
     })
     @GetMapping("/all")
-    public List<GetNivelConEntrenoDto> getAllNivels() {
+    public List<GetNivelConEjercicioDto> getAllNivels() {
         return nivelService.findAllNiveles()
                 .stream()
-                .map(GetNivelConEntrenoDto::of)
+                .map(GetNivelConEjercicioDto::of)
                 .toList();
     }
 

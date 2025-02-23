@@ -2,7 +2,10 @@ package com.salesianos.FitQuestPrototype.Entrenamiento.Services;
 
 import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Ejercicio.CreateEjercicioCmd;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Model.Ejercicio;
+import com.salesianos.FitQuestPrototype.Entrenamiento.Model.Entrenamiento;
+import com.salesianos.FitQuestPrototype.Entrenamiento.Model.Nivel;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Repos.EjercicioRepository;
+import com.salesianos.FitQuestPrototype.Entrenamiento.Repos.NivelRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,6 +18,7 @@ import java.util.Optional;
 public class EjercicioService {
 
     private final EjercicioRepository ejercicioRepository;
+    private final NivelRepository nivelRepository;
 
     public List<Ejercicio> findAllEjercicio(){
         return ejercicioRepository.findAllEjercicios();
@@ -56,6 +60,24 @@ public class EjercicioService {
         ejercicio.setUrlImagenes(createEjercicioCmd.urlImagen());
 
         return ejercicioRepository.save(ejercicio);
+    }
+
+    public Ejercicio actualizarNivel (Long id, Long idNivel){
+        Optional<Ejercicio> ejercicioOpt = ejercicioRepository.findEjercicioById(id);
+
+        Optional<Nivel> nivelOpt = nivelRepository.findNivelById(idNivel);
+
+        if (ejercicioOpt.isEmpty() || nivelOpt.isEmpty())
+            throw new EntityNotFoundException("Entidades no encontradas");
+
+        Nivel nivel = nivelOpt.get();
+        Ejercicio ejercicio = ejercicioOpt.get();
+
+        nivel.addEjercicio(ejercicio);
+
+        return ejercicioRepository.save(ejercicio);
+
+
     }
 
 }
