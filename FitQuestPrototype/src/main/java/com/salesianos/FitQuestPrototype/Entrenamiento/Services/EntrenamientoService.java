@@ -4,8 +4,10 @@ import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Ejercicio.GetEjercicio
 import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Entrenamiento.CreateEntrenoCmd;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Model.Ejercicio;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Model.Entrenamiento;
+import com.salesianos.FitQuestPrototype.Entrenamiento.Model.Nivel;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Repos.EjercicioRepository;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Repos.EntrenamientoRepository;
+import com.salesianos.FitQuestPrototype.Entrenamiento.Repos.NivelRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,7 @@ public class EntrenamientoService {
 
     private final EntrenamientoRepository entrenamientoRepository;
     private final EjercicioRepository ejercicioRepository;
+    private final NivelRepository nivelRepository;
 
 
     public List<Entrenamiento> findAllEntrenamientos(){
@@ -92,5 +95,23 @@ public class EntrenamientoService {
         entrenamiento.get().removeEjercicio(ejercicio.get());
 
         return entrenamientoRepository.save(entrenamiento.get());
+    }
+
+    public Entrenamiento actualizarNivel (Long id, Long idNivel){
+        Optional<Entrenamiento> entrenamientoOpt = entrenamientoRepository.findEntrenamientoById(id);
+
+        Optional<Nivel> nivelOpt = nivelRepository.findNivelById(idNivel);
+
+        if (entrenamientoOpt.isEmpty() || nivelOpt.isEmpty())
+            throw new EntityNotFoundException("Entidades no encontradas");
+
+        Nivel nivel = nivelOpt.get();
+        Entrenamiento entrenamiento = entrenamientoOpt.get();
+
+        nivel.addEntrenamiento(entrenamiento);
+
+        return entrenamientoRepository.save(entrenamiento);
+
+
     }
 }

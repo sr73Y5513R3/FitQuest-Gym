@@ -3,6 +3,7 @@ package com.salesianos.FitQuestPrototype.Entrenamiento.Controllers;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Entrenamiento.CreateEntrenoCmd;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Entrenamiento.GetEntrenamientoDto;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Entrenamiento.GetEntrenoConEjercicioDto;
+import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Entrenamiento.GetEntrenoConNivelDto;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Services.EntrenamientoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -14,6 +15,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -135,6 +137,21 @@ public class EntrenamientoController {
     public ResponseEntity<?> removeEjercicio(@PathVariable Long idEntrenamiento, @PathVariable Long idEjercicio) {
         entrenamientoService.eliminarEjercicio(idEntrenamiento, idEjercicio);
         return ResponseEntity.noContent().build();
+    }
+
+    @Operation(summary = "Edita el nivel de un entrenamiento")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201",
+                    description = "Se ha actualizado correctamente el nivel",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = GetEntrenoConNivelDto.class))}),
+            @ApiResponse(responseCode = "400",
+                    description = "Alguno de los id son inválidos",
+                    content = @Content)
+    })
+    @PostMapping("/{id}/editNivel/{idNivel}")
+    public GetEntrenoConNivelDto editNivel (@PathVariable Long id, @PathVariable Long idNivel) {
+        return GetEntrenoConNivelDto.of(entrenamientoService.actualizarNivel(id, idNivel));
     }
 
 }

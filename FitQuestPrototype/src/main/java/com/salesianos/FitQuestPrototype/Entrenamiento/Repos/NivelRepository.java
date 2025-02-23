@@ -22,4 +22,11 @@ public interface NivelRepository extends JpaRepository<Nivel, Long> {
     WHERE n.id = :id
 """)
     Optional<Nivel> findNivelById(@PathVariable("id") Long id);
+
+    @Query("""
+    SELECT n
+    FROM Nivel n LEFT JOIN FETCH n.entrenamientos
+    WHERE n.nombre = :nombre
+""")
+    Optional<Nivel> findNivelByNombre(@PathVariable("nombre") String nombre);
 }
