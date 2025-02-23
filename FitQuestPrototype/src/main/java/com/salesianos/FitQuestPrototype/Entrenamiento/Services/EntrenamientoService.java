@@ -51,14 +51,28 @@ public class EntrenamientoService {
 
     @Transactional
     public Entrenamiento añadirEjercicio(Long idEntrenamiento, Long idEjercicio){
-        Optional<Entrenamiento> entrenamiento = entrenamientoRepository.findById(idEntrenamiento);
+        Optional<Entrenamiento> entrenamiento = entrenamientoRepository.findEntrenamientoById(idEntrenamiento);
 
-        Optional<Ejercicio> ejercicio = ejercicioRepository.findById(idEjercicio);
+        Optional<Ejercicio> ejercicio = ejercicioRepository.findEjercicioById(idEjercicio);
 
         if (entrenamiento.isEmpty() || ejercicio.isEmpty())
             throw  new EntityNotFoundException("Entidades no encontradas con esos id");
 
         entrenamiento.get().addEjercicio(ejercicio.get());
+
+        return entrenamientoRepository.save(entrenamiento.get());
+    }
+
+    @Transactional
+    public Entrenamiento eliminarEjercicio(Long idEntrenamiento, Long idEjercicio){
+
+        Optional<Entrenamiento> entrenamiento = entrenamientoRepository.findEntrenamientoById(idEntrenamiento);
+        Optional<Ejercicio> ejercicio = ejercicioRepository.findEjercicioById(idEjercicio);
+
+        if (entrenamiento.isEmpty() || ejercicio.isEmpty())
+            throw  new EntityNotFoundException("Entidades no encontradas con esos id");
+
+        entrenamiento.get().removeEjercicio(ejercicio.get());
 
         return entrenamientoRepository.save(entrenamiento.get());
     }

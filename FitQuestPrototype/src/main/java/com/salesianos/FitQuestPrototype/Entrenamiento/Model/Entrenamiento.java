@@ -56,8 +56,10 @@ public class Entrenamiento {
 
 
     public void removeEjercicio(Ejercicio ejercicio) {
-        this.getEjercicios().remove(ejercicio);
-        ejercicio.removeEntrenamiento(this);
+        if(this.ejercicios.contains(ejercicio)) {
+            this.getEjercicios().remove(ejercicio);
+            ejercicio.removeEntrenamiento(this);
+        }
     }
 
 

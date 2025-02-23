@@ -99,4 +99,19 @@ public class EntrenamientoController {
                 .body(GetEntrenoConEjercicioDto.of(entrenamientoService.añadirEjercicio(idEntrenamiento, idEjercicio)));
     }
 
+    @Operation(summary = "Elimina un ejercicio de un entrenamiento")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204",
+                    description = "Ejercicio eliminado con éxito",
+                    content = @Content),
+            @ApiResponse(responseCode = "404",
+                    description = "No se han encontrado las entidades con esos valores",
+                    content = @Content)
+    })
+    @DeleteMapping("{idEntrenamiento}/ejercicio/{idEjercicio}")
+    public ResponseEntity<?> removeEjercicio(@PathVariable Long idEntrenamiento, @PathVariable Long idEjercicio) {
+        entrenamientoService.eliminarEjercicio(idEntrenamiento, idEjercicio);
+        return ResponseEntity.noContent().build();
+    }
+
 }
