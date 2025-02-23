@@ -2,6 +2,7 @@ package com.salesianos.FitQuestPrototype.Entrenamiento.Controllers;
 
 import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Ejercicio.GetEjercicioDto;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Material.CreateMateriaCmd;
+import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Material.EditMaterialCmd;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Material.EditTipoMaterial;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Material.GetMaterialDto;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Services.MaterialService;
@@ -96,9 +97,39 @@ public class MaterialController {
                     content = @Content)
     })
     @PutMapping("/{id}/editTipo")
-    public GetMaterialDto editTipo (@PathVariable Long id, @RequestBody EditTipoMaterial newTipo){
+    public GetMaterialDto editTipo (@PathVariable Long id, @io.swagger.v3.oas.annotations.parameters.RequestBody(
+            description = "Cuerpo del material", required = true,
+            content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = CreateMateriaCmd.class),
+                    examples = @ExampleObject(value = """
+                                                     {
+                                                          "nombre": "Electrónica"
+                                                      }
+                            """)))@RequestBody EditTipoMaterial newTipo){
         return GetMaterialDto.of(materialService.editTipoMaterial(id, newTipo));
     }
 
 
+    @Operation(summary = "Edita un material")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201",
+                    description = "Material actualizado con éxito",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = GetMaterialDto.class))}),
+            @ApiResponse(responseCode = "400",
+                    description = "Datos inválidos para editar un material",
+                    content = @Content)
+    })
+    @PutMapping("/edit/{id}")
+    public GetMaterialDto edit(@PathVariable Long id, @io.swagger.v3.oas.annotations.parameters.RequestBody(
+            description = "Cuerpo del material", required = true,
+            content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = CreateMateriaCmd.class),
+                    examples = @ExampleObject(value = """
+                                                     {
+                                                          "nombre": "Electrónica"
+                                                      }
+                            """)))@RequestBody EditMaterialCmd newMaterial){
+        return GetMaterialDto.of(materialService.editMaterial(id, newMaterial));
+    }
 }

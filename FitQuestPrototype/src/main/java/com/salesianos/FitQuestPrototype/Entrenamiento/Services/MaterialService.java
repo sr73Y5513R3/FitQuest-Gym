@@ -1,6 +1,7 @@
 package com.salesianos.FitQuestPrototype.Entrenamiento.Services;
 
 import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Material.CreateMateriaCmd;
+import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Material.EditMaterialCmd;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Material.EditTipoMaterial;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Model.Material;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Repos.MaterialRepository;
@@ -48,6 +49,20 @@ public class MaterialService {
         material.get().setTipo(editTipo.tipo());
 
         return materialRepository.save(material.get());
+    }
+
+    public Material editMaterial (Long id, EditMaterialCmd editMaterial){
+        Optional<Material> materialOpt = materialRepository.findMaterialById(id);
+
+        if (materialOpt.isEmpty())
+            throw new EntityNotFoundException("Material no encontrado con ese id");
+
+        Material material = materialOpt.get();
+
+        material.setNombre(editMaterial.nombre());
+        material.setDescripcion(editMaterial.descripcion());
+
+        return materialRepository.save(material);
     }
 
 }
