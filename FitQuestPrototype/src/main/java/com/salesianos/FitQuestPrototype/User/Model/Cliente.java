@@ -1,8 +1,7 @@
 package com.salesianos.FitQuestPrototype.User.Model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.PrimaryKeyJoinColumn;
-import jakarta.persistence.Table;
+import com.salesianos.FitQuestPrototype.Entrenamiento.Model.Nivel;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -15,4 +14,19 @@ import lombok.experimental.SuperBuilder;
 @Table(name= "cliente")
 @PrimaryKeyJoinColumn(name = "usuario_id")
 public class Cliente extends Usuario {
+
+    private double peso;
+    private double altura;
+    private double edad;
+
+    private Genero genero;
+
+    private Mensualidad mensualidad;
+
+    private double puntos;
+
+    @ManyToOne
+    @JoinColumn(name = "nivel_id",
+    foreignKey = @ForeignKey(name = "fk_cliente_nivel"))
+    private Nivel nivel;
 }

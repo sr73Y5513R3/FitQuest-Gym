@@ -10,7 +10,7 @@ public record GetEntrenoConNivelDto(
         double duracion,
         double calorias,
         double puntos,
-        String autor,
+        GetEntrenadorFromEntreno entrenador,
         GetNivelDto nivel
 ) {
     public static GetEntrenoConNivelDto of(Entrenamiento entrenamiento) {
@@ -21,7 +21,7 @@ public record GetEntrenoConNivelDto(
                 entrenamiento.getDuracion(),
                 entrenamiento.getCalorias(),
                 entrenamiento.getPuntos(),
-                entrenamiento.getAutor(),
+                GetEntrenadorFromEntreno.of(entrenamiento.getEntrenador()),
                 GetNivelDto.of(entrenamiento.getNivel())
         );
     }

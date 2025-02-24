@@ -4,12 +4,12 @@ import com.salesianos.FitQuestPrototype.Security.Jwt.Access.JwtService;
 import com.salesianos.FitQuestPrototype.Security.Jwt.Refresh.RefreshToken;
 import com.salesianos.FitQuestPrototype.Security.Jwt.Refresh.RefreshTokenRequest;
 import com.salesianos.FitQuestPrototype.Security.Jwt.Refresh.RefreshTokenService;
-import com.salesianos.FitQuestPrototype.User.Dto.ActivateAccountRequest;
-import com.salesianos.FitQuestPrototype.User.Dto.CreateUserRequest;
-import com.salesianos.FitQuestPrototype.User.Dto.LoginRequest;
-import com.salesianos.FitQuestPrototype.User.Dto.UserResponse;
+import com.salesianos.FitQuestPrototype.User.Dto.*;
+import com.salesianos.FitQuestPrototype.User.Model.Cliente;
+import com.salesianos.FitQuestPrototype.User.Model.Entrenador;
 import com.salesianos.FitQuestPrototype.User.Model.Usuario;
 import com.salesianos.FitQuestPrototype.User.Services.UsuarioService;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,10 +17,11 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.UUID;
+
 
 @RestController
 @RequiredArgsConstructor
@@ -33,10 +34,18 @@ public class UsuarioController {
 
     @PostMapping("/auth/register")
     public ResponseEntity<UserResponse> register(@RequestBody CreateUserRequest createUserRequest) {
-        Usuario user = usuarioService.createUser(createUserRequest);
+        Entrenador user = usuarioService.createEntrenador(createUserRequest);
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(UserResponse.of(user));
+    }
+
+    @PostMapping("/auth/register/cliente")
+    public ResponseEntity<UserResponse> registerCliente(@RequestBody CreateClienteRequest createClienteRequest) {
+        Cliente cliente = usuarioService.createCliente(createClienteRequest);
+
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(UserResponse.of(cliente));
     }
 
     @PostMapping("/auth/login")
@@ -79,5 +88,38 @@ public class UsuarioController {
         String token = req.token();
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(UserResponse.of(usuarioService.activateAccount(token)));
+    }
+
+    @GetMapping("/usuarios/all")
+    public List<GetUsuarioDto> findAll(){
+        return usuarioService.findAll().stream()
+                .map(GetUsuarioDto::of).toList();
+    }
+
+    @GetMapping("/cliente/all")
+    public List<GetClienteDto> findAllClientes(){
+        return usuarioService.findAllClientes().stream()
+                .map(GetClienteDto::of).toList();
+    }
+
+    @GetMapping("/entrenador/all")
+    public List<GetEntrenadorConEntrenoDto> findAllEntrenadores(){
+        return usuarioService.findAllEntrenadores().stream()
+                .map(GetEntrenadorConEntrenoDto::of).toList();
+    }
+
+    @GetMapping("/cliente/{id}")
+    public GetClienteDto findClienteById(@PathVariable UUID id) {
+        return GetClienteDto.of(usuarioService.findClienteById(id));
+    }
+
+    @GetMapping("/entrenador/{id}")
+    public GetEntrenadorConEntrenoDto findEntrenadorById(@PathVariable UUID id) {
+        return GetEntrenadorConEntrenoDto.of(usuarioService.findEntrenadorById(id));
+    }
+
+    @GetMapping("/usuario/{id}")
+    public GetUsuarioDto findUsuarioById(@PathVariable UUID id) {
+        return GetUsuarioDto.of(usuarioService.findUsuarioById(id));
     }
 }
