@@ -7,6 +7,7 @@ import com.salesianos.FitQuestPrototype.Security.Jwt.Refresh.RefreshTokenService
 import com.salesianos.FitQuestPrototype.User.Dto.*;
 import com.salesianos.FitQuestPrototype.User.Model.Cliente;
 import com.salesianos.FitQuestPrototype.User.Model.Entrenador;
+import com.salesianos.FitQuestPrototype.User.Model.Mensualidad;
 import com.salesianos.FitQuestPrototype.User.Model.Usuario;
 import com.salesianos.FitQuestPrototype.User.Services.UsuarioService;
 import lombok.Getter;
@@ -121,5 +122,10 @@ public class UsuarioController {
     @GetMapping("/usuario/{id}")
     public GetUsuarioDto findUsuarioById(@PathVariable UUID id) {
         return GetUsuarioDto.of(usuarioService.findUsuarioById(id));
+    }
+
+    @PutMapping("/cliente/{idCliente}/mensualidad")
+    public GetClienteDto cambiarMensualidad(@PathVariable UUID idCliente,@RequestParam Mensualidad mensualidad){
+        return GetClienteDto.of(usuarioService.cambiarMensualidad(idCliente, mensualidad));
     }
 }

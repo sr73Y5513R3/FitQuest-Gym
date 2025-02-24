@@ -5,10 +5,7 @@ import com.salesianos.FitQuestPrototype.Entrenamiento.Repos.NivelRepository;
 import com.salesianos.FitQuestPrototype.User.Dto.CreateClienteRequest;
 import com.salesianos.FitQuestPrototype.User.Dto.CreateUserRequest;
 import com.salesianos.FitQuestPrototype.User.Error.ActivationExpiredException;
-import com.salesianos.FitQuestPrototype.User.Model.Cliente;
-import com.salesianos.FitQuestPrototype.User.Model.Entrenador;
-import com.salesianos.FitQuestPrototype.User.Model.UserRole;
-import com.salesianos.FitQuestPrototype.User.Model.Usuario;
+import com.salesianos.FitQuestPrototype.User.Model.*;
 import com.salesianos.FitQuestPrototype.User.Repos.ClienteRepository;
 import com.salesianos.FitQuestPrototype.User.Repos.EntrenadorRepository;
 import com.salesianos.FitQuestPrototype.User.Repos.UsuarioRepository;
@@ -150,6 +147,17 @@ public class UsuarioService{
         return usuario.get();
     }
 
+    public Cliente cambiarMensualidad (UUID idCliente, Mensualidad mensualidad){
+        Optional<Cliente> clienteOpt = clienteRepository.findById(idCliente);
 
+        if (clienteOpt.isEmpty())
+            throw new EntityNotFoundException("Cliente no encontrado");
+
+        Cliente cliente = clienteOpt.get();
+
+        cliente.setMensualidad(mensualidad);
+
+        return clienteRepository.save(cliente);
+    }
 
 }
