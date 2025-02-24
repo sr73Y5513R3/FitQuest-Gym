@@ -16,6 +16,6 @@ public class RealizaID implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Long idEntrenamiento;
-    private Long idUsuario;
+    private Entrenamiento entrenamiento;
+    private Usuario usuario;
 }

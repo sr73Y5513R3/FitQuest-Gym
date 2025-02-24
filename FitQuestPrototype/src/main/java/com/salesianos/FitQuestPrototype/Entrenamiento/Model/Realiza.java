@@ -15,23 +15,17 @@ import lombok.*;
 @IdClass(RealizaID.class)
 public class Realiza {
 
-    @Id
-    private Long idEntrenamiento;
-
-    @Id
-    private Long idUsuario;
-
     private boolean realizado;
 
     private String imagen;
 
+    @Id
     @ManyToOne
-    @MapsId("idEntrenamiento")
     @JoinColumn(name = "idEntrenamiento", foreignKey = @ForeignKey(name = "fk_realiza_entrenamiento"))
     private Entrenamiento entrenamiento;
 
+    @Id
     @ManyToOne
-    @MapsId("idUsuario")
     @JoinColumn(name = "idUsuario", foreignKey = @ForeignKey(name = "fk_realiza_usuario"))
     private Usuario usuario;
 
