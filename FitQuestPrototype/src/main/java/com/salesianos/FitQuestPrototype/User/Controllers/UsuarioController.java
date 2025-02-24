@@ -114,4 +114,9 @@ UsuarioController {
     public GetClienteDto findClienteById(@PathVariable UUID id) {
         return GetClienteDto.of(usuarioService.findClienteById(id));
     }
+
+    @GetMapping("/entrenador/{id}")
+    public GetEntrenadorConEntrenoDto findEntrenadorById(@PathVariable UUID id) {
+        return GetEntrenadorConEntrenoDto.of(usuarioService.findEntrenadorById(id));
+    }
 }

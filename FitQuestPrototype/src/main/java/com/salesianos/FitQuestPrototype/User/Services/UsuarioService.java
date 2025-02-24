@@ -130,4 +130,13 @@ public class UsuarioService{
         return cliente.get();
     }
 
+    public Entrenador findEntrenadorById(UUID id){
+        Optional<Entrenador> entrenador = entrenadorRepository.findEntrenadorById(id);
+
+        if (entrenador.isEmpty())
+            throw new EntityNotFoundException("Entrenador no encontrado");
+
+        return entrenador.get();
+    }
+
 }

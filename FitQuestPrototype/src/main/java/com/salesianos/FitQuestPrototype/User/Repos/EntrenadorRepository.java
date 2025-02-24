@@ -3,8 +3,10 @@ package com.salesianos.FitQuestPrototype.User.Repos;
 import com.salesianos.FitQuestPrototype.User.Model.Entrenador;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface EntrenadorRepository extends JpaRepository<Entrenador, UUID> {
@@ -14,5 +16,12 @@ public interface EntrenadorRepository extends JpaRepository<Entrenador, UUID> {
             FROM Entrenador e LEFT JOIN FETCH e.entrenamientos
             """)
     List<Entrenador> findAllEntrenador();
+
+    @Query("""
+    SELECT e
+    FROM Entrenador e LEFT JOIN FETCH e.entrenamientos
+    WHERE e.id= :id
+""")
+    Optional<Entrenador> findEntrenadorById(@PathVariable("id")UUID id);
 
 }
