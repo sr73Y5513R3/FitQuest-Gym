@@ -79,14 +79,14 @@ public class UsuarioService{
         return UUID.randomUUID().toString();
     }
 
-    public Usuario activateAccount(String token) {
+    public Cliente activateAccount(String token) {
 
-        return usuarioRepository.findByActivationToken(token)
-                .filter(usuario -> ChronoUnit.MINUTES.between(Instant.now(), usuario.getCreatedAt()) - activationDuration < 0)
-                .map(usuario -> {
-                    usuario.setEnabled(true);
-                    usuario.setActivationToken(null);
-                    return usuarioRepository.save(usuario);
+        return clienteRepository.findByActivationToken(token)
+                .filter(cliente -> ChronoUnit.MINUTES.between(Instant.now(), cliente.getCreatedAt()) - activationDuration < 0)
+                .map(cliente -> {
+                    cliente.setEnabled(true);
+                    cliente.setActivationToken(null);
+                    return clienteRepository.save(cliente);
                 })
                 .orElseThrow(() -> new ActivationExpiredException("El código de activación no existe o ha caducado"));
     }
