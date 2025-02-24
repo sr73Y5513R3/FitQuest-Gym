@@ -6,10 +6,7 @@ import com.salesianos.FitQuestPrototype.Entrenamiento.Services.RealizaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
@@ -25,5 +22,12 @@ public class RealizaController {
                                                                 @RequestBody CreateRealizaCmd realizaCmd) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(GetRealizaDto.of(realizaService.createRealiza(idUsuario, idEntrenamiento, realizaCmd)));
+    }
+
+    @PutMapping("/realizado/aceptar")
+    public ResponseEntity<GetRealizaDto> aceptarRealizado(@RequestParam UUID idEntrenador,
+                                                          @RequestParam UUID idUsuario,
+                                                          @RequestParam Long idEntrenamiento) {
+        return ResponseEntity.ok(GetRealizaDto.of(realizaService.aceptarEntrenamiento(idEntrenador, idUsuario, idEntrenamiento)));
     }
 }
