@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 import lombok.*;
 
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -44,6 +46,10 @@ public class Entrenamiento {
         foreignKey = @ForeignKey(name = "fk_entrenamiento_nivel"))
     @ToString.Exclude
     private Nivel nivel;
+
+    @OneToMany(mappedBy = "entrenamiento", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ToString.Exclude
+    private List<Realiza> realizados = new ArrayList<>();
 
     //Métodos helpers
 
