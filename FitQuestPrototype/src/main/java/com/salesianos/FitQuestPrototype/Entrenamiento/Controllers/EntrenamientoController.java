@@ -154,4 +154,19 @@ public class EntrenamientoController {
         return GetEntrenoConNivelDto.of(entrenamientoService.actualizarNivel(id, idNivel));
     }
 
+    @Operation(summary = "Obtiene un entrenamiento buscado por nombre")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se ha encontrado un entrenamiento con ese nombre",
+                    content = {@Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = GetEntrenoConEjercicioDto.class)))}),
+            @ApiResponse(responseCode = "404",
+                    description = "No se han encontrado entrenamientos con ese nombre",
+                    content = @Content)
+    })
+    @GetMapping("/nombre")
+    public GetEntrenoConEjercicioDto findByNombre(@RequestParam String nombre) {
+        return GetEntrenoConEjercicioDto.of(entrenamientoService.findByNombre(nombre));
+    }
+
 }

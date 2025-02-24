@@ -134,6 +134,14 @@ public class EntrenamientoService {
 
         return entrenamientoRepository.save(entrenamiento);
 
+    }
 
+    public Entrenamiento findByNombre(String nombre){
+        Optional<Entrenamiento> entrenamiento = entrenamientoRepository.findEntrenamientoByNombre(nombre);
+
+        if (entrenamiento.isEmpty())
+            throw new EntityNotFoundException("Entrenamiento no encontrado");
+
+        return entrenamiento.get();
     }
 }

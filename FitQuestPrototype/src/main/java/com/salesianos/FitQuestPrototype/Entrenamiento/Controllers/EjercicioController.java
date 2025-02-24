@@ -126,4 +126,19 @@ public class EjercicioController {
     public GetEjercicioConNivelDto editNivel (@PathVariable Long id, @PathVariable Long idNivel) {
         return GetEjercicioConNivelDto.of(ejercicioService.actualizarNivel(id, idNivel));
     }
+
+    @Operation(summary = "Obtiene un ejercicio buscado por nombre")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se ha encontrado un ejercicio con ese nombre",
+                    content = {@Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = GetEjercicioDto.class)))}),
+            @ApiResponse(responseCode = "404",
+                    description = "No se han encontrado ejercicios con ese nombre",
+                    content = @Content)
+    })
+    @GetMapping("/nombre")
+    public GetEjercicioDto findByNombre(@RequestParam String nombre){
+        return GetEjercicioDto.of(ejercicioService.findByNombre(nombre));
+    }
 }

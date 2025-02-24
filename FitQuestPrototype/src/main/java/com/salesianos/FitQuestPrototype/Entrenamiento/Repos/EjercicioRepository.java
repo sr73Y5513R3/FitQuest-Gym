@@ -23,4 +23,11 @@ public interface EjercicioRepository extends JpaRepository<Ejercicio, Long> {
 """)
     Optional<Ejercicio> findEjercicioById(@PathVariable("id") Long id);
 
+    @Query("""
+    SELECT e
+    FROM Ejercicio e
+    WHERE e.nombre = :nombre
+""")
+    Optional<Ejercicio> findEjercicioByNombre(@PathVariable("nombre") String nombre);
+
 }

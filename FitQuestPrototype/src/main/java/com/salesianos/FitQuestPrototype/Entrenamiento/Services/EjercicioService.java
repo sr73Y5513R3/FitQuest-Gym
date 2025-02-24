@@ -80,4 +80,13 @@ public class EjercicioService {
 
     }
 
+    public Ejercicio findByNombre(String nombre){
+        Optional<Ejercicio> ejercicioOpt = ejercicioRepository.findEjercicioByNombre(nombre);
+
+        if (ejercicioOpt.isEmpty())
+            throw new EntityNotFoundException("Ejercicio no encontrado con ese nombre");
+
+        return ejercicioOpt.get();
+    }
+
 }
