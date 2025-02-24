@@ -5,6 +5,7 @@ import com.salesianos.FitQuestPrototype.Security.Jwt.Refresh.RefreshToken;
 import com.salesianos.FitQuestPrototype.Security.Jwt.Refresh.RefreshTokenRequest;
 import com.salesianos.FitQuestPrototype.Security.Jwt.Refresh.RefreshTokenService;
 import com.salesianos.FitQuestPrototype.User.Dto.*;
+import com.salesianos.FitQuestPrototype.User.Model.Cliente;
 import com.salesianos.FitQuestPrototype.User.Model.Usuario;
 import com.salesianos.FitQuestPrototype.User.Services.UsuarioService;
 import lombok.RequiredArgsConstructor;
@@ -40,6 +41,14 @@ UsuarioController {
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(UserResponse.of(user));
+    }
+
+    @PostMapping("/auth/register/cliente")
+    public ResponseEntity<UserResponse> registerCliente(@RequestBody CreateClienteRequest createClienteRequest) {
+        Cliente cliente = usuarioService.createCliente(createClienteRequest);
+
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(UserResponse.of(cliente));
     }
 
     @PostMapping("/auth/login")
@@ -88,5 +97,11 @@ UsuarioController {
     public List<GetUsuarioDto> findAll(){
         return usuarioService.findAll().stream()
                 .map(GetUsuarioDto::of).toList();
+    }
+
+    @GetMapping("/cliente/all")
+    public List<GetClienteDto> findAllClientes(){
+        return usuarioService.findAllClientes().stream()
+                .map(GetClienteDto::of).toList();
     }
 }
