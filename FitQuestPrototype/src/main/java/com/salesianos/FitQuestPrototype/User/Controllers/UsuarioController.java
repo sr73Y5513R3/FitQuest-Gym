@@ -9,6 +9,7 @@ import com.salesianos.FitQuestPrototype.User.Model.Cliente;
 import com.salesianos.FitQuestPrototype.User.Model.Entrenador;
 import com.salesianos.FitQuestPrototype.User.Model.Usuario;
 import com.salesianos.FitQuestPrototype.User.Services.UsuarioService;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -118,5 +119,10 @@ UsuarioController {
     @GetMapping("/entrenador/{id}")
     public GetEntrenadorConEntrenoDto findEntrenadorById(@PathVariable UUID id) {
         return GetEntrenadorConEntrenoDto.of(usuarioService.findEntrenadorById(id));
+    }
+
+    @GetMapping("/usuario/{id}")
+    public GetUsuarioDto findUsuarioById(@PathVariable UUID id) {
+        return GetUsuarioDto.of(usuarioService.findUsuarioById(id));
     }
 }

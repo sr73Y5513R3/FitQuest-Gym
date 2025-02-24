@@ -139,4 +139,12 @@ public class UsuarioService{
         return entrenador.get();
     }
 
+    public Usuario findUsuarioById(UUID id){
+        Optional<Usuario> usuario = usuarioRepository.findById(id);
+        if(usuario.isEmpty())
+            throw new EntityNotFoundException("Usuario no encontrado");
+
+        return usuario.get();
+    }
+
 }
