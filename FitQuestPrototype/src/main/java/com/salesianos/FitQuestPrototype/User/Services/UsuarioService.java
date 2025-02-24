@@ -5,13 +5,11 @@ import com.salesianos.FitQuestPrototype.User.Error.ActivationExpiredException;
 import com.salesianos.FitQuestPrototype.User.Model.UserRole;
 import com.salesianos.FitQuestPrototype.User.Model.Usuario;
 import com.salesianos.FitQuestPrototype.User.Repos.UsuarioRepository;
-import com.salesianos.FitQuestPrototype.User.Util.SendGridMailSender;
+import com.salesianos.FitQuestPrototype.User.Util.MailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -24,7 +22,7 @@ public class UsuarioService{
 
     private final UsuarioRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
-    private final SendGridMailSender mailSender;
+    private final MailService mailService;
 
     @Value("${activation.duration}")
     private int activationDuration;
@@ -38,15 +36,15 @@ public class UsuarioService{
                 .activationToken(generateRandomActivationCode())
                 .build();
 
-        try {
-            mailSender.sendMail(createUserRequest.email(), "Activación de cuenta", user.getActivationToken());
-        } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,"Error al enviar el email de activación");
-        }
-
+        mailService.sendMail(
+                createUserRequest.email(),
+                "Activación de cuenta",
+                "Tu código de activación es: " + user.getActivationToken()
+        );
 
         return usuarioRepository.save(user);
     }
+
 
     public String generateRandomActivationCode() {
         return UUID.randomUUID().toString();
