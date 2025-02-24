@@ -22,13 +22,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
+
 @RestController
 @RequiredArgsConstructor
-public class
-
-
-
-UsuarioController {
+public class UsuarioController {
 
     private final UsuarioService usuarioService;
     private final AuthenticationManager authenticationManager;

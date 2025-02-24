@@ -70,6 +70,7 @@ public class SecurityConfig {
                 .requestMatchers("/entrenamiento/**", "ejercicio/**",
                         "material/**", "nivel/**", "usuarios/all",
                         "cliente/**", "entrenador/**").permitAll()
+
                 .requestMatchers("/me/admin").hasRole("ADMIN")
                 .anyRequest().authenticated());
 

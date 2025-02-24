@@ -16,6 +16,8 @@ import com.salesianos.FitQuestPrototype.User.Util.MailService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -109,6 +111,7 @@ public class UsuarioService{
 
 
 
+
     public List<Usuario> findAll(){
         return usuarioRepository.findAll();
     }
@@ -146,5 +149,6 @@ public class UsuarioService{
 
         return usuario.get();
     }
+
 
 }

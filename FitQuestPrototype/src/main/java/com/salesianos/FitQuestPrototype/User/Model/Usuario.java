@@ -1,5 +1,6 @@
 package com.salesianos.FitQuestPrototype.User.Model;
 
+import com.salesianos.FitQuestPrototype.Entrenamiento.Model.Realiza;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -9,10 +10,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.Instant;
-import java.util.Collection;
-import java.util.Objects;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Entity
@@ -47,6 +45,10 @@ public class Usuario implements UserDetails {
     private boolean enabled = false;
 
     private String activationToken;
+
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Realiza> EntrenosRealizados = new ArrayList<>();
+
 
     @Builder.Default
     private Instant createdAt = Instant.now();
