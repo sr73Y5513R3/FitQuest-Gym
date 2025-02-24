@@ -1,5 +1,6 @@
 package com.salesianos.FitQuestPrototype.User.Dto;
 
+import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Nivel.GetNivelDto;
 import com.salesianos.FitQuestPrototype.User.Model.Cliente;
 import com.salesianos.FitQuestPrototype.User.Model.Genero;
 import com.salesianos.FitQuestPrototype.User.Model.Mensualidad;
@@ -17,7 +18,8 @@ public record GetClienteDto(
         double altura,
         double edad,
         Genero genero,
-        Mensualidad mensualidad
+        Mensualidad mensualidad,
+        GetNivelDto nivel
 ) {
 
     public static GetClienteDto of(Cliente cliente) {
@@ -30,7 +32,8 @@ public record GetClienteDto(
                 cliente.getAltura(),
                 cliente.getEdad(),
                 cliente.getGenero(),
-                cliente.getMensualidad()
+                cliente.getMensualidad(),
+                GetNivelDto.of(cliente.getNivel())
         );
     }
 }

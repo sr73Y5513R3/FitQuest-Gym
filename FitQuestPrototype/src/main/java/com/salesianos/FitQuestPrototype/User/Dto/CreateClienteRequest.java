@@ -13,6 +13,7 @@ public record CreateClienteRequest(
         double peso,
         double altura,
         double edad,
-        Genero genero
+        Genero genero,
+        Long nivelId
 ) {
 }
