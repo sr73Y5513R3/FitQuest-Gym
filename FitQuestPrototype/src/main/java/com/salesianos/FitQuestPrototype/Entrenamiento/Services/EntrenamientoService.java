@@ -8,6 +8,8 @@ import com.salesianos.FitQuestPrototype.Entrenamiento.Model.Nivel;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Repos.EjercicioRepository;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Repos.EntrenamientoRepository;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Repos.NivelRepository;
+import com.salesianos.FitQuestPrototype.User.Model.Entrenador;
+import com.salesianos.FitQuestPrototype.User.Repos.EntrenadorRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,7 @@ public class EntrenamientoService {
     private final EntrenamientoRepository entrenamientoRepository;
     private final EjercicioRepository ejercicioRepository;
     private final NivelRepository nivelRepository;
+    private final EntrenadorRepository entrenadorRepository;
 
 
     public List<Entrenamiento> findAllEntrenamientos(){
@@ -39,6 +42,7 @@ public class EntrenamientoService {
         return entrenamiento.get();
     }
 
+    @Transactional
     public Entrenamiento save (CreateEntrenoCmd createEntrenoCmd){
         Entrenamiento entrenamiento = new Entrenamiento();
 
@@ -47,11 +51,23 @@ public class EntrenamientoService {
         //entrenamiento.setDuracion(createEntrenoCmd.duracion());
         entrenamiento.setCalorias(createEntrenoCmd.calorias());
         entrenamiento.setPuntos(createEntrenoCmd.puntos());
-        entrenamiento.setAutor(createEntrenoCmd.autor());
+
+        Optional<Entrenador> entrenadorOpt = entrenadorRepository.findById(createEntrenoCmd.entrenadorId());
+        if(entrenadorOpt.isEmpty())
+            throw new EntityNotFoundException("Entrenador no encontrado");
+
+        Entrenador entrenador = entrenadorOpt.get();
+
+        entrenador.addEntrenamiento(entrenamiento);
+
+        entrenamiento.setEntrenador(entrenador);
+
+
 
         return entrenamientoRepository.save(entrenamiento);
     }
 
+    @Transactional
     public Entrenamiento edit (Long id, CreateEntrenoCmd editEntreno){
         Optional<Entrenamiento> entrenamientoOpt = entrenamientoRepository.findEntrenamientoById(id);
 
@@ -64,7 +80,13 @@ public class EntrenamientoService {
         entrenamiento.setDescripcion(editEntreno.descripcion());
         entrenamiento.setCalorias(editEntreno.calorias());
         entrenamiento.setPuntos(editEntreno.puntos());
-        entrenamiento.setAutor(editEntreno.autor());
+        Optional<Entrenador> entrenadorOpt = entrenadorRepository.findById(editEntreno.entrenadorId());
+        if(entrenadorOpt.isEmpty())
+            throw new EntityNotFoundException("Entrenador no encontrado");
+
+        Entrenador entrenador = entrenadorOpt.get();
+
+        entrenamiento.setEntrenador(entrenador);
 
         return entrenamientoRepository.save(entrenamiento);
     }

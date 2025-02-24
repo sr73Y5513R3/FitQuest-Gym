@@ -14,7 +14,7 @@ public record GetEntrenoConEjercicioDto(
         double duracion,
         double calorias,
         double puntos,
-        String autor,
+        GetEntrenadorFromEntreno entrenador,
         Set<GetEjercicioFromEntrenoDto> ejercicios
 ) {
 
@@ -31,7 +31,7 @@ public record GetEntrenoConEjercicioDto(
                 duracionTotal,
                 entrenamiento.getCalorias(),
                 entrenamiento.getPuntos(),
-                entrenamiento.getAutor(),
+                GetEntrenadorFromEntreno.of(entrenamiento.getEntrenador()),
                 entrenamiento.getEjercicios()
                         .stream()
                         .map(GetEjercicioFromEntrenoDto::of)

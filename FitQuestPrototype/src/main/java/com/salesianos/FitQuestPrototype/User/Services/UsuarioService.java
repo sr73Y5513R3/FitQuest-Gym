@@ -4,6 +4,7 @@ import com.salesianos.FitQuestPrototype.User.Dto.CreateClienteRequest;
 import com.salesianos.FitQuestPrototype.User.Dto.CreateUserRequest;
 import com.salesianos.FitQuestPrototype.User.Error.ActivationExpiredException;
 import com.salesianos.FitQuestPrototype.User.Model.Cliente;
+import com.salesianos.FitQuestPrototype.User.Model.Entrenador;
 import com.salesianos.FitQuestPrototype.User.Model.UserRole;
 import com.salesianos.FitQuestPrototype.User.Model.Usuario;
 import com.salesianos.FitQuestPrototype.User.Repos.ClienteRepository;
@@ -34,22 +35,26 @@ public class UsuarioService{
     @Value("${activation.duration}")
     private int activationDuration;
 
-    public Usuario createUser(CreateUserRequest createUserRequest) {
-        Usuario user = Usuario.builder()
+    public Entrenador createEntrenador(CreateUserRequest createUserRequest) {
+        Entrenador entrenador = Entrenador.builder()
                 .username(createUserRequest.username())
                 .password(passwordEncoder.encode(createUserRequest.password()))
                 .email(createUserRequest.email())
-                .roles(Set.of(UserRole.USER))
-                .activationToken(generateRandomActivationCode())
+                .roles(Set.of(UserRole.ENTRENADOR))
+                //.activationToken(generateRandomActivationCode())
                 .build();
 
-        mailService.sendMail(
+                entrenador.setEnabled(true);
+
+        /*mailService.sendMail(
                 createUserRequest.email(),
                 "Activación de cuenta",
                 "Tu código de activación es: " + user.getActivationToken()
-        );
+        );*/
 
-        return usuarioRepository.save(user);
+
+
+        return entrenadorRepository.save(entrenador);
     }
 
     public Cliente createCliente(CreateClienteRequest createClienteRequest){
@@ -61,7 +66,7 @@ public class UsuarioService{
                 .peso(createClienteRequest.peso())
                 .edad(createClienteRequest.edad())
                 .genero(createClienteRequest.genero())
-                .roles(Set.of(UserRole.USER))
+                .roles(Set.of(UserRole.CLIENTE))
                 .activationToken(generateRandomActivationCode())
                 .build();
 
@@ -90,6 +95,8 @@ public class UsuarioService{
                 })
                 .orElseThrow(() -> new ActivationExpiredException("El código de activación no existe o ha caducado"));
     }
+
+
 
     public List<Usuario> findAll(){
         return usuarioRepository.findAll();

@@ -1,5 +1,6 @@
 package com.salesianos.FitQuestPrototype.Entrenamiento.Model;
 
+import com.salesianos.FitQuestPrototype.User.Model.Entrenador;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -26,7 +27,6 @@ public class Entrenamiento {
     double duracion;
     double calorias;
     double puntos;
-    String autor;
 
     //double valoracionMedia
 
@@ -44,6 +44,12 @@ public class Entrenamiento {
         foreignKey = @ForeignKey(name = "fk_entrenamiento_nivel"))
     @ToString.Exclude
     private Nivel nivel;
+
+    @ManyToOne
+    @JoinColumn(name = "entrenador_id",
+    foreignKey = @ForeignKey(name = "fk_entrenamiento_entreandor"))
+    @ToString.Exclude
+    private Entrenador entrenador;
 
     //Métodos helpers
 

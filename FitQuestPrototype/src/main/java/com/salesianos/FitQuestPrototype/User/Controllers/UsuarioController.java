@@ -6,6 +6,7 @@ import com.salesianos.FitQuestPrototype.Security.Jwt.Refresh.RefreshTokenRequest
 import com.salesianos.FitQuestPrototype.Security.Jwt.Refresh.RefreshTokenService;
 import com.salesianos.FitQuestPrototype.User.Dto.*;
 import com.salesianos.FitQuestPrototype.User.Model.Cliente;
+import com.salesianos.FitQuestPrototype.User.Model.Entrenador;
 import com.salesianos.FitQuestPrototype.User.Model.Usuario;
 import com.salesianos.FitQuestPrototype.User.Services.UsuarioService;
 import lombok.RequiredArgsConstructor;
@@ -37,7 +38,7 @@ UsuarioController {
 
     @PostMapping("/auth/register")
     public ResponseEntity<UserResponse> register(@RequestBody CreateUserRequest createUserRequest) {
-        Usuario user = usuarioService.createUser(createUserRequest);
+        Entrenador user = usuarioService.createEntrenador(createUserRequest);
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(UserResponse.of(user));
