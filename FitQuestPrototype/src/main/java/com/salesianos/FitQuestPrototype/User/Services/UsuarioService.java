@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -60,6 +61,10 @@ public class UsuarioService{
                     return usuarioRepository.save(usuario);
                 })
                 .orElseThrow(() -> new ActivationExpiredException("El código de activación no existe o ha caducado"));
+    }
+
+    public List<Usuario> findAll(){
+        return usuarioRepository.findAll();
     }
 
 }

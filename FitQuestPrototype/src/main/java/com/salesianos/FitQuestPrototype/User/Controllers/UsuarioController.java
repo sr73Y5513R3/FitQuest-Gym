@@ -4,10 +4,7 @@ import com.salesianos.FitQuestPrototype.Security.Jwt.Access.JwtService;
 import com.salesianos.FitQuestPrototype.Security.Jwt.Refresh.RefreshToken;
 import com.salesianos.FitQuestPrototype.Security.Jwt.Refresh.RefreshTokenRequest;
 import com.salesianos.FitQuestPrototype.Security.Jwt.Refresh.RefreshTokenService;
-import com.salesianos.FitQuestPrototype.User.Dto.ActivateAccountRequest;
-import com.salesianos.FitQuestPrototype.User.Dto.CreateUserRequest;
-import com.salesianos.FitQuestPrototype.User.Dto.LoginRequest;
-import com.salesianos.FitQuestPrototype.User.Dto.UserResponse;
+import com.salesianos.FitQuestPrototype.User.Dto.*;
 import com.salesianos.FitQuestPrototype.User.Model.Usuario;
 import com.salesianos.FitQuestPrototype.User.Services.UsuarioService;
 import lombok.RequiredArgsConstructor;
@@ -17,9 +14,12 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -82,5 +82,11 @@ UsuarioController {
         String token = req.token();
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(UserResponse.of(usuarioService.activateAccount(token)));
+    }
+
+    @GetMapping("/usuarios/all")
+    public List<GetUsuarioDto> findAll(){
+        return usuarioService.findAll().stream()
+                .map(GetUsuarioDto::of).toList();
     }
 }
