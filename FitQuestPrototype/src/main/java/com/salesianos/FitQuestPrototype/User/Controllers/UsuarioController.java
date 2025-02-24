@@ -105,4 +105,10 @@ UsuarioController {
         return usuarioService.findAllClientes().stream()
                 .map(GetClienteDto::of).toList();
     }
+
+    @GetMapping("/entrenador/all")
+    public List<GetEntrenadorConEntrenoDto> findAllEntrenadores(){
+        return usuarioService.findAllEntrenadores().stream()
+                .map(GetEntrenadorConEntrenoDto::of).toList();
+    }
 }

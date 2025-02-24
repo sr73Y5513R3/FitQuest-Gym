@@ -67,7 +67,9 @@ public class SecurityConfig {
         );
         http.authorizeHttpRequests(authz -> authz
                 .requestMatchers(HttpMethod.POST, "/auth/register/**", "/auth/login", "/auth/refresh/token", "/error", "activate/account").permitAll()
-                .requestMatchers("/entrenamiento/**", "ejercicio/**", "material/**", "nivel/**", "usuarios/all", "cliente/all").permitAll()
+                .requestMatchers("/entrenamiento/**", "ejercicio/**",
+                        "material/**", "nivel/**", "usuarios/all",
+                        "cliente/all", "entrenador/all").permitAll()
                 .requestMatchers("/me/admin").hasRole("ADMIN")
                 .anyRequest().authenticated());
 

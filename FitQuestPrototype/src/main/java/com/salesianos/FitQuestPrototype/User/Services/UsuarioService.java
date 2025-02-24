@@ -106,4 +106,8 @@ public class UsuarioService{
         return clienteRepository.findAll();
     }
 
+    public List<Entrenador> findAllEntrenadores(){
+        return entrenadorRepository.findAll();
+    }
+
 }
