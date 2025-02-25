@@ -58,6 +58,10 @@ public class Entrenamiento {
     @ToString.Exclude
     private List<Realiza> realizados = new ArrayList<>();
 
+    @OneToMany(mappedBy = "entrenamientoValorado", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ToString.Exclude
+    private List<Valoracion> valoraciones = new ArrayList<>();
+
 
     //Métodos helpers
 
@@ -76,5 +80,16 @@ public class Entrenamiento {
         }
     }
 
+    //Valoracion
+
+    public void addValoracion (Valoracion valoracion) {
+        valoracion.setEntrenamientoValorado(this);
+        this.valoraciones.add(valoracion);
+    }
+
+    public void removeValoracion (Valoracion valoracion) {
+        this.getValoraciones().remove(valoracion);
+        valoracion.setEntrenamientoValorado(null);
+    }
 
 }

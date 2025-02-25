@@ -1,6 +1,8 @@
 package com.salesianos.FitQuestPrototype.User.Model;
 
 import com.salesianos.FitQuestPrototype.Entrenamiento.Model.Realiza;
+import com.salesianos.FitQuestPrototype.Entrenamiento.Model.Valoracion;
+import com.salesianos.FitQuestPrototype.Entrenamiento.Model.ValoracionId;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -47,7 +49,10 @@ public class Usuario implements UserDetails {
     private String activationToken;
 
     @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Realiza> EntrenosRealizados = new ArrayList<>();
+    private List<Realiza> entrenosRealizados = new ArrayList<>();
+
+    @OneToMany(mappedBy = "usuarioValorar", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Valoracion> entrenosValorados = new ArrayList<>();
 
 
     @Builder.Default
@@ -76,6 +81,18 @@ public class Usuario implements UserDetails {
     @Override
     public final int hashCode() {
         return this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode() : getClass().hashCode();
+    }
+
+    //Valoracion
+
+    public void addValoracion (Valoracion valoracion){
+        valoracion.setUsuarioValorar(this);
+        this.getEntrenosValorados().add(valoracion);
+    }
+
+    public void removeValoracion (Valoracion valoracion){
+        this.getEntrenosValorados().remove(valoracion);
+        valoracion.setUsuarioValorar(null);
     }
 
 }

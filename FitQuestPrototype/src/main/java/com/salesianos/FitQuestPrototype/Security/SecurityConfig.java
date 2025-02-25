@@ -69,7 +69,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.POST, "/auth/register/**", "/auth/login", "/auth/refresh/token", "/error", "activate/account").permitAll()
                 .requestMatchers("/entrenamiento/**", "ejercicio/**",
                         "material/**", "nivel/**", "usuarios/all",
-                        "cliente/**", "entrenador/**", "realizado/**").permitAll()
+                        "cliente/**", "entrenador/**", "realizado/**", "valoracion/**").permitAll()
 
                 .requestMatchers("/me/admin").hasRole("ADMIN")
                 .anyRequest().authenticated());
