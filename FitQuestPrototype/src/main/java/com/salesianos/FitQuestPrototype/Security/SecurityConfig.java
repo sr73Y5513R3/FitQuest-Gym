@@ -73,7 +73,7 @@ public class SecurityConfig {
                         "material/**", "nivel/**", "usuarios/all",
                         "cliente/**", "entrenador/**", "realizado/**", "valoracion/**").permitAll()
                 .requestMatchers(HttpMethod.PUT, "cliente/edit/**", "entrenador/edit/**").authenticated()
-                .requestMatchers("/me/admin").hasRole("ADMIN")
+                .requestMatchers("/me/admin", "usuario/baja/**").hasRole("ADMIN")
                 .anyRequest().authenticated());
 
 

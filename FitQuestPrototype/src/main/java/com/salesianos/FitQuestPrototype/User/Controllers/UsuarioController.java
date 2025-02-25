@@ -141,4 +141,11 @@ public class UsuarioController {
     public GetEntrenadorConEntrenoDto editEntrenador (@PathVariable UUID idEntrenador, @RequestBody EditEntrenadorCmd editEntrenadorCmd){
         return GetEntrenadorConEntrenoDto.of(usuarioService.editEntrenador(idEntrenador, editEntrenadorCmd));
     }
+
+    @PutMapping("usuario/baja/{idUsuario}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> darDeBaja(@PathVariable UUID idUsuario){
+        usuarioService.darDeBaja(idUsuario);
+        return ResponseEntity.noContent().build();
+    }
 }

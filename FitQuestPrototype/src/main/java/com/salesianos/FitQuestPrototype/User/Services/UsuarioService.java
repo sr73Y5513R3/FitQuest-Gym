@@ -117,7 +117,7 @@ public class UsuarioService{
     }
 
     public List<Cliente> findAllClientes(){
-        return clienteRepository.findAll();
+        return clienteRepository.findAllCliente();
     }
 
     public List<Entrenador> findAllEntrenadores(){
@@ -185,5 +185,13 @@ public class UsuarioService{
         entrenador.setUsername(editEntrenador.username());
 
         return entrenadorRepository.save(entrenador);
+    }
+
+    public Usuario darDeBaja(UUID idUsuario){
+        Usuario usuario = findUsuarioById(idUsuario);
+
+        usuario.setEnabled(false);
+
+        return usuarioRepository.save(usuario);
     }
 }

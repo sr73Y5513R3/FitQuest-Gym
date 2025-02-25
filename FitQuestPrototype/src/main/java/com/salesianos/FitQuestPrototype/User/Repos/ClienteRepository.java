@@ -11,7 +11,12 @@ import java.util.UUID;
 
 public interface ClienteRepository extends JpaRepository<Cliente, UUID> {
 
-
+    @Query("""
+    SELECT c 
+    FROM Cliente c 
+    WHERE c.enabled=true
+""")
+    List<Cliente> findAllCliente();
 
     Optional<Cliente> findByActivationToken(String activationToken);
 }
