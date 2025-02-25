@@ -19,8 +19,10 @@ public class Cliente extends Usuario {
     private double altura;
     private double edad;
 
+    @Enumerated(EnumType.STRING)
     private Genero genero;
 
+    @Enumerated(EnumType.STRING)
     private Mensualidad mensualidad;
 
     private double puntos;

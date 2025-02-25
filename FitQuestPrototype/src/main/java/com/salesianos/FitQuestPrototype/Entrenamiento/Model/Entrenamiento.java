@@ -29,8 +29,7 @@ public class Entrenamiento {
     double duracion;
     double calorias;
     double puntos;
-
-    //double valoracionMedia
+    double valoracionMedia;
 
     @ManyToMany
     @JoinTable(name = "entrenamiento_ejercicio",

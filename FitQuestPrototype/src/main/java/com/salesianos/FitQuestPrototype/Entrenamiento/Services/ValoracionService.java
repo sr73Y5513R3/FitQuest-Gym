@@ -10,6 +10,7 @@ import com.salesianos.FitQuestPrototype.User.Services.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -20,9 +21,10 @@ public class ValoracionService {
 
     private final EntrenamientoService entrenamientoService;
     private final UsuarioService usuarioService;
-   // private final EntrenamientoRepository entrenamientoRepository;
-    //private final UsuarioRepository usuarioRepository;
+    private final EntrenamientoRepository entrenamientoRepository;
+    private final UsuarioRepository usuarioRepository;
 
+    @Transactional
     @PreAuthorize("#idUsuario == authentication.principal.id")
     public Valoracion añadirValoracion (UUID idUsuario, Long idEntrenamietno, CreateValoracionCmd newValoracion){
         Usuario usuario = usuarioService.findUsuarioById(idUsuario);
@@ -38,6 +40,9 @@ public class ValoracionService {
 
         usuario.addValoracion(valoracion);
         entrenamiento.addValoracion(valoracion);
+
+        usuarioRepository.save(usuario);
+        entrenamientoRepository.save(entrenamiento);
 
         return valoracion;
 

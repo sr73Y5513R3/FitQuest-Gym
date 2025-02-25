@@ -2,7 +2,6 @@ package com.salesianos.FitQuestPrototype.User.Model;
 
 import com.salesianos.FitQuestPrototype.Entrenamiento.Model.Realiza;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Model.Valoracion;
-import com.salesianos.FitQuestPrototype.Entrenamiento.Model.ValoracionId;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -41,6 +40,7 @@ public class Usuario implements UserDetails {
     private String password;
 
     @ElementCollection(fetch = FetchType.EAGER)
+    @Enumerated(EnumType.STRING)
     private Set<UserRole> roles;
 
     @Builder.Default

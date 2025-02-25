@@ -3,6 +3,7 @@ package com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Entrenamiento;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Ejercicio.GetEjercicioFromEntrenoDto;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Model.Ejercicio;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Model.Entrenamiento;
+import com.salesianos.FitQuestPrototype.Entrenamiento.Model.Valoracion;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -14,6 +15,7 @@ public record GetEntrenoConEjercicioDto(
         double duracion,
         double calorias,
         double puntos,
+        double valoracionMedia,
         GetEntrenadorFromEntreno entrenador,
         Set<GetEjercicioFromEntrenoDto> ejercicios
 ) {
@@ -24,6 +26,10 @@ public record GetEntrenoConEjercicioDto(
                 .mapToDouble(Ejercicio::getDuracion)
                 .sum();
 
+        double valorarcion = entrenamiento.getValoraciones().stream()
+                .mapToDouble(Valoracion::getNotaValoracion)
+                .sum();
+
         return new GetEntrenoConEjercicioDto(
                 entrenamiento.getId(),
                 entrenamiento.getNombre(),
@@ -31,6 +37,7 @@ public record GetEntrenoConEjercicioDto(
                 duracionTotal,
                 entrenamiento.getCalorias(),
                 entrenamiento.getPuntos(),
+                valorarcion,
                 GetEntrenadorFromEntreno.of(entrenamiento.getEntrenador()),
                 entrenamiento.getEjercicios()
                         .stream()
