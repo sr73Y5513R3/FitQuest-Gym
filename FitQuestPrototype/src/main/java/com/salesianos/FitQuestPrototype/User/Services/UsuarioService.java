@@ -4,6 +4,7 @@ import com.salesianos.FitQuestPrototype.Entrenamiento.Model.Nivel;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Repos.NivelRepository;
 import com.salesianos.FitQuestPrototype.User.Dto.CreateClienteRequest;
 import com.salesianos.FitQuestPrototype.User.Dto.CreateUserRequest;
+import com.salesianos.FitQuestPrototype.User.Dto.EditClienteCmd;
 import com.salesianos.FitQuestPrototype.User.Error.ActivationExpiredException;
 import com.salesianos.FitQuestPrototype.User.Model.*;
 import com.salesianos.FitQuestPrototype.User.Repos.ClienteRepository;
@@ -156,6 +157,22 @@ public class UsuarioService{
         Cliente cliente = clienteOpt.get();
 
         cliente.setMensualidad(mensualidad);
+
+        return clienteRepository.save(cliente);
+    }
+
+    public Cliente editarCliente(UUID idUsuario, EditClienteCmd editCliente){
+        Cliente cliente = findClienteById(idUsuario);
+
+        cliente.setNombre(editCliente.nombre());
+        cliente.setApellido1(editCliente.apellido1());
+        cliente.setApellido2(editCliente.apellido2());
+        cliente.setEmail(editCliente.email());
+        cliente.setUsername(editCliente.username());
+        cliente.setPeso(editCliente.peso());
+        cliente.setAltura(editCliente.altura());
+        cliente.setEdad(editCliente.edad());
+        cliente.setGenero(editCliente.genero());
 
         return clienteRepository.save(cliente);
     }
