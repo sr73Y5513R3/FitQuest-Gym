@@ -14,6 +14,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -127,5 +128,11 @@ public class UsuarioController {
     @PutMapping("/cliente/{idCliente}/mensualidad")
     public GetClienteDto cambiarMensualidad(@PathVariable UUID idCliente,@RequestParam Mensualidad mensualidad){
         return GetClienteDto.of(usuarioService.cambiarMensualidad(idCliente, mensualidad));
+    }
+
+    @PutMapping("/edit/{idCliente}")
+    @PreAuthorize("(#idCliente == authentication.principal.id) or hasRole('ADMIN')")
+    public GetClienteDto editCliente (@PathVariable UUID idCliente, @RequestBody EditClienteCmd editClienteCmd){
+        return GetClienteDto.of(usuarioService.editarCliente(idCliente, editClienteCmd));
     }
 }

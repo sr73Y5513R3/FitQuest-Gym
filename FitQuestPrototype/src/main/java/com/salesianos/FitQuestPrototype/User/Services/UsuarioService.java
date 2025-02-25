@@ -6,6 +6,7 @@ import com.salesianos.FitQuestPrototype.User.Dto.CreateClienteRequest;
 import com.salesianos.FitQuestPrototype.User.Dto.CreateUserRequest;
 import com.salesianos.FitQuestPrototype.User.Dto.EditClienteCmd;
 import com.salesianos.FitQuestPrototype.User.Error.ActivationExpiredException;
+import com.salesianos.FitQuestPrototype.User.Error.UserNotAuthorizedException;
 import com.salesianos.FitQuestPrototype.User.Model.*;
 import com.salesianos.FitQuestPrototype.User.Repos.ClienteRepository;
 import com.salesianos.FitQuestPrototype.User.Repos.EntrenadorRepository;
@@ -14,8 +15,8 @@ import com.salesianos.FitQuestPrototype.User.Util.MailService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -149,20 +150,16 @@ public class UsuarioService{
     }
 
     public Cliente cambiarMensualidad (UUID idCliente, Mensualidad mensualidad){
-        Optional<Cliente> clienteOpt = clienteRepository.findById(idCliente);
-
-        if (clienteOpt.isEmpty())
-            throw new EntityNotFoundException("Cliente no encontrado");
-
-        Cliente cliente = clienteOpt.get();
+        Cliente cliente = findClienteById(idCliente);
 
         cliente.setMensualidad(mensualidad);
 
         return clienteRepository.save(cliente);
     }
 
-    public Cliente editarCliente(UUID idUsuario, EditClienteCmd editCliente){
-        Cliente cliente = findClienteById(idUsuario);
+
+    public Cliente editarCliente(UUID idCliente, EditClienteCmd editCliente){
+        Cliente cliente = findClienteById(idCliente);
 
         cliente.setNombre(editCliente.nombre());
         cliente.setApellido1(editCliente.apellido1());
