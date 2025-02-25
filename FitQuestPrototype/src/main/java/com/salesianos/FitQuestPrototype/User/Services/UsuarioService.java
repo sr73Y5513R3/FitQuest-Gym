@@ -5,6 +5,7 @@ import com.salesianos.FitQuestPrototype.Entrenamiento.Repos.NivelRepository;
 import com.salesianos.FitQuestPrototype.User.Dto.CreateClienteRequest;
 import com.salesianos.FitQuestPrototype.User.Dto.CreateUserRequest;
 import com.salesianos.FitQuestPrototype.User.Dto.EditClienteCmd;
+import com.salesianos.FitQuestPrototype.User.Dto.EditEntrenadorCmd;
 import com.salesianos.FitQuestPrototype.User.Error.ActivationExpiredException;
 import com.salesianos.FitQuestPrototype.User.Error.UserNotAuthorizedException;
 import com.salesianos.FitQuestPrototype.User.Model.*;
@@ -174,4 +175,15 @@ public class UsuarioService{
         return clienteRepository.save(cliente);
     }
 
+    public Entrenador editEntrenador (UUID idEntrenador, EditEntrenadorCmd editEntrenador){
+        Entrenador entrenador = findEntrenadorById(idEntrenador);
+
+        entrenador.setNombre(editEntrenador.nombre());
+        entrenador.setApellido1(editEntrenador.apellido1());
+        entrenador.setApellido2(editEntrenador.apellido2());
+        entrenador.setEmail(editEntrenador.email());
+        entrenador.setUsername(editEntrenador.username());
+
+        return entrenadorRepository.save(entrenador);
+    }
 }

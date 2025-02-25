@@ -130,9 +130,15 @@ public class UsuarioController {
         return GetClienteDto.of(usuarioService.cambiarMensualidad(idCliente, mensualidad));
     }
 
-    @PutMapping("/edit/{idCliente}")
+    @PutMapping("cliente/edit/{idCliente}")
     @PreAuthorize("(#idCliente == authentication.principal.id) or hasRole('ADMIN')")
     public GetClienteDto editCliente (@PathVariable UUID idCliente, @RequestBody EditClienteCmd editClienteCmd){
         return GetClienteDto.of(usuarioService.editarCliente(idCliente, editClienteCmd));
+    }
+
+    @PutMapping("/entrenador/edit/{idEntrenador}")
+    @PreAuthorize("(#idEntrenador == authentication.principal.id) or hasRole('ADMIN')")
+    public GetEntrenadorConEntrenoDto editEntrenador (@PathVariable UUID idEntrenador, @RequestBody EditEntrenadorCmd editEntrenadorCmd){
+        return GetEntrenadorConEntrenoDto.of(usuarioService.editEntrenador(idEntrenador, editEntrenadorCmd));
     }
 }
