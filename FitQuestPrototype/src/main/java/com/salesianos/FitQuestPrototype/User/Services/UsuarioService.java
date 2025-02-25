@@ -2,11 +2,13 @@ package com.salesianos.FitQuestPrototype.User.Services;
 
 import com.salesianos.FitQuestPrototype.Entrenamiento.Model.Nivel;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Repos.NivelRepository;
+import com.salesianos.FitQuestPrototype.Entrenamiento.Services.NivelService;
 import com.salesianos.FitQuestPrototype.User.Dto.CreateClienteRequest;
 import com.salesianos.FitQuestPrototype.User.Dto.CreateUserRequest;
 import com.salesianos.FitQuestPrototype.User.Dto.EditClienteCmd;
 import com.salesianos.FitQuestPrototype.User.Dto.EditEntrenadorCmd;
 import com.salesianos.FitQuestPrototype.User.Error.ActivationExpiredException;
+import com.salesianos.FitQuestPrototype.User.Error.EqualLevelException;
 import com.salesianos.FitQuestPrototype.User.Error.UserNotAuthorizedException;
 import com.salesianos.FitQuestPrototype.User.Model.*;
 import com.salesianos.FitQuestPrototype.User.Repos.ClienteRepository;
@@ -35,7 +37,7 @@ public class UsuarioService{
     private final UsuarioRepository usuarioRepository;
     private final ClienteRepository clienteRepository;
     private final EntrenadorRepository entrenadorRepository;
-    private final NivelRepository nivelRepository;
+    private final NivelService nivelService;
     private final PasswordEncoder passwordEncoder;
     private final MailService mailService;
 
@@ -66,9 +68,8 @@ public class UsuarioService{
 
     public Cliente createCliente(CreateClienteRequest createClienteRequest){
 
-        Optional<Nivel> nivelOpt = nivelRepository.findById(createClienteRequest.nivelId());
-        if (nivelOpt.isEmpty())
-            throw new EntityNotFoundException("Nivel no encontrado");
+        Nivel nivel = nivelService.findNivelById(createClienteRequest.nivelId());
+
 
         Cliente cliente = Cliente.builder()
                 .username(createClienteRequest.username())
@@ -79,7 +80,7 @@ public class UsuarioService{
                 .edad(createClienteRequest.edad())
                 .genero(createClienteRequest.genero())
                 .roles(Set.of(UserRole.CLIENTE))
-                .nivel(nivelOpt.get())
+                .nivel(nivel)
                 .activationToken(generateRandomActivationCode())
                 .build();
 
@@ -108,9 +109,6 @@ public class UsuarioService{
                 })
                 .orElseThrow(() -> new ActivationExpiredException("El código de activación no existe o ha caducado"));
     }
-
-
-
 
     public List<Usuario> findAll(){
         return usuarioRepository.findAll();
@@ -193,5 +191,18 @@ public class UsuarioService{
         usuario.setEnabled(false);
 
         return usuarioRepository.save(usuario);
+    }
+
+    public Cliente cambiarNivel (UUID idCliente, Long idNivel){
+
+        Cliente cliente = findClienteById(idCliente);
+
+        Nivel nivel = nivelService.findNivelById(idNivel);
+
+        if(cliente.getNivel().getId() == nivel.getId())
+            throw new EqualLevelException("No puedes cambiar el nivel porque es el mismo al del usuario");
+
+        cliente.setNivel(nivel);
+        return clienteRepository.save(cliente);
     }
 }

@@ -1,5 +1,6 @@
 package com.salesianos.FitQuestPrototype.User.Controllers;
 
+import com.salesianos.FitQuestPrototype.Entrenamiento.Model.Nivel;
 import com.salesianos.FitQuestPrototype.Security.Jwt.Access.JwtService;
 import com.salesianos.FitQuestPrototype.Security.Jwt.Refresh.RefreshToken;
 import com.salesianos.FitQuestPrototype.Security.Jwt.Refresh.RefreshTokenRequest;
@@ -147,5 +148,11 @@ public class UsuarioController {
     public ResponseEntity<?> darDeBaja(@PathVariable UUID idUsuario){
         usuarioService.darDeBaja(idUsuario);
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("cliente/edit/{idCliente}/nivel")
+    @PreAuthorize("hasRole('ADMIN')")
+    public GetClienteDto cambiarNivel (@PathVariable UUID idCliente,@RequestParam Long nivel){
+        return GetClienteDto.of(usuarioService.cambiarNivel(idCliente, nivel));
     }
 }
