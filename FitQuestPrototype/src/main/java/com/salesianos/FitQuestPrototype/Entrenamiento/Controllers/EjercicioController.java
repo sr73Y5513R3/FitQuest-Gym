@@ -161,4 +161,11 @@ public class EjercicioController {
     public GetEjercicioConNivelDto addMaterial (@PathVariable Long idEjercicio, @PathVariable Long idMaterial) {
         return GetEjercicioConNivelDto.of(ejercicioService.addMaterial(idEjercicio, idMaterial));
     }
+
+    @DeleteMapping("/{idEjercicio}/material/{idMaterial}")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('ENTRENADOR')")
+    public ResponseEntity<?> removeMaterial (@PathVariable Long idEjercicio, @PathVariable Long idMaterial) {
+        ejercicioService.removeMaterial(idEjercicio, idMaterial);
+        return ResponseEntity.noContent().build();
+    }
 }

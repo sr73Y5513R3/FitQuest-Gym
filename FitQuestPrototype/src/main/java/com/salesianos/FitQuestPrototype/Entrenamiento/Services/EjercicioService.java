@@ -3,12 +3,14 @@ package com.salesianos.FitQuestPrototype.Entrenamiento.Services;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Ejercicio.CreateEjercicioCmd;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Error.EntidadNoEncontradaException;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Error.EntidadYaAñadidaException;
+import com.salesianos.FitQuestPrototype.Entrenamiento.Error.NoContainsException;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Model.Ejercicio;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Model.Material;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Model.Nivel;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Repos.EjercicioRepository;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Repos.NivelRepository;
 import com.salesianos.FitQuestPrototype.User.Error.EqualLevelException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -85,6 +87,7 @@ public class EjercicioService {
         return ejercicioOpt.get();
     }
 
+    @Transactional
     public Ejercicio addMaterial (Long idEjercicio, Long idMaterial){
         Ejercicio ejercicio = findEjercicioById(idEjercicio);
 
@@ -97,6 +100,20 @@ public class EjercicioService {
 
         return ejercicioRepository.save(ejercicio);
 
+    }
+
+    @Transactional
+    public Ejercicio removeMaterial (Long idEjercicio, Long idMaterial){
+        Ejercicio ejercicio = findEjercicioById(idEjercicio);
+
+        Material material = materialService.findMaterialById(idMaterial);
+
+        if(!ejercicio.getMateriales().contains(material))
+            throw new NoContainsException("Si no está ese material no lo puedo borrar picha");
+
+        ejercicio.getMateriales().remove(material);
+
+        return ejercicioRepository.save(ejercicio);
     }
 
 }
