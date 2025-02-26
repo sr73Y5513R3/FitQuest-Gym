@@ -4,17 +4,16 @@ import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Nivel.CreateNivelCmd;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Model.Ejercicio;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Model.Entrenamiento;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Model.Nivel;
-import com.salesianos.FitQuestPrototype.Entrenamiento.Repos.EjercicioRepository;
-import com.salesianos.FitQuestPrototype.Entrenamiento.Repos.EntrenamientoRepository;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Repos.NivelRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -22,8 +21,8 @@ import java.util.Optional;
 public class NivelService {
 
     private final NivelRepository nivelRepository;
-    private final EntrenamientoRepository entrenamientoRepository;
-    private final EjercicioRepository ejercicioRepository;
+    private final EntrenamientoService entrenamientoService;
+    private final EjercicioService ejercicioService;
 
     public Page<Nivel> findAllNiveles(Pageable pageable) {
         return nivelRepository.findAllNiveles(pageable);
@@ -46,12 +45,7 @@ public class NivelService {
     }
 
     public Nivel edit (Long id, CreateNivelCmd newNivel){
-        Optional<Nivel> nivelOpt = nivelRepository.findNivelById(id);
-
-        if (nivelOpt.isEmpty())
-            throw new EntityNotFoundException("Nivel no encontrado con ese id");
-
-        Nivel nivel = nivelOpt.get();
+        Nivel nivel = findNivelById(id);
 
         nivel.setNombre(newNivel.nombre());
 
@@ -60,19 +54,10 @@ public class NivelService {
 
     @Transactional
     public Nivel addEntrenamiento(Long idNivel, Long idEntrenamiento) {
-        Optional<Nivel> nivelOpt = nivelRepository.findNivelById(idNivel);
-        Optional<Entrenamiento> entrenamientoOpt = entrenamientoRepository.findById(idEntrenamiento);
 
-        if (nivelOpt.isEmpty()) {
-            throw new EntityNotFoundException("Nivel no encontrado con ese ID");
-        }
+        Nivel nivel = findNivelById(idNivel);
+        Entrenamiento entrenamiento = entrenamientoService.findEntrenamientoById(idEntrenamiento);
 
-        if (entrenamientoOpt.isEmpty()) {
-            throw new EntityNotFoundException("Entrenamiento no encontrado con ese ID");
-        }
-
-        Nivel nivel = nivelOpt.get();
-        Entrenamiento entrenamiento = entrenamientoOpt.get();
 
         boolean yaExiste = nivel.getEntrenamientos()
                 .stream()
@@ -87,19 +72,8 @@ public class NivelService {
 
     @Transactional
     public Nivel addEjercicio(Long idNivel, Long idEjercicio) {
-        Optional<Nivel> nivelOpt = nivelRepository.findNivelById(idNivel);
-        Optional<Ejercicio> ejercicioOpt = ejercicioRepository.findById(idEjercicio);
-
-        if (nivelOpt.isEmpty()) {
-            throw new EntityNotFoundException("Nivel no encontrado con ese ID");
-        }
-
-        if (ejercicioOpt.isEmpty()) {
-            throw new EntityNotFoundException("Ejercicio no encontrado con ese ID");
-        }
-
-        Nivel nivel = nivelOpt.get();
-        Ejercicio ejercicio = ejercicioOpt.get();
+        Nivel nivel = findNivelById(idNivel);
+        Ejercicio ejercicio = ejercicioService.findEjercicioById(idEjercicio);
 
         boolean yaExiste = nivel.getEjercicios()
                 .stream()

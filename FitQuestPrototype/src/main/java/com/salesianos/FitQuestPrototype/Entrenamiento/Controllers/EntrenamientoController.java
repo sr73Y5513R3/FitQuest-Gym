@@ -1,9 +1,6 @@
 package com.salesianos.FitQuestPrototype.Entrenamiento.Controllers;
 
-import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Entrenamiento.CreateEntrenoCmd;
-import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Entrenamiento.GetEntrenamientoDto;
-import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Entrenamiento.GetEntrenoConEjercicioDto;
-import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Entrenamiento.GetEntrenoConNivelDto;
+import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Entrenamiento.*;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Services.EntrenamientoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -21,6 +18,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
@@ -80,6 +78,7 @@ public class EntrenamientoController {
                     content = @Content)
     })
     @PostMapping("/add")
+    @PreAuthorize("#createEntrenoCmd.entrenadorId() == authentication.principal.id")
     public ResponseEntity<GetEntrenamientoDto> save (@io.swagger.v3.oas.annotations.parameters.RequestBody(
             description = "Cuerpo del entrenamiento", required = true,
             content = @Content(mediaType = "application/json",
@@ -104,16 +103,17 @@ public class EntrenamientoController {
                     content = @Content)
     })
     @PutMapping("/edit/{id}")
+    @PreAuthorize("#editEntreno.entrenadorId() == authentication.principal.id")
     public GetEntrenamientoDto update (@PathVariable Long id, @io.swagger.v3.oas.annotations.parameters.RequestBody(
             description = "Cuerpo del entrenamiento", required = true,
             content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = CreateEntrenoCmd.class),
+                    schema = @Schema(implementation = EditEntrenoCmd.class),
                     examples = @ExampleObject(value = """
                                                      {
                                                           "nombre": "Electrónica"
                                                       }
-                            """))) @RequestBody @Valid CreateEntrenoCmd createEntrenoCmd){
-        return GetEntrenamientoDto.of(entrenamientoService.edit(id, createEntrenoCmd));
+                            """))) @RequestBody @Valid EditEntrenoCmd editEntrenoCmd){
+        return GetEntrenamientoDto.of(entrenamientoService.edit(id, editEntrenoCmd));
     }
 
     @Operation(summary = "Añade un ejercicio a un entrenamiento")
@@ -127,6 +127,7 @@ public class EntrenamientoController {
                     content = @Content)
     })
     @PostMapping("{idEntrenamiento}/ejercicio/{idEjercicio}")
+    @PreAuthorize("@entrenamientoService.isEntrenador(#idEntrenamiento)")
     public ResponseEntity<GetEntrenoConEjercicioDto> addEjercicio (@PathVariable Long idEntrenamiento, @PathVariable Long idEjercicio) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(GetEntrenoConEjercicioDto.of(entrenamientoService.añadirEjercicio(idEntrenamiento, idEjercicio)));
@@ -142,6 +143,7 @@ public class EntrenamientoController {
                     content = @Content)
     })
     @DeleteMapping("{idEntrenamiento}/ejercicio/{idEjercicio}")
+    @PreAuthorize("@entrenamientoService.isEntrenador(#idEntrenamiento)")
     public ResponseEntity<?> removeEjercicio(@PathVariable Long idEntrenamiento, @PathVariable Long idEjercicio) {
         entrenamientoService.eliminarEjercicio(idEntrenamiento, idEjercicio);
         return ResponseEntity.noContent().build();
@@ -158,6 +160,7 @@ public class EntrenamientoController {
                     content = @Content)
     })
     @PostMapping("/{id}/editNivel/{idNivel}")
+    @PreAuthorize("@entrenamientoService.isEntrenador(#id)")
     public GetEntrenoConNivelDto editNivel (@PathVariable Long id, @PathVariable Long idNivel) {
         return GetEntrenoConNivelDto.of(entrenamientoService.actualizarNivel(id, idNivel));
     }

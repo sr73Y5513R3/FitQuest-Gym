@@ -25,6 +25,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -84,6 +85,7 @@ public class EjercicioController {
                     content = @Content)
     })
     @PostMapping("/add")
+    @PreAuthorize("hasRole('ENTRENADOR')")
     public ResponseEntity<GetEjercicioDto> addEjercicio(@io.swagger.v3.oas.annotations.parameters.RequestBody(
             description = "Cuerpo del ejercicio", required = true,
             content = @Content(mediaType = "application/json",
@@ -108,6 +110,7 @@ public class EjercicioController {
                     content = @Content)
     })
     @PutMapping("/edit/{id}")
+    @PreAuthorize("hasRole('ENTRENADOR')")
     public GetEjercicioDto editEjercicio(@PathVariable Long id,@io.swagger.v3.oas.annotations.parameters.RequestBody(
             description = "Cuerpo del ejercicio", required = true,
             content = @Content(mediaType = "application/json",
@@ -131,6 +134,7 @@ public class EjercicioController {
                     content = @Content)
     })
     @PostMapping("/{id}/editNivel/{idNivel}")
+    @PreAuthorize("hasRole('ENTRENADOR')")
     public GetEjercicioConNivelDto editNivel (@PathVariable Long id, @PathVariable Long idNivel) {
         return GetEjercicioConNivelDto.of(ejercicioService.actualizarNivel(id, idNivel));
     }

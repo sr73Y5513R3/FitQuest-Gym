@@ -1,23 +1,24 @@
 package com.salesianos.FitQuestPrototype.Entrenamiento.Services;
 
-import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Ejercicio.GetEjercicioDto;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Entrenamiento.CreateEntrenoCmd;
+import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Entrenamiento.EditEntrenoCmd;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Model.Ejercicio;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Model.Entrenamiento;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Model.Nivel;
-import com.salesianos.FitQuestPrototype.Entrenamiento.Repos.EjercicioRepository;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Repos.EntrenamientoRepository;
-import com.salesianos.FitQuestPrototype.Entrenamiento.Repos.NivelRepository;
 import com.salesianos.FitQuestPrototype.User.Model.Entrenador;
-import com.salesianos.FitQuestPrototype.User.Repos.EntrenadorRepository;
+import com.salesianos.FitQuestPrototype.User.Services.UsuarioService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -25,9 +26,9 @@ import java.util.Optional;
 public class EntrenamientoService {
 
     private final EntrenamientoRepository entrenamientoRepository;
-    private final EjercicioRepository ejercicioRepository;
-    private final NivelRepository nivelRepository;
-    private final EntrenadorRepository entrenadorRepository;
+    private final EjercicioService ejercicioService;
+    private final NivelService nivelService;
+    private final UsuarioService entrenadorService;
 
 
     public Page<Entrenamiento> findAllEntrenamientos(Pageable pageable) {
@@ -50,15 +51,10 @@ public class EntrenamientoService {
 
         entrenamiento.setNombre(createEntrenoCmd.nombre());
         entrenamiento.setDescripcion(createEntrenoCmd.descripcion());
-        //entrenamiento.setDuracion(createEntrenoCmd.duracion());
         entrenamiento.setCalorias(createEntrenoCmd.calorias());
         entrenamiento.setPuntos(createEntrenoCmd.puntos());
 
-        Optional<Entrenador> entrenadorOpt = entrenadorRepository.findById(createEntrenoCmd.entrenadorId());
-        if(entrenadorOpt.isEmpty())
-            throw new EntityNotFoundException("Entrenador no encontrado");
-
-        Entrenador entrenador = entrenadorOpt.get();
+        Entrenador entrenador = entrenadorService.findEntrenadorById(createEntrenoCmd.entrenadorId());
 
         entrenador.addEntrenamiento(entrenamiento);
 
@@ -70,67 +66,41 @@ public class EntrenamientoService {
     }
 
     @Transactional
-    public Entrenamiento edit (Long id, CreateEntrenoCmd editEntreno){
-        Optional<Entrenamiento> entrenamientoOpt = entrenamientoRepository.findEntrenamientoById(id);
+    public Entrenamiento edit (Long id, EditEntrenoCmd editEntreno){
 
-        if (entrenamientoOpt.isEmpty())
-            throw new EntityNotFoundException("Entrenamiento no encontrado");
 
-        Entrenamiento entrenamiento = entrenamientoOpt.get();
+        Entrenamiento entrenamiento = findEntrenamientoById(id);
 
         entrenamiento.setNombre(editEntreno.nombre());
         entrenamiento.setDescripcion(editEntreno.descripcion());
         entrenamiento.setCalorias(editEntreno.calorias());
         entrenamiento.setPuntos(editEntreno.puntos());
-        Optional<Entrenador> entrenadorOpt = entrenadorRepository.findById(editEntreno.entrenadorId());
-        if(entrenadorOpt.isEmpty())
-            throw new EntityNotFoundException("Entrenador no encontrado");
-
-        Entrenador entrenador = entrenadorOpt.get();
-
-        entrenamiento.setEntrenador(entrenador);
 
         return entrenamientoRepository.save(entrenamiento);
     }
 
     @Transactional
     public Entrenamiento añadirEjercicio(Long idEntrenamiento, Long idEjercicio){
-        Optional<Entrenamiento> entrenamiento = entrenamientoRepository.findEntrenamientoById(idEntrenamiento);
+        Entrenamiento entrenamiento = findEntrenamientoById(idEntrenamiento);
 
-        Optional<Ejercicio> ejercicio = ejercicioRepository.findEjercicioById(idEjercicio);
+        Ejercicio ejercicio = ejercicioService.findEjercicioById(idEjercicio);
 
-        if (entrenamiento.isEmpty() || ejercicio.isEmpty())
-            throw  new EntityNotFoundException("Entidades no encontradas con esos id");
-
-        entrenamiento.get().addEjercicio(ejercicio.get());
-
-        return entrenamientoRepository.save(entrenamiento.get());
+        return entrenamientoRepository.save(entrenamiento);
     }
 
     @Transactional
     public Entrenamiento eliminarEjercicio(Long idEntrenamiento, Long idEjercicio){
 
-        Optional<Entrenamiento> entrenamiento = entrenamientoRepository.findEntrenamientoById(idEntrenamiento);
-        Optional<Ejercicio> ejercicio = ejercicioRepository.findEjercicioById(idEjercicio);
+        Entrenamiento entrenamiento = findEntrenamientoById(idEntrenamiento);
+        Ejercicio ejercicio = ejercicioService.findEjercicioById(idEjercicio);
 
-        if (entrenamiento.isEmpty() || ejercicio.isEmpty())
-            throw  new EntityNotFoundException("Entidades no encontradas con esos id");
-
-        entrenamiento.get().removeEjercicio(ejercicio.get());
-
-        return entrenamientoRepository.save(entrenamiento.get());
+        return entrenamientoRepository.save(entrenamiento);
     }
 
     public Entrenamiento actualizarNivel (Long id, Long idNivel){
-        Optional<Entrenamiento> entrenamientoOpt = entrenamientoRepository.findEntrenamientoById(id);
+        Entrenamiento entrenamiento =findEntrenamientoById(id);
 
-        Optional<Nivel> nivelOpt = nivelRepository.findNivelById(idNivel);
-
-        if (entrenamientoOpt.isEmpty() || nivelOpt.isEmpty())
-            throw new EntityNotFoundException("Entidades no encontradas");
-
-        Nivel nivel = nivelOpt.get();
-        Entrenamiento entrenamiento = entrenamientoOpt.get();
+        Nivel nivel = nivelService.findNivelById(idNivel);
 
         nivel.addEntrenamiento(entrenamiento);
 
@@ -145,5 +115,19 @@ public class EntrenamientoService {
             throw new EntityNotFoundException("Entrenamiento no encontrado");
 
         return entrenamiento.get();
+    }
+
+    public boolean isEntrenador(Long idEntrenamiento) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username;
+
+        if (principal instanceof UserDetails) {
+            username = ((UserDetails) principal).getUsername();
+        } else {
+            return false; // Usuario no autenticado
+        }
+
+        Entrenamiento entrenamiento = findEntrenamientoById(idEntrenamiento);
+        return entrenamiento.getEntrenador().getUsername().equals(username);
     }
 }

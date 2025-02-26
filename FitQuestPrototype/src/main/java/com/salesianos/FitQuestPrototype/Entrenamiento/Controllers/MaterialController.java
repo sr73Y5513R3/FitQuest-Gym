@@ -20,6 +20,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -79,6 +80,7 @@ public class MaterialController {
                     content = @Content)
     })
     @PostMapping("/add")
+    @PreAuthorize("hasRole('ENTRENADOR') or hasRole('ADMIN')")
     public ResponseEntity<GetMaterialDto> createMaterial(@io.swagger.v3.oas.annotations.parameters.RequestBody(
             description = "Cuerpo del material", required = true,
             content = @Content(mediaType = "application/json",
@@ -103,6 +105,7 @@ public class MaterialController {
                     content = @Content)
     })
     @PutMapping("/{id}/editTipo")
+    @PreAuthorize("hasRole('ENTRENADOR') or hasRole('ADMIN')")
     public GetMaterialDto editTipo (@PathVariable Long id, @io.swagger.v3.oas.annotations.parameters.RequestBody(
             description = "Cuerpo del material", required = true,
             content = @Content(mediaType = "application/json",
@@ -127,6 +130,7 @@ public class MaterialController {
                     content = @Content)
     })
     @PutMapping("/edit/{id}")
+    @PreAuthorize("hasRole('ENTRENADOR') or hasRole('ADMIN')")
     public GetMaterialDto edit(@PathVariable Long id, @io.swagger.v3.oas.annotations.parameters.RequestBody(
             description = "Cuerpo del material", required = true,
             content = @Content(mediaType = "application/json",
