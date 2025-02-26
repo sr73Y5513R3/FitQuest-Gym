@@ -152,4 +152,11 @@ public class NivelController {
     public GetNivelConEjercicioDto addEjercicio (@PathVariable Long idNivel, @PathVariable Long idEjercicio) {
         return GetNivelConEjercicioDto.of(nivelService.addEjercicio(idNivel, idEjercicio));
     }
+
+    @DeleteMapping("/delete/{idNivel}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity deleteNivel(@PathVariable Long idNivel) {
+        nivelService.borrarNivel(idNivel);
+        return ResponseEntity.noContent().build();
+    }
 }

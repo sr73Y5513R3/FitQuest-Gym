@@ -1,6 +1,7 @@
 package com.salesianos.FitQuestPrototype.Entrenamiento.Services;
 
 import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Nivel.CreateNivelCmd;
+import com.salesianos.FitQuestPrototype.Entrenamiento.Error.BorradoIlegalException;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Error.EntidadNoEncontradaException;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Error.EntidadYaAñadidaException;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Model.Ejercicio;
@@ -96,6 +97,14 @@ public class NivelService {
     }
 
 
+    public void borrarNivel (Long idNivel){
+        Nivel nivel = findNivelById(idNivel);
+
+        if(!nivel.getEntrenamientos().isEmpty() || !nivel.getEjercicios().isEmpty())
+            throw new BorradoIlegalException("No se puede borrar el nivel porque tiene entidades añadidas");
+
+        nivelRepository.delete(nivel);
+    }
 
 
 }
