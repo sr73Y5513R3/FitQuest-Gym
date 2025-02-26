@@ -1,0 +1,1481 @@
+{
+	"info": {
+		"_postman_id": "da18ad96-00b6-404f-9248-07270195fb5f",
+		"name": "FitQuest",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "39644027"
+	},
+	"item": [
+		{
+			"name": "Entrenamiento",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4ZGM2YTQ2MS1mMGRjLTQ4NzYtYjcyNy04MzRjYmMzOTZmYTQiLCJpYXQiOjE3NDA1NzEzOTIsImV4cCI6MTc0MDU3MTQ1Mn0.ySyWPRbUMt9gnziP0VXMqwFL6u6ZjKMsZmKYsIcZZzs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre\": \"Entrenamiento HIIT\",\r\n  \"descripcion\": \"Rutina intensa de intervalos de alta intensidad.\",\r\n  \"calorias\": 350.0,\r\n  \"puntos\": 10.0,\r\n  \"entrenadorId\": \"e2e55861-356d-4087-bdb7-879b234c972c\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{UrlVariable}}entrenamiento/add",
+							"host": [
+								"{{UrlVariable}}entrenamiento"
+							],
+							"path": [
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4ZGM2YTQ2MS1mMGRjLTQ4NzYtYjcyNy04MzRjYmMzOTZmYTQiLCJpYXQiOjE3NDA1NzEzOTIsImV4cCI6MTc0MDU3MTQ1Mn0.ySyWPRbUMt9gnziP0VXMqwFL6u6ZjKMsZmKYsIcZZzs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre\": \"Entrenamiento Basico 02\",\r\n  \"descripcion\": \"Rutina de entrenamientos básicos para principiantes\",\r\n  \"calorias\": 250.0,\r\n  \"puntos\": 15.0,\r\n  \"autor\": \"Juan Pérez\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{UrlVariable}}entrenamiento/edit/1",
+							"host": [
+								"{{UrlVariable}}entrenamiento"
+							],
+							"path": [
+								"edit",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{UrlVariable}}entrenamiento/all",
+							"host": [
+								"{{UrlVariable}}entrenamiento"
+							],
+							"path": [
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get by Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{UrlVariable}}entrenamiento/51",
+							"host": [
+								"{{UrlVariable}}entrenamiento"
+							],
+							"path": [
+								"51"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get by nombre",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{UrlVariable}}entrenamiento/nombre?nombre=Entrenamiento HIIT",
+							"host": [
+								"{{UrlVariable}}entrenamiento"
+							],
+							"path": [
+								"nombre"
+							],
+							"query": [
+								{
+									"key": "nombre",
+									"value": "Entrenamiento HIIT"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Añadir un ejercicio",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlMmU1NTg2MS0zNTZkLTQwODctYmRiNy04NzliMjM0Yzk3MmMiLCJpYXQiOjE3NDA1NjMzMDEsImV4cCI6MTc0MDU2MzM2MX0.QqW6gWHoqX04GOiPsY3ScP8wmXQ7qFjL09owzVlAoKU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{UrlVariable}}entrenamiento/51/ejercicio/51",
+							"host": [
+								"{{UrlVariable}}entrenamiento"
+							],
+							"path": [
+								"51",
+								"ejercicio",
+								"51"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar ejercicio",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlMmU1NTg2MS0zNTZkLTQwODctYmRiNy04NzliMjM0Yzk3MmMiLCJpYXQiOjE3NDA1NjMyMTYsImV4cCI6MTc0MDU2MzI3Nn0.xgjrgOnqNJd2TkI_5_lmwyfYgwZzhho94l6uKAwEG78",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{UrlVariable}}entrenamiento/51/ejercicio/1",
+							"host": [
+								"{{UrlVariable}}entrenamiento"
+							],
+							"path": [
+								"51",
+								"ejercicio",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit nivel",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4ZGM2YTQ2MS1mMGRjLTQ4NzYtYjcyNy04MzRjYmMzOTZmYTQiLCJpYXQiOjE3NDA1NzEzOTIsImV4cCI6MTc0MDU3MTQ1Mn0.ySyWPRbUMt9gnziP0VXMqwFL6u6ZjKMsZmKYsIcZZzs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{UrlVariable}}entrenamiento/1/editNivel/51",
+							"host": [
+								"{{UrlVariable}}entrenamiento"
+							],
+							"path": [
+								"1",
+								"editNivel",
+								"51"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Borrar Entreno",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlMmU1NTg2MS0zNTZkLTQwODctYmRiNy04NzliMjM0Yzk3MmMiLCJpYXQiOjE3NDA1Njg4NjYsImV4cCI6MTc0MDU2ODkyNn0.RMjwHtw5yUhhK5lu1ybV0uftC9EAIUZo2tZOzshbERw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{UrlVariable}}entrenamiento/delete/1",
+							"host": [
+								"{{UrlVariable}}entrenamiento"
+							],
+							"path": [
+								"delete",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Usuario",
+			"item": [
+				{
+					"name": "Entrenador",
+					"item": [
+						{
+							"name": "Register Entrenador",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nombre\": \"Pablo\",\r\n    \"apellido1\": \"Teyssiere\",\r\n    \"apellido2\": \"Luque\",\r\n    \"email\": \"teyssiere.lupab24@triana.salesianos.edu\",\r\n    \"username\": \"Felipe Neduro\",\r\n    \"password\": \"unaRandom\",\r\n    \"verifyPassword\": \"unaRandom\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{UrlVariable}}auth/register",
+									"host": [
+										"{{UrlVariable}}auth"
+									],
+									"path": [
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get all entrenadores",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{UrlVariable}}entrenador/all",
+									"host": [
+										"{{UrlVariable}}entrenador"
+									],
+									"path": [
+										"all"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "FInd Entrenador by Id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{UrlVariable}}entrenador/e2e55861-356d-4087-bdb7-879b234c972c",
+									"host": [
+										"{{UrlVariable}}entrenador"
+									],
+									"path": [
+										"e2e55861-356d-4087-bdb7-879b234c972c"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit entreandor",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlMmU1NTg2MS0zNTZkLTQwODctYmRiNy04NzliMjM0Yzk3MmMiLCJpYXQiOjE3NDA1MTE0OTEsImV4cCI6MTc0MDUxMTU1MX0.YUwlWh1C4Aj7cDKuZFaOFkAYG1T64LN6BQV8MPcysCI",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nombre\": \"Manolo\",\r\n    \"apellido1\": \"Delos\",\r\n    \"apellido2\": \"Palotes\",\r\n    \"email\": \"manolo@gmail.como\",\r\n    \"username\": \"ManoloPelotudo\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{UrlVariable}}entrenador/edit/e2e55861-356d-4087-bdb7-879b234c972c",
+									"host": [
+										"{{UrlVariable}}entrenador"
+									],
+									"path": [
+										"edit",
+										"e2e55861-356d-4087-bdb7-879b234c972c"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Cliente",
+					"item": [
+						{
+							"name": "Register Cliente",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nombre\": \"Pablo\",\r\n    \"apellido1\": \"Teyssiere\",\r\n    \"apellido2\": \"Luque\",\r\n    \"email\": \"teyssiere.lupab24@triana.salesianos.edu\",\r\n    \"username\": \"PabloTey\",\r\n    \"password\": \"unaRandom\",\r\n    \"verifyPassword\": \"unaRandom\",\r\n    \"peso\": \"70\",\r\n    \"altura\": \"170\",\r\n    \"edad\": \"20\",\r\n    \"genero\": \"Illojuaner\",\r\n    \"nivelId\": \"1\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{UrlVariable}}auth/register/cliente",
+									"host": [
+										"{{UrlVariable}}auth"
+									],
+									"path": [
+										"register",
+										"cliente"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get all clientes",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{UrlVariable}}cliente/all",
+									"host": [
+										"{{UrlVariable}}cliente"
+									],
+									"path": [
+										"all"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Find Cliente by Id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{UrlVariable}}cliente/9371392f-ca63-4254-8d10-415a2da16924",
+									"host": [
+										"{{UrlVariable}}cliente"
+									],
+									"path": [
+										"9371392f-ca63-4254-8d10-415a2da16924"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "EditCliente",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4ZGM2YTQ2MS1mMGRjLTQ4NzYtYjcyNy04MzRjYmMzOTZmYTQiLCJpYXQiOjE3NDA1MDk1NjcsImV4cCI6MTc0MDUwOTYyN30.Pvot7NwQr4ggbhLeSq-8zNKVmOvEAoxS1x2I_a5dAHI",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nombre\": \"Pablooo\",\r\n    \"apellido1\": \"Teyssiere\",\r\n    \"apellido2\": \"Luque\",\r\n    \"email\": \"teyssiere.lupab24@triana.salesianos.edu\",\r\n    \"username\": \"PabloTey\",\r\n    \"peso\": \"70\",\r\n    \"altura\": \"170\",\r\n    \"edad\": \"20\",\r\n    \"genero\": \"Illojuaner\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{UrlVariable}}edit/9481cf3a-6c0e-47a0-9296-df686ea1e5f5",
+									"host": [
+										"{{UrlVariable}}edit"
+									],
+									"path": [
+										"9481cf3a-6c0e-47a0-9296-df686ea1e5f5"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Editar mensualidad",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4ZGM2YTQ2MS1mMGRjLTQ4NzYtYjcyNy04MzRjYmMzOTZmYTQiLCJpYXQiOjE3NDA1NzEzOTIsImV4cCI6MTc0MDU3MTQ1Mn0.ySyWPRbUMt9gnziP0VXMqwFL6u6ZjKMsZmKYsIcZZzs",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{UrlVariable}}cliente/c6e33dd6-c8ce-47a7-8730-371a087bd4e2/mensualidad?mensualidad=Profesional",
+									"host": [
+										"{{UrlVariable}}cliente"
+									],
+									"path": [
+										"c6e33dd6-c8ce-47a7-8730-371a087bd4e2",
+										"mensualidad"
+									],
+									"query": [
+										{
+											"key": "mensualidad",
+											"value": "Profesional"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit nivel",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4ZGM2YTQ2MS1mMGRjLTQ4NzYtYjcyNy04MzRjYmMzOTZmYTQiLCJpYXQiOjE3NDA1NjE4NTMsImV4cCI6MTc0MDU2MTkxM30.QE8AtBc4gVsUP7icMjM1bedBQv1AQ5-qx3boyGwPX6M",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{UrlVariable}}cliente/edit/9371392f-ca63-4254-8d10-415a2da16924/nivel?nivel=51",
+									"host": [
+										"{{UrlVariable}}cliente"
+									],
+									"path": [
+										"edit",
+										"9371392f-ca63-4254-8d10-415a2da16924",
+										"nivel"
+									],
+									"query": [
+										{
+											"key": "nivel",
+											"value": "51"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Usuario",
+					"item": [
+						{
+							"name": "Get all",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{UrlVariable}}usuarios/all",
+									"host": [
+										"{{UrlVariable}}usuarios"
+									],
+									"path": [
+										"all"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Usuario By id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{UrlVariable}}usuario/8dc6a461-f0dc-4876-b727-834cbc396fa4",
+									"host": [
+										"{{UrlVariable}}usuario"
+									],
+									"path": [
+										"8dc6a461-f0dc-4876-b727-834cbc396fa4"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Login user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"Felipe Neduro\",\r\n    \"password\": \"user\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{UrlVariable}}auth/login",
+							"host": [
+								"{{UrlVariable}}auth"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh token",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"refreshToken\": \"60826ede-ccb2-4c96-9eb3-08e5c8d39942\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{UrlVariable}}auth/refresh/token",
+							"host": [
+								"{{UrlVariable}}auth"
+							],
+							"path": [
+								"refresh",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Activated account",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"token\": \"ad0ade99-1769-459e-8e5d-2222e27d0bc0\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{UrlVariable}}activate/account",
+							"host": [
+								"{{UrlVariable}}activate"
+							],
+							"path": [
+								"account"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Dar de baja",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4ZGM2YTQ2MS1mMGRjLTQ4NzYtYjcyNy04MzRjYmMzOTZmYTQiLCJpYXQiOjE3NDA1MTMxNTcsImV4cCI6MTc0MDUxMzIxN30.ngH-jj6lU70fs3EiWcn6czRdA6Na7jKigwcTgphc-SI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{UrlVariable}}usuario/baja/9371392f-ca63-4254-8d10-415a2da16924",
+							"host": [
+								"{{UrlVariable}}usuario"
+							],
+							"path": [
+								"baja",
+								"9371392f-ca63-4254-8d10-415a2da16924"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Ejercicio",
+			"item": [
+				{
+					"name": "Create Ejercicio",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlMmU1NTg2MS0zNTZkLTQwODctYmRiNy04NzliMjM0Yzk3MmMiLCJpYXQiOjE3NDA1NzAzMjAsImV4cCI6MTc0MDU3MDM4MH0.a6YQ-xFIH9xVgPsPioU-e1KxiIBIoLhgQCfZNi0UFGs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"ejercicio de patas\",\r\n    \"descripcion\": \"Hacer sentadillas\",\r\n    \"series\": 4,\r\n    \"repeticiones\": 10,\r\n    \"duracion\": 10,\r\n    \"urlImagen\": \"todavia no hay\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{UrlVariable}}ejercicio/add",
+							"host": [
+								"{{UrlVariable}}ejercicio"
+							],
+							"path": [
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{UrlVariable}}ejercicio/all",
+							"host": [
+								"{{UrlVariable}}ejercicio"
+							],
+							"path": [
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get by Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{UrlVariable}}ejercicio/1",
+							"host": [
+								"{{UrlVariable}}ejercicio"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get by nombre",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{UrlVariable}}ejercicio/nombre?nombre=Ejercicio de pecho",
+							"host": [
+								"{{UrlVariable}}ejercicio"
+							],
+							"path": [
+								"nombre"
+							],
+							"query": [
+								{
+									"key": "nombre",
+									"value": "Ejercicio de pecho"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editar nivel",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4ZGM2YTQ2MS1mMGRjLTQ4NzYtYjcyNy04MzRjYmMzOTZmYTQiLCJpYXQiOjE3NDA1NzEzOTIsImV4cCI6MTc0MDU3MTQ1Mn0.ySyWPRbUMt9gnziP0VXMqwFL6u6ZjKMsZmKYsIcZZzs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{UrlVariable}}ejercicio/1/editNivel/51",
+							"host": [
+								"{{UrlVariable}}ejercicio"
+							],
+							"path": [
+								"1",
+								"editNivel",
+								"51"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Material",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlMmU1NTg2MS0zNTZkLTQwODctYmRiNy04NzliMjM0Yzk3MmMiLCJpYXQiOjE3NDA1NjgzNTUsImV4cCI6MTc0MDU2ODQxNX0.CqH0BKz8Mnd1kUlPtG3kmw4-yvfpQgEw1vEJyEho7N4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{UrlVariable}}ejercicio/1/material/1",
+							"host": [
+								"{{UrlVariable}}ejercicio"
+							],
+							"path": [
+								"1",
+								"material",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4ZGM2YTQ2MS1mMGRjLTQ4NzYtYjcyNy04MzRjYmMzOTZmYTQiLCJpYXQiOjE3NDA1NzEzOTIsImV4cCI6MTc0MDU3MTQ1Mn0.ySyWPRbUMt9gnziP0VXMqwFL6u6ZjKMsZmKYsIcZZzs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"ejercicio de espalda\",\r\n    \"descripcion\": \"Hacer dominadas\",\r\n    \"series\": 4,\r\n    \"repeticiones\": 6,\r\n    \"duracion\": 25,\r\n    \"urlImagen\": \"todavia no hay\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{UrlVariable}}ejercicio/edit/1",
+							"host": [
+								"{{UrlVariable}}ejercicio"
+							],
+							"path": [
+								"edit",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove material",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlMmU1NTg2MS0zNTZkLTQwODctYmRiNy04NzliMjM0Yzk3MmMiLCJpYXQiOjE3NDA1NjgzNTUsImV4cCI6MTc0MDU2ODQxNX0.CqH0BKz8Mnd1kUlPtG3kmw4-yvfpQgEw1vEJyEho7N4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{UrlVariable}}ejercicio/1/material/1",
+							"host": [
+								"{{UrlVariable}}ejercicio"
+							],
+							"path": [
+								"1",
+								"material",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Ejercicio",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4ZGM2YTQ2MS1mMGRjLTQ4NzYtYjcyNy04MzRjYmMzOTZmYTQiLCJpYXQiOjE3NDA1NzA0ODUsImV4cCI6MTc0MDU3MDU0NX0.B0OI3mhOZXXo16y_C5aNfIJuSO8Yoew9JuAgqWhVjDo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{UrlVariable}}ejercicio/delete/51",
+							"host": [
+								"{{UrlVariable}}ejercicio"
+							],
+							"path": [
+								"delete",
+								"51"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Material",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4ZGM2YTQ2MS1mMGRjLTQ4NzYtYjcyNy04MzRjYmMzOTZmYTQiLCJpYXQiOjE3NDA1NzEzOTIsImV4cCI6MTc0MDU3MTQ1Mn0.ySyWPRbUMt9gnziP0VXMqwFL6u6ZjKMsZmKYsIcZZzs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Pesa de 50 kg\",\r\n    \"descripcion\": \"Mancuerna que utiliza Rafa para hacer press de banca en uno de sus brazos\",\r\n    \"tipo\": \"PESA\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{UrlVariable}}material/add",
+							"host": [
+								"{{UrlVariable}}material"
+							],
+							"path": [
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{UrlVariable}}material/all",
+							"host": [
+								"{{UrlVariable}}material"
+							],
+							"path": [
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find by Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{UrlVariable}}material/1",
+							"host": [
+								"{{UrlVariable}}material"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editar tipo material",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4ZGM2YTQ2MS1mMGRjLTQ4NzYtYjcyNy04MzRjYmMzOTZmYTQiLCJpYXQiOjE3NDA1NzEzOTIsImV4cCI6MTc0MDU3MTQ1Mn0.ySyWPRbUMt9gnziP0VXMqwFL6u6ZjKMsZmKYsIcZZzs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"tipo\": \"MAQUINA\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{UrlVariable}}material/1/editTipo",
+							"host": [
+								"{{UrlVariable}}material"
+							],
+							"path": [
+								"1",
+								"editTipo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Material",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4ZGM2YTQ2MS1mMGRjLTQ4NzYtYjcyNy04MzRjYmMzOTZmYTQiLCJpYXQiOjE3NDA1NzEzOTIsImV4cCI6MTc0MDU3MTQ1Mn0.ySyWPRbUMt9gnziP0VXMqwFL6u6ZjKMsZmKYsIcZZzs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Disco de 20 kg\",\r\n    \"descripcion\": \"Disco de 20kg para barra olímpica\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{UrlVariable}}material/edit/101",
+							"host": [
+								"{{UrlVariable}}material"
+							],
+							"path": [
+								"edit",
+								"101"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Borrar material",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4ZGM2YTQ2MS1mMGRjLTQ4NzYtYjcyNy04MzRjYmMzOTZmYTQiLCJpYXQiOjE3NDA1NzA3NzUsImV4cCI6MTc0MDU3MDgzNX0.obW7kaRfz_ZKk1m4oMSEhcBbmS7fVnYRhT8-TWiLvu8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{UrlVariable}}material/delete/1",
+							"host": [
+								"{{UrlVariable}}material"
+							],
+							"path": [
+								"delete",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Nivel",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4ZGM2YTQ2MS1mMGRjLTQ4NzYtYjcyNy04MzRjYmMzOTZmYTQiLCJpYXQiOjE3NDA1NzEzOTIsImV4cCI6MTc0MDU3MTQ1Mn0.ySyWPRbUMt9gnziP0VXMqwFL6u6ZjKMsZmKYsIcZZzs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Avanzado\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{UrlVariable}}nivel/add",
+							"host": [
+								"{{UrlVariable}}nivel"
+							],
+							"path": [
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{UrlVariable}}nivel/all",
+							"host": [
+								"{{UrlVariable}}nivel"
+							],
+							"path": [
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{UrlVariable}}nivel/1",
+							"host": [
+								"{{UrlVariable}}nivel"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add entreno",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4ZGM2YTQ2MS1mMGRjLTQ4NzYtYjcyNy04MzRjYmMzOTZmYTQiLCJpYXQiOjE3NDA1NzEzOTIsImV4cCI6MTc0MDU3MTQ1Mn0.ySyWPRbUMt9gnziP0VXMqwFL6u6ZjKMsZmKYsIcZZzs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{UrlVariable}}nivel/51/entrenamiento/1",
+							"host": [
+								"{{UrlVariable}}nivel"
+							],
+							"path": [
+								"51",
+								"entrenamiento",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add ejercicio",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4ZGM2YTQ2MS1mMGRjLTQ4NzYtYjcyNy04MzRjYmMzOTZmYTQiLCJpYXQiOjE3NDA1NzA0NDUsImV4cCI6MTc0MDU3MDUwNX0.sJuVkyoD5nD3ZtgcqZpuiwnzUDO3Q8Pk4b_uBZEIQgU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{UrlVariable}}nivel/1/ejercicio/52",
+							"host": [
+								"{{UrlVariable}}nivel"
+							],
+							"path": [
+								"1",
+								"ejercicio",
+								"52"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit nivel",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4ZGM2YTQ2MS1mMGRjLTQ4NzYtYjcyNy04MzRjYmMzOTZmYTQiLCJpYXQiOjE3NDA1NzEzOTIsImV4cCI6MTc0MDU3MTQ1Mn0.ySyWPRbUMt9gnziP0VXMqwFL6u6ZjKMsZmKYsIcZZzs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\":\"Básico\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{UrlVariable}}nivel/edit/1",
+							"host": [
+								"{{UrlVariable}}nivel"
+							],
+							"path": [
+								"edit",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete nivel",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4ZGM2YTQ2MS1mMGRjLTQ4NzYtYjcyNy04MzRjYmMzOTZmYTQiLCJpYXQiOjE3NDA1NzEzOTIsImV4cCI6MTc0MDU3MTQ1Mn0.ySyWPRbUMt9gnziP0VXMqwFL6u6ZjKMsZmKYsIcZZzs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{UrlVariable}}nivel/delete/1",
+							"host": [
+								"{{UrlVariable}}nivel"
+							],
+							"path": [
+								"delete",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Entrenamietno Realizado",
+			"item": [
+				{
+					"name": "Realizar entrenamieto",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI5NDgxY2YzYS02YzBlLTQ3YTAtOTI5Ni1kZjY4NmVhMWU1ZjUiLCJpYXQiOjE3NDA1MjkzMzYsImV4cCI6MTc0MDUyOTM5Nn0.D5jsWEsgWk1uuToBmS_ID2Xz_hqqbc8iX1NyR5q22Cw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"imagen\": \"no hay\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{UrlVariable}}realizado/9481cf3a-6c0e-47a0-9296-df686ea1e5f5/1",
+							"host": [
+								"{{UrlVariable}}realizado"
+							],
+							"path": [
+								"9481cf3a-6c0e-47a0-9296-df686ea1e5f5",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Aceptar realización",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlMmU1NTg2MS0zNTZkLTQwODctYmRiNy04NzliMjM0Yzk3MmMiLCJpYXQiOjE3NDA1MjkzNzAsImV4cCI6MTc0MDUyOTQzMH0.9UFmhVAWyIA8r57g4atW72jV-9Tifj-JT3sLjX1Wk-o",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{UrlVariable}}realizado/aceptar?idEntrenador=e2e55861-356d-4087-bdb7-879b234c972c&idUsuario=9481cf3a-6c0e-47a0-9296-df686ea1e5f5&idEntrenamiento=1",
+							"host": [
+								"{{UrlVariable}}realizado"
+							],
+							"path": [
+								"aceptar"
+							],
+							"query": [
+								{
+									"key": "idEntrenador",
+									"value": "e2e55861-356d-4087-bdb7-879b234c972c"
+								},
+								{
+									"key": "idUsuario",
+									"value": "9481cf3a-6c0e-47a0-9296-df686ea1e5f5"
+								},
+								{
+									"key": "idEntrenamiento",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Valoraciones",
+			"item": [
+				{
+					"name": "Añadir valoracion",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI5NDgxY2YzYS02YzBlLTQ3YTAtOTI5Ni1kZjY4NmVhMWU1ZjUiLCJpYXQiOjE3NDA1Mjk2NjUsImV4cCI6MTc0MDUyOTcyNX0.MxU3bx1_CFClwALJG7trIfrA2qZ4hpc3w_ZneLJ2Ryk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"notaValoracion\": \"10\",\r\n    \"textoDescriptivo\": \"Lorem Ipsum\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{UrlVariable}}valoracion/add?idUsuario=9481cf3a-6c0e-47a0-9296-df686ea1e5f5&idEntreno=1",
+							"host": [
+								"{{UrlVariable}}valoracion"
+							],
+							"path": [
+								"add"
+							],
+							"query": [
+								{
+									"key": "idUsuario",
+									"value": "9481cf3a-6c0e-47a0-9296-df686ea1e5f5"
+								},
+								{
+									"key": "idEntreno",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "UrlVariable",
+			"value": "localhost:8080/",
+			"type": "string"
+		}
+	]
+}

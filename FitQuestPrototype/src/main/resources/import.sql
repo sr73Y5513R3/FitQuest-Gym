@@ -1,10 +1,47 @@
 INSERT INTO NIVEL (ID, NOMBRE) VALUES (NEXTVAL('nivel_seq'), 'Principiante');
 INSERT INTO NIVEL (ID, NOMBRE) VALUES (NEXTVAL('nivel_seq'), 'Intermedio');
 
-INSERT INTO ENTRENAMIENTO (ID, NOMBRE, DESCRIPCION, DURACION, CALORIAS, PUNTOS, AUTOR, NIVEL_ID) VALUES (NEXTVAL('entrenamiento_seq'), 'Entrenamiento básico 01', 'Entrenamiento con unos ejercicios para principiantes', 0, 100, 100, 'Pablo Teyssiere', 1);
+/*Insertar entrenador*/
+INSERT INTO USUARIO (ID, NOMBRE, APELLIDO1, APELLIDO2, EMAIL, USERNAME, PASSWORD, ENABLED ) VALUES ('e2e55861-356d-4087-bdb7-879b234c972c', 'Jesús','Tomás', 'Dado', 'jesusTomasDado@gmail.com', 'JesusTomasDado', '{bcrypt}$2a$12$zKYqTeiCPvPHMdKUo6VAp.G66i.y9SGGqzpv73vqp6c1QjEx7c83O','true');
+INSERT INTO USUARIO_ROLES (USUARIO_ID, roles) VALUES ('e2e55861-356d-4087-bdb7-879b234c972c', 'ENTRENADOR');
+INSERT INTO ENTRENADOR (USUARIO_ID) VALUES ('e2e55861-356d-4087-bdb7-879b234c972c');
 
-INSERT INTO EJERCICIO (ID, NOMBRE, DESCRIPCION, SERIES, REPETICIONES, DURACION, URL_IMAGENES) VALUES (NEXTVAL('ejercicio_seq'), 'Ejercicio de pecho', 'Consiste en coger una barra y levantarla por encima de nuestro pecho', 4, 10, 30, 'No hay');
-INSERT INTO EJERCICIO (ID, NOMBRE, DESCRIPCION, SERIES, REPETICIONES, DURACION, URL_IMAGENES) VALUES (NEXTVAL('ejercicio_seq'), 'Ejercicio de tricep', 'Consiste en levantar una pesa por encima de nuestra cabeza', 4, 10, 20, 'No hay');
+/*Insertar admin*/
+INSERT INTO USUARIO (ID, NOMBRE, APELLIDO1, APELLIDO2, EMAIL, USERNAME, PASSWORD, ENABLED ) VALUES ('8dc6a461-f0dc-4876-b727-834cbc396fa4', 'Felipe', 'Neduro', 'Ylargo', 'FelipeNeduro@gmail.com','Felipe Neduro', '{bcrypt}$2a$12$zKYqTeiCPvPHMdKUo6VAp.G66i.y9SGGqzpv73vqp6c1QjEx7c83O', 'true');
+INSERT INTO USUARIO_ROLES(USUARIO_ID, roles) VALUES ('8dc6a461-f0dc-4876-b727-834cbc396fa4','ADMIN');
+
+/*Insertar clientes*/
+INSERT INTO USUARIO (ID, NOMBRE, APELLIDO1, APELLIDO2, EMAIL, USERNAME, PASSWORD, ENABLED) VALUES ('9371392f-ca63-4254-8d10-415a2da16924', 'Carlos', 'Lopez', 'Perez', 'carloslopez@gmail.com', 'carloslopez', '{bcrypt}$2a$12$zKYqTeiCPvPHMdKUo6VAp.G66i.y9SGGqzpv73vqp6c1QjEx7c83O', 'true');
+INSERT INTO USUARIO_ROLES (USUARIO_ID, ROLES) VALUES ('9371392f-ca63-4254-8d10-415a2da16924', 'CLIENTE');
+INSERT INTO CLIENTE (USUARIO_ID, PESO, ALTURA, EDAD, GENERO, MENSUALIDAD, PUNTOS, NIVEL_ID) VALUES ('9371392f-ca63-4254-8d10-415a2da16924', 75.5, 1.80, 30, 'Messi', 'Profesional', 150, 1);
+
+INSERT INTO USUARIO (ID, NOMBRE, APELLIDO1, APELLIDO2, EMAIL, USERNAME, PASSWORD, ENABLED) VALUES ('3d84ebe7-89ac-48d4-b2c2-39beb10293d2', 'Ana', 'Martinez', 'Gomez', 'anamartinez@gmail.com', 'anamartinez', '{bcrypt}$2a$12$zKYqTeiCPvPHMdKUo6VAp.G66i.y9SGGqzpv73vqp6c1QjEx7c83O', 'true');
+INSERT INTO USUARIO_ROLES (USUARIO_ID, ROLES) VALUES ('3d84ebe7-89ac-48d4-b2c2-39beb10293d2', 'CLIENTE');
+INSERT INTO CLIENTE (USUARIO_ID, PESO, ALTURA, EDAD, GENERO, MENSUALIDAD, PUNTOS, NIVEL_ID) VALUES ('3d84ebe7-89ac-48d4-b2c2-39beb10293d2', 60.0, 1.65, 25, 'Messi', 'UltraVipMegaSuperGuayMolona', 200, 51);
+
+INSERT INTO USUARIO (ID, NOMBRE, APELLIDO1, APELLIDO2, EMAIL, USERNAME, PASSWORD, ENABLED) VALUES ('9481cf3a-6c0e-47a0-9296-df686ea1e5f5', 'Luis', 'Rodriguez', 'Lopez', 'luisrodriguez@gmail.com', 'luisrodriguez', '{bcrypt}$2a$12$zKYqTeiCPvPHMdKUo6VAp.G66i.y9SGGqzpv73vqp6c1QjEx7c83O', 'true');
+INSERT INTO USUARIO_ROLES (USUARIO_ID, ROLES) VALUES ('9481cf3a-6c0e-47a0-9296-df686ea1e5f5', 'CLIENTE');
+INSERT INTO CLIENTE (USUARIO_ID, PESO, ALTURA, EDAD, GENERO, MENSUALIDAD, PUNTOS, NIVEL_ID) VALUES ('9481cf3a-6c0e-47a0-9296-df686ea1e5f5', 85.0, 1.85, 35, 'NoComedorDeJamon', 'Profesional', 180, 51);
+
+
+
+
+INSERT INTO ENTRENAMIENTO (ID, NOMBRE, DESCRIPCION, DURACION, CALORIAS, PUNTOS, VALORACION_MEDIA, ENTRENADOR_ID, NIVEL_ID) VALUES (NEXTVAL('entrenamiento_seq'), 'Entrenamiento Full Body', 'Rutina completa de cuerpo entero', 0, 500, 10, 0, 'e2e55861-356d-4087-bdb7-879b234c972c', 1);
+INSERT INTO ENTRENAMIENTO (ID, NOMBRE, DESCRIPCION, DURACION, CALORIAS, PUNTOS, VALORACION_MEDIA, ENTRENADOR_ID, NIVEL_ID) VALUES (NEXTVAL('entrenamiento_seq'), 'Cardio avanzado', 'Entrenamiento de alta intensidad para resistencia cardiovascular', 0, 600, 15, 0, 'e2e55861-356d-4087-bdb7-879b234c972c', 51);
+INSERT INTO ENTRENAMIENTO (ID, NOMBRE, DESCRIPCION, DURACION, CALORIAS, PUNTOS, VALORACION_MEDIA, ENTRENADOR_ID, NIVEL_ID) VALUES (NEXTVAL('entrenamiento_seq'), 'Fuerza y potencia', 'Entrenamiento de fuerza enfocado en la potencia muscular', 0, 450, 12, 0, 'e2e55861-356d-4087-bdb7-879b234c972c', 1);
+INSERT INTO ENTRENAMIENTO (ID, NOMBRE, DESCRIPCION, DURACION, CALORIAS, PUNTOS, VALORACION_MEDIA, ENTRENADOR_ID, NIVEL_ID) VALUES (NEXTVAL('entrenamiento_seq'), 'Flexibilidad y movilidad', 'Rutina enfocada en estiramientos y movilidad articular', 0, 300, 8, 0, 'e2e55861-356d-4087-bdb7-879b234c972c', 1);
+INSERT INTO ENTRENAMIENTO (ID, NOMBRE, DESCRIPCION, DURACION, CALORIAS, PUNTOS, VALORACION_MEDIA, ENTRENADOR_ID, NIVEL_ID) VALUES (NEXTVAL('entrenamiento_seq'), 'Entrenamiento funcional', 'Entrenamiento de fuerza y resistencia funcional', 0, 550, 14, 0, 'e2e55861-356d-4087-bdb7-879b234c972c', 51);
+
+
+INSERT INTO EJERCICIO (ID, NOMBRE, DESCRIPCION, SERIES, REPETICIONES, DURACION, URL_IMAGENES, NIVEL_ID) VALUES (NEXTVAL('ejercicio_seq'), 'Ejercicio de pecho', 'Consiste en coger una barra y levantarla por encima de nuestro pecho', 4, 10, 30, 'No hay',1);
+INSERT INTO EJERCICIO (ID, NOMBRE, DESCRIPCION, SERIES, REPETICIONES, DURACION, URL_IMAGENES, NIVEL_ID) VALUES (NEXTVAL('ejercicio_seq'), 'Ejercicio de tricep', 'Consiste en levantar una pesa por encima de nuestra cabeza', 4, 10, 20, 'No hay',1);
+
+INSERT INTO ENTRENAMIENTO_EJERCICIO (ENTRENAMIENTO_ID, EJERCICIO_ID) VALUES (1, 1);
+INSERT INTO ENTRENAMIENTO_EJERCICIO (ENTRENAMIENTO_ID, EJERCICIO_ID) VALUES (1, 51);
+INSERT INTO ENTRENAMIENTO_EJERCICIO (ENTRENAMIENTO_ID, EJERCICIO_ID) VALUES (51, 1);
+INSERT INTO ENTRENAMIENTO_EJERCICIO (ENTRENAMIENTO_ID, EJERCICIO_ID) VALUES (101, 1);
+INSERT INTO ENTRENAMIENTO_EJERCICIO (ENTRENAMIENTO_ID, EJERCICIO_ID) VALUES (151, 51);
+INSERT INTO ENTRENAMIENTO_EJERCICIO (ENTRENAMIENTO_ID, EJERCICIO_ID) VALUES (201, 1);
 
 INSERT INTO MATERIAL (ID, NOMBRE, DESCRIPCION, TIPO) VALUES (NEXTVAL('material_seq'),'Pesa de 50', 'Mancuerna que utiliza Rafa para hacer press de banca en uno de sus brazos', 'PESA' );
 INSERT INTO MATERIAL (ID, NOMBRE, DESCRIPCION, TIPO) VALUES (NEXTVAL('material_seq'), 'Cinta de correr', 'Máquina utilizada para correr y mejorar resistencia cardiovascular', 'MAQUINA');

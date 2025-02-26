@@ -1,10 +1,13 @@
 package com.salesianos.FitQuestPrototype.Entrenamiento.Model;
 
+import com.salesianos.FitQuestPrototype.User.Model.Entrenador;
 import jakarta.persistence.*;
 import lombok.*;
 
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -26,9 +29,7 @@ public class Entrenamiento {
     double duracion;
     double calorias;
     double puntos;
-    String autor;
-
-    //double valoracionMedia
+    double valoracionMedia;
 
     @ManyToMany
     @JoinTable(name = "entrenamiento_ejercicio",
@@ -45,6 +46,22 @@ public class Entrenamiento {
     @ToString.Exclude
     private Nivel nivel;
 
+
+    @ManyToOne
+    @JoinColumn(name = "entrenador_id",
+    foreignKey = @ForeignKey(name = "fk_entrenamiento_entreandor"))
+    @ToString.Exclude
+    private Entrenador entrenador;
+
+    @OneToMany(mappedBy = "entrenamiento", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ToString.Exclude
+    private List<Realiza> realizados = new ArrayList<>();
+
+    @OneToMany(mappedBy = "entrenamientoValorado", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ToString.Exclude
+    private List<Valoracion> valoraciones = new ArrayList<>();
+
+
     //Métodos helpers
 
     public void addEjercicio(Ejercicio ejercicio) {
@@ -56,9 +73,22 @@ public class Entrenamiento {
 
 
     public void removeEjercicio(Ejercicio ejercicio) {
-        this.getEjercicios().remove(ejercicio);
-        ejercicio.removeEntrenamiento(this);
+        if(this.ejercicios.contains(ejercicio)) {
+            this.getEjercicios().remove(ejercicio);
+            ejercicio.removeEntrenamiento(this);
+        }
     }
 
+    //Valoracion
+
+    public void addValoracion (Valoracion valoracion) {
+        valoracion.setEntrenamientoValorado(this);
+        this.valoraciones.add(valoracion);
+    }
+
+    public void removeValoracion (Valoracion valoracion) {
+        this.getValoraciones().remove(valoracion);
+        valoracion.setEntrenamientoValorado(null);
+    }
 
 }

@@ -10,7 +10,7 @@ public record GetEntrenamientoDto(
         //double duracion,
         double calorias,
         double puntos,
-        String autor
+        GetEntrenadorFromEntreno entrenador
 ) {
 
     public static GetEntrenamientoDto of(Entrenamiento entrenamiento){
@@ -21,7 +21,7 @@ public record GetEntrenamientoDto(
                 //entrenamiento.getDuracion(),
                 entrenamiento.getCalorias(),
                 entrenamiento.getPuntos(),
-                entrenamiento.getAutor()
+                GetEntrenadorFromEntreno.of(entrenamiento.getEntrenador())
         );
     }
 }

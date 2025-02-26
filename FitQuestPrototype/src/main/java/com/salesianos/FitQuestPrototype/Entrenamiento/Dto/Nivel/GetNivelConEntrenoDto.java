@@ -1,6 +1,7 @@
 package com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Nivel;
 
 import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Entrenamiento.GetEntrenamientoDto;
+import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Entrenamiento.GetEntrenamientoFromNivel;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Model.Nivel;
 
 import java.util.List;
@@ -8,7 +9,7 @@ import java.util.List;
 public record GetNivelConEntrenoDto(
         Long id,
         String nombre,
-        List<GetEntrenamientoDto> entrenamientos
+        List<GetEntrenamientoFromNivel> entrenamientos
 ) {
 
     public static GetNivelConEntrenoDto of(Nivel nivel) {
@@ -17,7 +18,7 @@ public record GetNivelConEntrenoDto(
                 nivel.getNombre(),
                 nivel.getEntrenamientos()
                         .stream()
-                        .map(GetEntrenamientoDto::of)
+                        .map(GetEntrenamientoFromNivel::of)
                         .toList()
         );
     }

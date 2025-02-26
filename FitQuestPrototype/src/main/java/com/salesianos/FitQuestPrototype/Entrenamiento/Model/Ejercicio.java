@@ -26,8 +26,8 @@ public class Ejercicio {
 
     private String nombre;
     private String descripcion;
-    private double series;
-    private double repeticiones;
+    private int series;
+    private int repeticiones;
     private double duracion;
 
     private String urlImagenes;
@@ -69,6 +69,16 @@ public class Ejercicio {
     public void removeEntrenamiento(Entrenamiento entrenamiento) {
         this.getEntrenamientos().remove(entrenamiento);
         entrenamiento.removeEjercicio(this);
+    }
+
+    public void addMaterial(Material material) {
+        if (!this.materiales.contains(material)) {
+            this.materiales.add(material);
+        }
+    }
+
+    public void removeMaterial(Material material) {
+        this.getMateriales().remove(material);
     }
 
 }

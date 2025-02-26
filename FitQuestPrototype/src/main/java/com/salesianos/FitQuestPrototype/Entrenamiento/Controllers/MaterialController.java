@@ -2,6 +2,7 @@ package com.salesianos.FitQuestPrototype.Entrenamiento.Controllers;
 
 import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Ejercicio.GetEjercicioDto;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Material.CreateMateriaCmd;
+import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Material.EditMaterialCmd;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Material.EditTipoMaterial;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Material.GetMaterialDto;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Services.MaterialService;
@@ -12,9 +13,14 @@ import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,11 +43,13 @@ public class MaterialController {
                     content = @Content)
     })
     @GetMapping("/all")
-    public List<GetMaterialDto> findAllMateriales(){
-        return materialService.findAllMateriales()
-                .stream()
-                .map(GetMaterialDto::of)
-                .toList();
+    public Page<GetMaterialDto> findAllMateriales(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ){
+        Pageable pageable = PageRequest.of(page, size);
+        return materialService.findAllMateriales(pageable)
+                .map(GetMaterialDto::of);
     }
 
 
@@ -72,6 +80,7 @@ public class MaterialController {
                     content = @Content)
     })
     @PostMapping("/add")
+    @PreAuthorize("hasRole('ENTRENADOR') or hasRole('ADMIN')")
     public ResponseEntity<GetMaterialDto> createMaterial(@io.swagger.v3.oas.annotations.parameters.RequestBody(
             description = "Cuerpo del material", required = true,
             content = @Content(mediaType = "application/json",
@@ -80,7 +89,7 @@ public class MaterialController {
                                                      {
                                                           "nombre": "Electrónica"
                                                       }
-                            """)))@RequestBody CreateMateriaCmd newMaterial) {
+                            """)))@RequestBody @Valid CreateMateriaCmd newMaterial) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(GetMaterialDto.of(materialService.save(newMaterial)));
     }
@@ -96,9 +105,57 @@ public class MaterialController {
                     content = @Content)
     })
     @PutMapping("/{id}/editTipo")
-    public GetMaterialDto editTipo (@PathVariable Long id, @RequestBody EditTipoMaterial newTipo){
+    @PreAuthorize("hasRole('ENTRENADOR') or hasRole('ADMIN')")
+    public GetMaterialDto editTipo (@PathVariable Long id, @io.swagger.v3.oas.annotations.parameters.RequestBody(
+            description = "Cuerpo del material", required = true,
+            content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = CreateMateriaCmd.class),
+                    examples = @ExampleObject(value = """
+                                                     {
+                                                          "nombre": "Electrónica"
+                                                      }
+                            """)))@RequestBody @Valid EditTipoMaterial newTipo){
         return GetMaterialDto.of(materialService.editTipoMaterial(id, newTipo));
     }
 
 
+    @Operation(summary = "Edita un material")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201",
+                    description = "Material actualizado con éxito",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = GetMaterialDto.class))}),
+            @ApiResponse(responseCode = "400",
+                    description = "Datos inválidos para editar un material",
+                    content = @Content)
+    })
+    @PutMapping("/edit/{id}")
+    @PreAuthorize("hasRole('ENTRENADOR') or hasRole('ADMIN')")
+    public GetMaterialDto edit(@PathVariable Long id, @io.swagger.v3.oas.annotations.parameters.RequestBody(
+            description = "Cuerpo del material", required = true,
+            content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = CreateMateriaCmd.class),
+                    examples = @ExampleObject(value = """
+                                                     {
+                                                          "nombre": "Electrónica"
+                                                      }
+                            """)))@RequestBody @Valid EditMaterialCmd newMaterial){
+        return GetMaterialDto.of(materialService.editMaterial(id, newMaterial));
+    }
+
+    @Operation(summary = "Elimina un material ")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204",
+                    description = "Material eliminado con éxito",
+                    content = @Content),
+            @ApiResponse(responseCode = "404",
+                    description = "No se ha encontrado el material con ese id",
+                    content = @Content)
+    })
+    @DeleteMapping("/delete/{idMaterial}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> deleteMaterial(@PathVariable Long idMaterial){
+        materialService.borrarMaterial(idMaterial);
+        return ResponseEntity.noContent().build();
+    }
 }

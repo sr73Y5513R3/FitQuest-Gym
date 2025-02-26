@@ -11,6 +11,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -22,6 +23,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @RequiredArgsConstructor
 @Configuration
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
     private final PasswordEncoder passwordEncoder;
@@ -66,9 +68,11 @@ public class SecurityConfig {
                 .accessDeniedHandler(accessDeniedHandler)
         );
         http.authorizeHttpRequests(authz -> authz
-                .requestMatchers(HttpMethod.POST, "/auth/register", "/auth/login", "/auth/refresh/token", "/error").permitAll()
-                .requestMatchers("/entrenamiento/**", "ejercicio/**", "material/**", "nivel/**").permitAll()
-                .requestMatchers("/me/admin").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.POST, "/auth/register/**", "/auth/login", "/auth/refresh/token", "/error", "activate/account").permitAll()
+                .requestMatchers(HttpMethod.GET).permitAll()
+                .requestMatchers(HttpMethod.PUT, "cliente/edit/**", "entrenador/edit/**").authenticated()
+                .requestMatchers(HttpMethod.POST, "realizado/**", "valoracion/**", "nivel/**", "ejercicio/{idEjercicio}/material/**").authenticated()
+                .requestMatchers("/me/admin", "usuario/baja/**").hasRole("ADMIN")
                 .anyRequest().authenticated());
 
 
