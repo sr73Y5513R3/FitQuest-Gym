@@ -1,5 +1,8 @@
 FitQuest Gym API
 
+Enlace figma
+https://www.figma.com/design/Z2iTRr2NQBZm0TTJHbdq00/FitQuest-Gym?node-id=0-1&p=f&t=dfLbOQo4EklLX7zc-0
+
 📌 Descripción
 
 FitQuest Gym es una API REST diseñada para la gestión de clientes en un gimnasio gamificado. Permite a los clientes realizar entrenamientos que contienen ejercicios, desbloquear logros y mejorar su experiencia fitness mediante un sistema de misiones y recompensas.
