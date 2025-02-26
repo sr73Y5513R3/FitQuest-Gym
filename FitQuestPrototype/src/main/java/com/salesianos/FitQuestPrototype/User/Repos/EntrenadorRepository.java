@@ -1,6 +1,8 @@
 package com.salesianos.FitQuestPrototype.User.Repos;
 
 import com.salesianos.FitQuestPrototype.User.Model.Entrenador;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,7 +17,7 @@ public interface EntrenadorRepository extends JpaRepository<Entrenador, UUID> {
             SELECT e 
             FROM Entrenador e LEFT JOIN FETCH e.entrenamientos
             """)
-    List<Entrenador> findAllEntrenador();
+    Page<Entrenador> findAllEntrenador(Pageable pageable);
 
     @Query("""
     SELECT e

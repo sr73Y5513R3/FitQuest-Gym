@@ -9,6 +9,8 @@ import com.salesianos.FitQuestPrototype.Entrenamiento.Repos.EntrenamientoReposit
 import com.salesianos.FitQuestPrototype.Entrenamiento.Repos.NivelRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,8 +25,8 @@ public class NivelService {
     private final EntrenamientoRepository entrenamientoRepository;
     private final EjercicioRepository ejercicioRepository;
 
-    public List<Nivel> findAllNiveles(){
-        return nivelRepository.findAllNiveles();
+    public Page<Nivel> findAllNiveles(Pageable pageable) {
+        return nivelRepository.findAllNiveles(pageable);
     }
 
     public Nivel findNivelById(Long id){

@@ -12,6 +12,8 @@ import com.salesianos.FitQuestPrototype.User.Model.Entrenador;
 import com.salesianos.FitQuestPrototype.User.Repos.EntrenadorRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,8 +30,8 @@ public class EntrenamientoService {
     private final EntrenadorRepository entrenadorRepository;
 
 
-    public List<Entrenamiento> findAllEntrenamientos(){
-        return entrenamientoRepository.findAllEntrenamientos();
+    public Page<Entrenamiento> findAllEntrenamientos(Pageable pageable) {
+        return entrenamientoRepository.findAllEntrenamientos(pageable);
     }
 
 

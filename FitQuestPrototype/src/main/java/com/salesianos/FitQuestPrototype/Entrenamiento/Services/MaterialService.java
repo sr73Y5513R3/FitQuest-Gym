@@ -7,6 +7,8 @@ import com.salesianos.FitQuestPrototype.Entrenamiento.Model.Material;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Repos.MaterialRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,8 +28,8 @@ public class MaterialService {
                 .build());
     }
 
-    public List<Material> findAllMateriales() {
-        return materialRepository.FindAllMateriales();
+    public Page<Material> findAllMateriales(Pageable pageable) {
+        return materialRepository.FindAllMateriales(pageable);
     }
 
     public Material findMaterialById(Long id) {

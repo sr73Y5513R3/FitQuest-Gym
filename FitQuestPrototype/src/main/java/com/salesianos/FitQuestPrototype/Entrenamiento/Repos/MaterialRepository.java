@@ -1,6 +1,8 @@
 package com.salesianos.FitQuestPrototype.Entrenamiento.Repos;
 
 import com.salesianos.FitQuestPrototype.Entrenamiento.Model.Material;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,7 +16,7 @@ public interface MaterialRepository extends JpaRepository<Material, Long> {
     SELECT m
     FROM Material m
 """)
-    List<Material> FindAllMateriales();
+    Page<Material> FindAllMateriales(Pageable pageable);
 
 
     @Query("""

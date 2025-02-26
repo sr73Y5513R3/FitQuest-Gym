@@ -18,6 +18,8 @@ import com.salesianos.FitQuestPrototype.User.Util.MailService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -110,16 +112,16 @@ public class UsuarioService{
                 .orElseThrow(() -> new ActivationExpiredException("El código de activación no existe o ha caducado"));
     }
 
-    public List<Usuario> findAll(){
-        return usuarioRepository.findAll();
+    public Page<Usuario> findAll(Pageable pageable) {
+        return usuarioRepository.findAll(pageable);
     }
 
-    public List<Cliente> findAllClientes(){
-        return clienteRepository.findAllCliente();
+    public Page<Cliente> findAllClientes(Pageable pageable){
+        return clienteRepository.findAllCliente(pageable);
     }
 
-    public List<Entrenador> findAllEntrenadores(){
-        return entrenadorRepository.findAll();
+    public Page<Entrenador> findAllEntrenadores(Pageable pageable){
+        return entrenadorRepository.findAllEntrenador(pageable);
     }
 
     public Cliente findClienteById(UUID id){

@@ -22,6 +22,9 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -216,9 +219,13 @@ public class UsuarioController {
                             schema = @Schema(implementation = GetUsuarioDto.class))})
     })
     @GetMapping("/usuarios/all")
-    public List<GetUsuarioDto> findAll() {
-        return usuarioService.findAll().stream()
-                .map(GetUsuarioDto::of).toList();
+    public Page<GetUsuarioDto> findAll(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+        return usuarioService.findAll(pageable)
+                .map(GetUsuarioDto::of);
     }
 
     @Operation(summary = "Obtiene una lista de todos los clientes")
@@ -229,9 +236,13 @@ public class UsuarioController {
                             schema = @Schema(implementation = GetClienteDto.class))})
     })
     @GetMapping("/cliente/all")
-    public List<GetClienteDto> findAllClientes() {
-        return usuarioService.findAllClientes().stream()
-                .map(GetClienteDto::of).toList();
+    public Page<GetClienteDto> findAllClientes(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+        return usuarioService.findAllClientes(pageable)
+                .map(GetClienteDto::of);
     }
 
     @Operation(summary = "Obtiene una lista de todos los entrenadores con sus entrenamientos")
@@ -242,9 +253,13 @@ public class UsuarioController {
                             schema = @Schema(implementation = GetEntrenadorConEntrenoDto.class))})
     })
     @GetMapping("/entrenador/all")
-    public List<GetEntrenadorConEntrenoDto> findAllEntrenadores() {
-        return usuarioService.findAllEntrenadores().stream()
-                .map(GetEntrenadorConEntrenoDto::of).toList();
+    public Page<GetEntrenadorConEntrenoDto> findAllEntrenadores(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+        return usuarioService.findAllEntrenadores(pageable)
+                .map(GetEntrenadorConEntrenoDto::of);
     }
 
     @Operation(summary = "Obtiene un cliente por su ID")
