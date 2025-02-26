@@ -1,6 +1,7 @@
 package com.salesianos.FitQuestPrototype.Entrenamiento.Services;
 
 import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Realiza.CreateRealizaCmd;
+import com.salesianos.FitQuestPrototype.Entrenamiento.Error.EntidadNoEncontradaException;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Model.Entrenamiento;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Model.Realiza;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Model.RealizaID;
@@ -58,20 +59,20 @@ public class RealizaService {
         Optional <Entrenamiento> entrenamientoOpt = entrenamientoRepository.findEntrenamientoById(idEntrenamiento);
 
         if(entrenadorOpt.isEmpty())
-            throw new EntityNotFoundException("No se han encontrado entrenadores con ese id");
+            throw new EntidadNoEncontradaException("No se han encontrado entrenadores con ese id");
 
         if(usuarioOpt.isEmpty())
-            throw new EntityNotFoundException("No se han encontrado usuario con ese id");
+            throw new EntidadNoEncontradaException("No se han encontrado usuario con ese id");
 
         if (entrenamientoOpt.isEmpty())
-            throw new EntityNotFoundException("No se han encontrado entrenamientos con ese id");
+            throw new EntidadNoEncontradaException("No se han encontrado entrenamientos con ese id");
 
         RealizaID realizaID = new RealizaID(entrenamientoOpt.get(), usuarioOpt.get());
 
         Optional<Realiza> realizaOpt = realizarRepository.findById(realizaID);
 
         if (realizaOpt.isEmpty())
-            throw new EntityNotFoundException("El usuario no ha realizado ese entrenamiento");
+            throw new EntidadNoEncontradaException("El usuario no ha realizado ese entrenamiento");
 
         Realiza realiza = realizaOpt.get();
 

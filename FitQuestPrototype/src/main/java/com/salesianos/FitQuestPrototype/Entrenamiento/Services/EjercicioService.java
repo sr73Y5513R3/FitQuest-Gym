@@ -1,10 +1,12 @@
 package com.salesianos.FitQuestPrototype.Entrenamiento.Services;
 
 import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Ejercicio.CreateEjercicioCmd;
+import com.salesianos.FitQuestPrototype.Entrenamiento.Error.EntidadNoEncontradaException;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Model.Ejercicio;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Model.Nivel;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Repos.EjercicioRepository;
-import jakarta.persistence.EntityNotFoundException;
+import com.salesianos.FitQuestPrototype.Entrenamiento.Repos.NivelRepository;
+import com.salesianos.FitQuestPrototype.User.Error.EqualLevelException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,7 +19,7 @@ import java.util.Optional;
 public class EjercicioService {
 
     private final EjercicioRepository ejercicioRepository;
-    private final NivelService nivelService;
+    private final NivelRepository nivelRepository;
 
     public Page<Ejercicio> findAllEjercicio(Pageable pageable){
         return ejercicioRepository.findAllEjercicios(pageable);
@@ -27,7 +29,7 @@ public class EjercicioService {
         Optional<Ejercicio> ejercicio = ejercicioRepository.findById(id);
 
         if (ejercicio.isEmpty())
-            throw new EntityNotFoundException("Ejercicio no encontrado con ese id");
+            throw new EntidadNoEncontradaException("Ejercicio no encontrado con ese id");
 
         return ejercicio.get();
     }
@@ -59,10 +61,12 @@ public class EjercicioService {
     public Ejercicio actualizarNivel (Long id, Long idNivel){
         Ejercicio ejercicio = findEjercicioById(id);
 
-        Nivel nivel = nivelService.findNivelById(idNivel);
+        Optional<Nivel> nivel = nivelRepository.findNivelById(idNivel);
 
+        nivel.get().addEjercicio(ejercicio);
 
-        nivel.addEjercicio(ejercicio);
+        if(ejercicio.getNivel().getId() == nivel.get().getId())
+            throw new EqualLevelException("No puedes cambiar el nivel si es el mismo al que ya tiene");
 
         return ejercicioRepository.save(ejercicio);
 
@@ -73,7 +77,7 @@ public class EjercicioService {
         Optional<Ejercicio> ejercicioOpt = ejercicioRepository.findEjercicioByNombre(nombre);
 
         if (ejercicioOpt.isEmpty())
-            throw new EntityNotFoundException("Ejercicio no encontrado con ese nombre");
+            throw new EntidadNoEncontradaException("Ejercicio no encontrado con ese nombre");
 
         return ejercicioOpt.get();
     }

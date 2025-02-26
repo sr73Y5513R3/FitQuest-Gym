@@ -3,15 +3,14 @@ package com.salesianos.FitQuestPrototype.Entrenamiento.Services;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Material.CreateMateriaCmd;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Material.EditMaterialCmd;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Material.EditTipoMaterial;
+import com.salesianos.FitQuestPrototype.Entrenamiento.Error.EntidadNoEncontradaException;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Model.Material;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Repos.MaterialRepository;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -36,30 +35,22 @@ public class MaterialService {
         Optional<Material> material = materialRepository.findMaterialById(id);
 
         if (material.isEmpty())
-            throw new EntityNotFoundException("Material no encontrado con ese id");
+            throw new EntidadNoEncontradaException("No existen materiales con ese id");
 
         return material.get();
 
     }
 
     public Material editTipoMaterial (Long id, EditTipoMaterial editTipo){
-        Optional<Material> material = materialRepository.findMaterialById(id);
+        Material material = findMaterialById(id);
 
-        if(material.isEmpty())
-            throw new EntityNotFoundException("Material no encontrado con ese id");
+        material.setTipo(editTipo.tipo());
 
-        material.get().setTipo(editTipo.tipo());
-
-        return materialRepository.save(material.get());
+        return materialRepository.save(material);
     }
 
     public Material editMaterial (Long id, EditMaterialCmd editMaterial){
-        Optional<Material> materialOpt = materialRepository.findMaterialById(id);
-
-        if (materialOpt.isEmpty())
-            throw new EntityNotFoundException("Material no encontrado con ese id");
-
-        Material material = materialOpt.get();
+        Material material = findMaterialById(id);
 
         material.setNombre(editMaterial.nombre());
         material.setDescripcion(editMaterial.descripcion());

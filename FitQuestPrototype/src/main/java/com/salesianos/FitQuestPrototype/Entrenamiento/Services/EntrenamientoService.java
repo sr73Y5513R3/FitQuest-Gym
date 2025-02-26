@@ -2,18 +2,19 @@ package com.salesianos.FitQuestPrototype.Entrenamiento.Services;
 
 import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Entrenamiento.CreateEntrenoCmd;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Entrenamiento.EditEntrenoCmd;
+import com.salesianos.FitQuestPrototype.Entrenamiento.Error.EntidadNoEncontradaException;
+import com.salesianos.FitQuestPrototype.Entrenamiento.Error.EntidadYaAñadidaException;
+import com.salesianos.FitQuestPrototype.Entrenamiento.Error.NoContainsException;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Model.Ejercicio;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Model.Entrenamiento;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Model.Nivel;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Repos.EntrenamientoRepository;
+import com.salesianos.FitQuestPrototype.User.Error.EqualLevelException;
 import com.salesianos.FitQuestPrototype.User.Model.Entrenador;
 import com.salesianos.FitQuestPrototype.User.Services.UsuarioService;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.access.prepost.PostAuthorize;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -40,7 +41,7 @@ public class EntrenamientoService {
         Optional<Entrenamiento> entrenamiento = entrenamientoRepository.findById(id);
 
         if(entrenamiento.isEmpty())
-            throw new EntityNotFoundException("Entrenamiento no encontrado");
+            throw new EntidadNoEncontradaException("Entrenamiento no encontrado");
 
         return entrenamiento.get();
     }
@@ -85,6 +86,12 @@ public class EntrenamientoService {
 
         Ejercicio ejercicio = ejercicioService.findEjercicioById(idEjercicio);
 
+        if(entrenamiento.getEjercicios().contains(ejercicio)){
+            throw new EntidadYaAñadidaException("El ejercicio ya está añadido");
+        }
+
+        entrenamiento.addEjercicio(ejercicio);
+
         return entrenamientoRepository.save(entrenamiento);
     }
 
@@ -94,6 +101,12 @@ public class EntrenamientoService {
         Entrenamiento entrenamiento = findEntrenamientoById(idEntrenamiento);
         Ejercicio ejercicio = ejercicioService.findEjercicioById(idEjercicio);
 
+        if (!entrenamiento.getEjercicios().contains(ejercicio)){
+            throw new NoContainsException("El ejercicio no está añadido a ese entrenamiento, como quieres que lo borre?");
+        }
+
+        entrenamiento.removeEjercicio(ejercicio);
+
         return entrenamientoRepository.save(entrenamiento);
     }
 
@@ -101,6 +114,9 @@ public class EntrenamientoService {
         Entrenamiento entrenamiento =findEntrenamientoById(id);
 
         Nivel nivel = nivelService.findNivelById(idNivel);
+
+        if(entrenamiento.getNivel().getId() == nivel.getId())
+            throw new EqualLevelException("No puedes cambiar el nivel si es el mismo nivel que ya tiene");
 
         nivel.addEntrenamiento(entrenamiento);
 
@@ -112,7 +128,7 @@ public class EntrenamientoService {
         Optional<Entrenamiento> entrenamiento = entrenamientoRepository.findEntrenamientoByNombre(nombre);
 
         if (entrenamiento.isEmpty())
-            throw new EntityNotFoundException("Entrenamiento no encontrado");
+            throw new EntidadNoEncontradaException("Entrenamiento no encontrado con ese nombre");
 
         return entrenamiento.get();
     }
@@ -124,7 +140,7 @@ public class EntrenamientoService {
         if (principal instanceof UserDetails) {
             username = ((UserDetails) principal).getUsername();
         } else {
-            return false; // Usuario no autenticado
+            return false;
         }
 
         Entrenamiento entrenamiento = findEntrenamientoById(idEntrenamiento);

@@ -1,5 +1,6 @@
 package com.salesianos.FitQuestPrototype.User.Services;
 
+import com.salesianos.FitQuestPrototype.Entrenamiento.Error.EntidadNoEncontradaException;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Model.Nivel;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Repos.NivelRepository;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Services.NivelService;
@@ -128,7 +129,7 @@ public class UsuarioService{
         Optional<Cliente> cliente = clienteRepository.findById(id);
 
         if(cliente.isEmpty())
-            throw new EntityNotFoundException("Cliente no encontrado");
+            throw new EntidadNoEncontradaException("Cliente no encontrado con ese id");
 
         return cliente.get();
     }
@@ -137,7 +138,7 @@ public class UsuarioService{
         Optional<Entrenador> entrenador = entrenadorRepository.findEntrenadorById(id);
 
         if (entrenador.isEmpty())
-            throw new EntityNotFoundException("Entrenador no encontrado");
+            throw new EntidadNoEncontradaException("Entrenador no encontrado con ese id");
 
         return entrenador.get();
     }
@@ -145,7 +146,7 @@ public class UsuarioService{
     public Usuario findUsuarioById(UUID id){
         Optional<Usuario> usuario = usuarioRepository.findById(id);
         if(usuario.isEmpty())
-            throw new EntityNotFoundException("Usuario no encontrado");
+            throw new EntidadNoEncontradaException("Usuario no encontrado con ese id");
 
         return usuario.get();
     }
