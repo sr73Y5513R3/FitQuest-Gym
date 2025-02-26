@@ -69,6 +69,14 @@ public class GlobalErrorController extends ResponseEntityExceptionHandler {
         return result;
     }
 
+    @ExceptionHandler(BorradoIlegalException.class)
+    public ProblemDetail handleBorradoIlegalException(BorradoIlegalException ex){
+        Logger.getLogger(GlobalErrorController.class.getName()).severe("Error: " + ex.getMessage());
+        ProblemDetail result = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, ex.getMessage());
+        result.setTitle("Borrado illegal");
+        return result;
+    }
+
 
 
 }

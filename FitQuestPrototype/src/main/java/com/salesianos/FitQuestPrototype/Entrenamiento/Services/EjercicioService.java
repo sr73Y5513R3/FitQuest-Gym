@@ -1,6 +1,7 @@
 package com.salesianos.FitQuestPrototype.Entrenamiento.Services;
 
 import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Ejercicio.CreateEjercicioCmd;
+import com.salesianos.FitQuestPrototype.Entrenamiento.Error.BorradoIlegalException;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Error.EntidadNoEncontradaException;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Error.EntidadYaAñadidaException;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Error.NoContainsException;
@@ -114,6 +115,15 @@ public class EjercicioService {
         ejercicio.getMateriales().remove(material);
 
         return ejercicioRepository.save(ejercicio);
+    }
+
+    public void removeEjercicio (Long idEjercicio){
+        Ejercicio ejercicio = findEjercicioById(idEjercicio);
+
+        if (!ejercicio.getEntrenamientos().isEmpty())
+            throw new BorradoIlegalException("No se puede eliminar el entrenamiento");
+
+        ejercicioRepository.delete(ejercicio);
     }
 
 }

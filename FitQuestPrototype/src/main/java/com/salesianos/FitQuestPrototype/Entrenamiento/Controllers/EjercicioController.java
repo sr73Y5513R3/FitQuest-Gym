@@ -168,4 +168,11 @@ public class EjercicioController {
         ejercicioService.removeMaterial(idEjercicio, idMaterial);
         return ResponseEntity.noContent().build();
     }
+
+    @DeleteMapping("/delete/{idEjercicio}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> removeEjercicio (@PathVariable Long idEjercicio){
+        ejercicioService.removeEjercicio(idEjercicio);
+        return ResponseEntity.noContent().build();
+    }
 }
