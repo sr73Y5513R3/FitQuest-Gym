@@ -33,8 +33,8 @@ INSERT INTO ENTRENAMIENTO (ID, NOMBRE, DESCRIPCION, DURACION, CALORIAS, PUNTOS, 
 INSERT INTO ENTRENAMIENTO (ID, NOMBRE, DESCRIPCION, DURACION, CALORIAS, PUNTOS, VALORACION_MEDIA, ENTRENADOR_ID, NIVEL_ID) VALUES (NEXTVAL('entrenamiento_seq'), 'Entrenamiento funcional', 'Entrenamiento de fuerza y resistencia funcional', 0, 550, 14, 0, 'e2e55861-356d-4087-bdb7-879b234c972c', 51);
 
 
-INSERT INTO EJERCICIO (ID, NOMBRE, DESCRIPCION, SERIES, REPETICIONES, DURACION, URL_IMAGENES) VALUES (NEXTVAL('ejercicio_seq'), 'Ejercicio de pecho', 'Consiste en coger una barra y levantarla por encima de nuestro pecho', 4, 10, 30, 'No hay');
-INSERT INTO EJERCICIO (ID, NOMBRE, DESCRIPCION, SERIES, REPETICIONES, DURACION, URL_IMAGENES) VALUES (NEXTVAL('ejercicio_seq'), 'Ejercicio de tricep', 'Consiste en levantar una pesa por encima de nuestra cabeza', 4, 10, 20, 'No hay');
+INSERT INTO EJERCICIO (ID, NOMBRE, DESCRIPCION, SERIES, REPETICIONES, DURACION, URL_IMAGENES, NIVEL_ID) VALUES (NEXTVAL('ejercicio_seq'), 'Ejercicio de pecho', 'Consiste en coger una barra y levantarla por encima de nuestro pecho', 4, 10, 30, 'No hay',1);
+INSERT INTO EJERCICIO (ID, NOMBRE, DESCRIPCION, SERIES, REPETICIONES, DURACION, URL_IMAGENES, NIVEL_ID) VALUES (NEXTVAL('ejercicio_seq'), 'Ejercicio de tricep', 'Consiste en levantar una pesa por encima de nuestra cabeza', 4, 10, 20, 'No hay',1);
 
 INSERT INTO ENTRENAMIENTO_EJERCICIO (ENTRENAMIENTO_ID, EJERCICIO_ID) VALUES (1, 1);
 INSERT INTO ENTRENAMIENTO_EJERCICIO (ENTRENAMIENTO_ID, EJERCICIO_ID) VALUES (1, 51);

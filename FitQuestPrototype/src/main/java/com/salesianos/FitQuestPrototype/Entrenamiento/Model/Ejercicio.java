@@ -71,4 +71,14 @@ public class Ejercicio {
         entrenamiento.removeEjercicio(this);
     }
 
+    public void addMaterial(Material material) {
+        if (!this.materiales.contains(material)) {
+            this.materiales.add(material);
+        }
+    }
+
+    public void removeMaterial(Material material) {
+        this.getMateriales().remove(material);
+    }
+
 }

@@ -48,13 +48,13 @@ public class EjercicioController {
                     content = @Content)
     })
     @GetMapping("/all")
-    public Page<GetEjercicioDto> findAllEjercicios(
+    public Page<GetEjercicioConNivelDto> findAllEjercicios(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
     ){
         Pageable pageable = PageRequest.of(page, size);
         return ejercicioService.findAllEjercicio(pageable)
-                .map(GetEjercicioDto::of);
+                .map(GetEjercicioConNivelDto::of);
     }
 
 
@@ -69,8 +69,8 @@ public class EjercicioController {
                     content = @Content)
     })
     @GetMapping("/{id}")
-    public GetEjercicioDto findEjercicioById(@PathVariable Long id){
-        return GetEjercicioDto.of(ejercicioService.findEjercicioById(id));
+    public GetEjercicioConNivelDto findEjercicioById(@PathVariable Long id){
+        return GetEjercicioConNivelDto.of(ejercicioService.findEjercicioById(id));
     }
 
 
@@ -150,9 +150,15 @@ public class EjercicioController {
                     content = @Content)
     })
     @GetMapping("/nombre")
-    public GetEjercicioDto findByNombre(@RequestParam @NotBlank(message = "El nombre no puede estar vacío")
+    public GetEjercicioConNivelDto findByNombre(@RequestParam @NotBlank(message = "El nombre no puede estar vacío")
                                             @Size(min = 3, max = 50, message = "El nombre debe tener entre 3 y 50 caracteres")
                                             String nombre){
-        return GetEjercicioDto.of(ejercicioService.findByNombre(nombre));
+        return GetEjercicioConNivelDto.of(ejercicioService.findByNombre(nombre));
+    }
+
+    @PostMapping("/{idEjercicio}/material/{idMaterial}")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('ENTRENADOR')")
+    public GetEjercicioConNivelDto addMaterial (@PathVariable Long idEjercicio, @PathVariable Long idMaterial) {
+        return GetEjercicioConNivelDto.of(ejercicioService.addMaterial(idEjercicio, idMaterial));
     }
 }

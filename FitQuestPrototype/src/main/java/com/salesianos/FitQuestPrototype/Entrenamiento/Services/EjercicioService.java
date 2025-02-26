@@ -2,7 +2,9 @@ package com.salesianos.FitQuestPrototype.Entrenamiento.Services;
 
 import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Ejercicio.CreateEjercicioCmd;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Error.EntidadNoEncontradaException;
+import com.salesianos.FitQuestPrototype.Entrenamiento.Error.EntidadYaAñadidaException;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Model.Ejercicio;
+import com.salesianos.FitQuestPrototype.Entrenamiento.Model.Material;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Model.Nivel;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Repos.EjercicioRepository;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Repos.NivelRepository;
@@ -20,6 +22,7 @@ public class EjercicioService {
 
     private final EjercicioRepository ejercicioRepository;
     private final NivelRepository nivelRepository;
+    private final MaterialService materialService;
 
     public Page<Ejercicio> findAllEjercicio(Pageable pageable){
         return ejercicioRepository.findAllEjercicios(pageable);
@@ -80,6 +83,20 @@ public class EjercicioService {
             throw new EntidadNoEncontradaException("Ejercicio no encontrado con ese nombre");
 
         return ejercicioOpt.get();
+    }
+
+    public Ejercicio addMaterial (Long idEjercicio, Long idMaterial){
+        Ejercicio ejercicio = findEjercicioById(idEjercicio);
+
+        Material material = materialService.findMaterialById(idMaterial);
+
+        if (ejercicio.getMateriales().contains(material))
+            throw new EntidadYaAñadidaException("El material ya está añadido a este ejercicio");
+
+        ejercicio.addMaterial(material);
+
+        return ejercicioRepository.save(ejercicio);
+
     }
 
 }
