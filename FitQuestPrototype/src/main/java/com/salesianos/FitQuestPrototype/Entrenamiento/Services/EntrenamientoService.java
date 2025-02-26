@@ -146,4 +146,11 @@ public class EntrenamientoService {
         Entrenamiento entrenamiento = findEntrenamientoById(idEntrenamiento);
         return entrenamiento.getEntrenador().getUsername().equals(username);
     }
+
+    public void removeEntrenamietno (Long idEntrenamietno){
+
+        Entrenamiento entrenamiento = findEntrenamientoById(idEntrenamietno);
+
+        entrenamientoRepository.delete(entrenamiento);
+    }
 }

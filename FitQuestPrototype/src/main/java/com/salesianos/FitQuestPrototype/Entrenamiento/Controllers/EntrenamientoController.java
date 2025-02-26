@@ -182,4 +182,11 @@ public class EntrenamientoController {
         return GetEntrenoConEjercicioDto.of(entrenamientoService.findByNombre(nombre));
     }
 
+    @DeleteMapping("/delete/{idEntrenamiento}")
+    @PreAuthorize("@entrenamientoService.isEntrenador(#idEntrenamiento)")
+    public ResponseEntity<?> deleteEntrenamiento (@PathVariable Long idEntrenamiento) {
+        entrenamientoService.removeEntrenamietno(idEntrenamiento);
+        return ResponseEntity.noContent().build();
+    }
+
 }
