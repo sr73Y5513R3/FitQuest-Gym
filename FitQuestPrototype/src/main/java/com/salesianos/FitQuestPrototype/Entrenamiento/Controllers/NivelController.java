@@ -153,6 +153,15 @@ public class NivelController {
         return GetNivelConEjercicioDto.of(nivelService.addEjercicio(idNivel, idEjercicio));
     }
 
+    @Operation(summary = "Elimina un nivel ")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204",
+                    description = "Nivel eliminado con éxito",
+                    content = @Content),
+            @ApiResponse(responseCode = "404",
+                    description = "No se ha encontrado el nivel con ese id",
+                    content = @Content)
+    })
     @DeleteMapping("/delete/{idNivel}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity deleteNivel(@PathVariable Long idNivel) {

@@ -156,12 +156,32 @@ public class EjercicioController {
         return GetEjercicioConNivelDto.of(ejercicioService.findByNombre(nombre));
     }
 
+    @Operation(summary = "Añade un material a un ejercicio")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201",
+                    description = "Se ha añadido correctamente el material",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = GetEjercicioConNivelDto.class))}),
+            @ApiResponse(responseCode = "400",
+                    description = "Alguno de los id son inválidos",
+                    content = @Content)
+    })
     @PostMapping("/{idEjercicio}/material/{idMaterial}")
     @PreAuthorize("hasRole('ADMIN') or hasRole('ENTRENADOR')")
     public GetEjercicioConNivelDto addMaterial (@PathVariable Long idEjercicio, @PathVariable Long idMaterial) {
         return GetEjercicioConNivelDto.of(ejercicioService.addMaterial(idEjercicio, idMaterial));
     }
 
+
+    @Operation(summary = "Elimina un material de un ejercicio")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204",
+                    description = "Material eliminado con éxito",
+                    content = @Content),
+            @ApiResponse(responseCode = "404",
+                    description = "No se han encontrado el material o el ejercicio",
+                    content = @Content)
+    })
     @DeleteMapping("/{idEjercicio}/material/{idMaterial}")
     @PreAuthorize("hasRole('ADMIN') or hasRole('ENTRENADOR')")
     public ResponseEntity<?> removeMaterial (@PathVariable Long idEjercicio, @PathVariable Long idMaterial) {
@@ -169,6 +189,16 @@ public class EjercicioController {
         return ResponseEntity.noContent().build();
     }
 
+
+    @Operation(summary = "Elimina un ejercicio")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204",
+                    description = "Ejercicio eliminado con éxito",
+                    content = @Content),
+            @ApiResponse(responseCode = "404",
+                    description = "No se han encontrado el ejercicio",
+                    content = @Content)
+    })
     @DeleteMapping("/delete/{idEjercicio}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> removeEjercicio (@PathVariable Long idEjercicio){

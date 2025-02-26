@@ -182,6 +182,15 @@ public class EntrenamientoController {
         return GetEntrenoConEjercicioDto.of(entrenamientoService.findByNombre(nombre));
     }
 
+    @Operation(summary = "Elimina un entrenamiento")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204",
+                    description = "Entrenamiento eliminado con éxito",
+                    content = @Content),
+            @ApiResponse(responseCode = "404",
+                    description = "No se han encontrado el entrenamiento",
+                    content = @Content)
+    })
     @DeleteMapping("/delete/{idEntrenamiento}")
     @PreAuthorize("@entrenamientoService.isEntrenador(#idEntrenamiento)")
     public ResponseEntity<?> deleteEntrenamiento (@PathVariable Long idEntrenamiento) {

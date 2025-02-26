@@ -143,6 +143,15 @@ public class MaterialController {
         return GetMaterialDto.of(materialService.editMaterial(id, newMaterial));
     }
 
+    @Operation(summary = "Elimina un material ")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204",
+                    description = "Material eliminado con éxito",
+                    content = @Content),
+            @ApiResponse(responseCode = "404",
+                    description = "No se ha encontrado el material con ese id",
+                    content = @Content)
+    })
     @DeleteMapping("/delete/{idMaterial}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> deleteMaterial(@PathVariable Long idMaterial){
