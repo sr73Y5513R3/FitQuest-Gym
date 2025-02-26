@@ -142,4 +142,11 @@ public class MaterialController {
                             """)))@RequestBody @Valid EditMaterialCmd newMaterial){
         return GetMaterialDto.of(materialService.editMaterial(id, newMaterial));
     }
+
+    @DeleteMapping("/delete/{idMaterial}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> deleteMaterial(@PathVariable Long idMaterial){
+        materialService.borrarMaterial(idMaterial);
+        return ResponseEntity.noContent().build();
+    }
 }

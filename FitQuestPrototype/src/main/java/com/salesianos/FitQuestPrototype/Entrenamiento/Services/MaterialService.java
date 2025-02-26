@@ -58,4 +58,10 @@ public class MaterialService {
         return materialRepository.save(material);
     }
 
+    public void borrarMaterial(Long id) {
+        Material material = findMaterialById(id);
+
+        materialRepository.delete(material);
+    }
+
 }
