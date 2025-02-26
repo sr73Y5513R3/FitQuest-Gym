@@ -28,7 +28,7 @@ public record GetEntrenoConEjercicioDto(
 
         double valorarcion = entrenamiento.getValoraciones().stream()
                 .mapToDouble(Valoracion::getNotaValoracion)
-                .sum();
+                .average().orElse(0.0);
 
         return new GetEntrenoConEjercicioDto(
                 entrenamiento.getId(),

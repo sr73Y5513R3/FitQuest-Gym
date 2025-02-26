@@ -26,8 +26,8 @@ public class Ejercicio {
 
     private String nombre;
     private String descripcion;
-    private double series;
-    private double repeticiones;
+    private int series;
+    private int repeticiones;
     private double duracion;
 
     private String urlImagenes;

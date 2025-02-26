@@ -10,6 +10,7 @@ import com.salesianos.FitQuestPrototype.User.Model.Entrenador;
 import com.salesianos.FitQuestPrototype.User.Model.Usuario;
 import com.salesianos.FitQuestPrototype.User.Repos.EntrenadorRepository;
 import com.salesianos.FitQuestPrototype.User.Repos.UsuarioRepository;
+import com.salesianos.FitQuestPrototype.User.Services.UsuarioService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -28,20 +29,15 @@ public class RealizaService {
     private final UsuarioRepository usuarioRepository;
     private final EntrenadorRepository entrenadorRepository;
 
-    @PreAuthorize("#idUsuario == authentication.principal.id")
+    private final EntrenamientoService entrenamientoService;
+    private final UsuarioService usuarioService;
+
+
     @Transactional
     public Realiza createRealiza(UUID idUsuario, Long idEntrenamiento, CreateRealizaCmd realizaCmd) {
 
-        Optional<Entrenamiento> entrenamientoOpt = entrenamientoRepository.findEntrenamientoById(idEntrenamiento);
-
-        Optional <Usuario> usuarioOpt = usuarioRepository.findById(idUsuario);
-
-        if(entrenamientoOpt.isEmpty() || usuarioOpt.isEmpty()) {
-            throw new EntityNotFoundException("Entidades no encontradas con ese id");
-        }
-
-        Entrenamiento entrenamiento = entrenamientoOpt.get();
-        Usuario usuario = usuarioOpt.get();
+        Entrenamiento entrenamiento = entrenamientoService.findEntrenamientoById(idEntrenamiento);
+        Usuario usuario = usuarioService.findUsuarioById(idUsuario);
 
         Realiza realiza = new Realiza().builder()
                 .realizado(false)

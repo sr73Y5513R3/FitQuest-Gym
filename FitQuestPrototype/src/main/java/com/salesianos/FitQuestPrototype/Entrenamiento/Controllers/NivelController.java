@@ -16,6 +16,7 @@ import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -82,7 +83,7 @@ public class NivelController {
                                                      {
                                                           "nombre": "Principiante"
                                                       }
-                            """)))@RequestBody CreateNivelCmd newNivel) {
+                            """)))@RequestBody @Valid CreateNivelCmd newNivel) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(GetNivelDto.of(nivelService.save(newNivel)));
     }
@@ -106,7 +107,7 @@ public class NivelController {
                                                      {
                                                           "nombre": "Profesional"
                                                       }
-                            """)))@RequestBody CreateNivelCmd editNivel) {
+                            """)))@RequestBody @Valid CreateNivelCmd editNivel) {
         return GetNivelDto.of(nivelService.edit(id, editNivel));
     }
 

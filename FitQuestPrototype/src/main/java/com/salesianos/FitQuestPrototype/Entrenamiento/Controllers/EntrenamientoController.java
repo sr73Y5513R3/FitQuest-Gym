@@ -12,6 +12,9 @@ import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -80,7 +83,7 @@ public class EntrenamientoController {
                                                      {
                                                           "nombre": "Electrónica"
                                                       }
-                            """)))@RequestBody CreateEntrenoCmd createEntrenoCmd) {
+                            """)))@RequestBody @Valid CreateEntrenoCmd createEntrenoCmd) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(GetEntrenamientoDto.of(entrenamientoService.save(createEntrenoCmd)));
     }
@@ -104,7 +107,7 @@ public class EntrenamientoController {
                                                      {
                                                           "nombre": "Electrónica"
                                                       }
-                            """))) @RequestBody CreateEntrenoCmd createEntrenoCmd){
+                            """))) @RequestBody @Valid CreateEntrenoCmd createEntrenoCmd){
         return GetEntrenamientoDto.of(entrenamientoService.edit(id, createEntrenoCmd));
     }
 
@@ -165,7 +168,9 @@ public class EntrenamientoController {
                     content = @Content)
     })
     @GetMapping("/nombre")
-    public GetEntrenoConEjercicioDto findByNombre(@RequestParam String nombre) {
+    public GetEntrenoConEjercicioDto findByNombre(@RequestParam @NotBlank(message = "El nombre no puede estar vacío")
+                                                      @Size(min = 3, max = 50, message = "El nombre debe tener entre 3 y 50 caracteres")
+                                                      String nombre) {
         return GetEntrenoConEjercicioDto.of(entrenamientoService.findByNombre(nombre));
     }
 

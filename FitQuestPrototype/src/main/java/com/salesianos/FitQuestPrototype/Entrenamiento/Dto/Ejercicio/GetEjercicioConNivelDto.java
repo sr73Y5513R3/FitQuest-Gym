@@ -7,8 +7,8 @@ public record GetEjercicioConNivelDto(
         Long id,
         String nombre,
         String descripcion,
-        double series,
-        double repeticiones,
+        int series,
+        int repeticiones,
         double duracion,
         String urlImagen,
         GetNivelDto nivel
