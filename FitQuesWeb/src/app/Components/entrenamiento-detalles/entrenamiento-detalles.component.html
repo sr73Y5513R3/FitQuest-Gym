@@ -1,0 +1,39 @@
+<div class="details-header">
+  <button class="btn btn-link back-button" (click)="goBack()">
+    <i class="bi bi-arrow-left-circle"></i> Volver a Entrenamientos
+  </button>
+  <h1>Detalles del entrenamiento</h1>
+</div>
+
+<div *ngIf="entrenamiento" class="entrenamiento-details-card">
+  <div class="detail-main-info">
+    <div class="detail-text-content">
+      <h2>{{ entrenamiento.nombre }}</h2>
+      <p class="detail-description">{{ entrenamiento.descripcion }}</p>
+      <div class="detail-meta">
+        <span>Duración: {{ entrenamiento.duracion }} minutos</span>
+        <span>Puntos: {{ entrenamiento.puntos }}</span>
+        <span>Calorías: {{ entrenamiento.calorias }}</span>
+      </div>
+      <p class="detail-trainer">Entrenador: {{ entrenamiento.entrenador.username || 'N/A' }}</p>
+      <p class="detail-rating">Valoración: {{ entrenamiento.valoracionMedia | number:'1.1-1' }}</p>
+    </div>
+  </div>
+
+  <div class="detail-exercises-section">
+    <h3>Ejercicios</h3>
+    <ul class="exercises-list">
+      <li *ngFor="let ejercicio of entrenamiento.ejercicios">
+        <i class="bi bi-dumbbell"></i> {{ ejercicio.nombre }}
+        </li>
+    </ul>
+  </div>
+</div>
+
+<div *ngIf="!entrenamiento && !errorMessage" class="loading-message mt-3">
+    Cargando detalles del entrenamiento...
+</div>
+<div *ngIf="errorMessage" class="alert alert-danger mt-3">
+    {{ errorMessage }}
+    <button class="btn btn-secondary ms-3" (click)="goBack()">Volver</button>
+</div>

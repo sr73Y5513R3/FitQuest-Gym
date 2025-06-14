@@ -1,0 +1,45 @@
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <i class="bi bi-person-circle"></i>
+    <span>FitQuest Gym</span>
+  </div>
+  <nav class="sidebar-nav">
+    <ul>
+       <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        <a routerLink="/inicio">
+          <i class="bi bi-house-door-fill"></i> Inicio
+        </a>
+      </li>
+        <li routerLinkActive="active">
+        <a routerLink="/entrenamientos">
+          <i class="bi bi-fire"></i> Entrenamientos
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <i class="bi bi-book"></i> Materiales
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <i class="bi bi-gem"></i> Plan de suscripción
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <i class="bi bi-person"></i> Perfil
+        </a>
+      </li>
+      <li *ngIf="isAdmin$ | async" routerLinkActive="active">
+        <a routerLink="/admin">
+          <i class="bi bi-sliders"></i> Panel Admin
+        </a>
+      </li>
+      <li *ngIf="isLoggedIn$ | async">
+        <a (click)="logout()">
+          <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
+        </a>
+      </li>
+      </ul>
+  </nav>
+</aside>

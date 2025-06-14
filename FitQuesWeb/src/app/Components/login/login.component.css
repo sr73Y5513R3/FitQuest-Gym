@@ -1,0 +1,20 @@
+   body {
+    background-color: #1a1a1a;
+  }
+  
+  .form-control.border-success {
+      border-color: #198754;
+  }
+  
+  .navbar {
+    background-color: #1a1a1a; 
+    border-bottom: 1px solid #333; 
+  }
+  
+  .card {
+    background-color: #1a1a1a;
+  }
+  
+  .min-vh-100 {
+    min-height: 100vh;
+  }
