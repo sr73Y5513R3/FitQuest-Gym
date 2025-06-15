@@ -13,6 +13,10 @@ import { LoginComponent } from './Components/login/login.component';
 import { EntrenamientoComponent } from './Components/entrenamiento/entrenamiento.component';
 import { MenuLateralComponent } from './Shared/menu-lateral/menu-lateral.component';
 import { EntrenamientoDetallesComponent } from './Components/entrenamiento-detalles/entrenamiento-detalles.component';
+import { ListaEntrenamientosComponent } from './Components/admin/lista-entrenamientos/lista-entrenamientos.component';
+import { ListaEjerciciosComponent } from './Components/admin/lista-ejercicios/lista-ejercicios.component';
+import { ListaMaterialesComponent } from './Components/admin/lista-materiales/lista-materiales.component';
+import { ListaClientesComponent } from './Components/admin/lista-clientes/lista-clientes.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +27,11 @@ import { EntrenamientoDetallesComponent } from './Components/entrenamiento-detal
     InicioComponent,
     EntrenamientoComponent,
     MenuLateralComponent,
-    EntrenamientoDetallesComponent
+    EntrenamientoDetallesComponent,
+    ListaEntrenamientosComponent,
+    ListaEjerciciosComponent,
+    ListaMaterialesComponent,
+    ListaClientesComponent
   ],
   imports: [
     BrowserModule,

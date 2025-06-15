@@ -78,7 +78,7 @@ public class EntrenamientoController {
                     content = @Content)
     })
     @PostMapping("/add")
-    @PreAuthorize("#createEntrenoCmd.entrenadorId() == authentication.principal.id")
+    @PreAuthorize("hasRole('ADMIN') or #createEntrenoCmd.entrenadorId() == authentication.principal.id")
     public ResponseEntity<GetEntrenamientoDto> save (@io.swagger.v3.oas.annotations.parameters.RequestBody(
             description = "Cuerpo del entrenamiento", required = true,
             content = @Content(mediaType = "application/json",
@@ -103,7 +103,7 @@ public class EntrenamientoController {
                     content = @Content)
     })
     @PutMapping("/edit/{id}")
-    @PreAuthorize("#editEntreno.entrenadorId() == authentication.principal.id")
+    @PreAuthorize("hasRole('ADMIN') or #editEntreno.entrenadorId() == authentication.principal.id")
     public GetEntrenamientoDto update (@PathVariable Long id, @io.swagger.v3.oas.annotations.parameters.RequestBody(
             description = "Cuerpo del entrenamiento", required = true,
             content = @Content(mediaType = "application/json",
@@ -127,7 +127,7 @@ public class EntrenamientoController {
                     content = @Content)
     })
     @PostMapping("{idEntrenamiento}/ejercicio/{idEjercicio}")
-    @PreAuthorize("@entrenamientoService.isEntrenador(#idEntrenamiento)")
+    @PreAuthorize("hasRole('ADMIN') or @entrenamientoService.isEntrenador(#idEntrenamiento)")
     public ResponseEntity<GetEntrenoConEjercicioDto> addEjercicio (@PathVariable Long idEntrenamiento, @PathVariable Long idEjercicio) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(GetEntrenoConEjercicioDto.of(entrenamientoService.añadirEjercicio(idEntrenamiento, idEjercicio)));
@@ -143,7 +143,7 @@ public class EntrenamientoController {
                     content = @Content)
     })
     @DeleteMapping("{idEntrenamiento}/ejercicio/{idEjercicio}")
-    @PreAuthorize("@entrenamientoService.isEntrenador(#idEntrenamiento)")
+    @PreAuthorize("hasRole('ADMIN') or @entrenamientoService.isEntrenador(#idEntrenamiento)")
     public ResponseEntity<?> removeEjercicio(@PathVariable Long idEntrenamiento, @PathVariable Long idEjercicio) {
         entrenamientoService.eliminarEjercicio(idEntrenamiento, idEjercicio);
         return ResponseEntity.noContent().build();
@@ -160,7 +160,7 @@ public class EntrenamientoController {
                     content = @Content)
     })
     @PostMapping("/{id}/editNivel/{idNivel}")
-    @PreAuthorize("@entrenamientoService.isEntrenador(#id)")
+    @PreAuthorize("hasRole('ADMIN') or @entrenamientoService.isEntrenador(#id)")
     public GetEntrenoConNivelDto editNivel (@PathVariable Long id, @PathVariable Long idNivel) {
         return GetEntrenoConNivelDto.of(entrenamientoService.actualizarNivel(id, idNivel));
     }
@@ -192,7 +192,7 @@ public class EntrenamientoController {
                     content = @Content)
     })
     @DeleteMapping("/delete/{idEntrenamiento}")
-    @PreAuthorize("@entrenamientoService.isEntrenador(#idEntrenamiento)")
+    @PreAuthorize("hasRole('ADMIN') or @entrenamientoService.isEntrenador(#idEntrenamiento)")
     public ResponseEntity<?> deleteEntrenamiento (@PathVariable Long idEntrenamiento) {
         entrenamientoService.removeEntrenamietno(idEntrenamiento);
         return ResponseEntity.noContent().build();

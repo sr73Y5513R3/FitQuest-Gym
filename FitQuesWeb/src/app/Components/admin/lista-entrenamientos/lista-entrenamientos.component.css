@@ -1,0 +1,230 @@
+.main-container {
+    display: flex;
+    min-height: 100vh;
+    background-color: #212529; /* dark-green */
+    color: #f8f9fa; /* text-color */
+    font-family: 'Arial', sans-serif;
+  }
+  
+  
+  
+  .content-area {
+    flex-grow: 1;
+    padding: 0px;
+    background-color: #212121;
+  }
+  
+.entrenamientos-page-container {
+    padding: 20px;
+    background-color: #1a1a1a;
+    color: #f0f0f0;
+    min-height: calc(100vh - 60px);
+  }
+  
+  .header-section {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  
+  .header-section h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+    color: #1abc9c;
+  }
+  
+  .header-section p {
+    font-size: 1.1em;
+    color: #cccccc;
+  }
+  
+  .search-and-filters {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    gap: 15px;
+  }
+  
+  .search-bar {
+    position: relative;
+    flex-grow: 1;
+    max-width: 400px;
+  }
+  
+  .search-bar .form-control {
+    background-color: #2c2c2c;
+    border: 1px solid #444;
+    color: #f0f0f0;
+    padding-left: 40px;
+    border-radius: 8px;
+  }
+  
+  .search-bar .form-control::placeholder {
+    color: #aaa;
+  }
+  
+  .search-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #aaa;
+  }
+  
+  .filter-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  
+  .filter-buttons .btn {
+    background-color: #2c2c2c;
+    border: 1px solid #1abc9c;
+    color: #1abc9c;
+    font-weight: bold;
+    border-radius: 8px;
+  }
+  
+  .filter-buttons .btn:hover {
+    background-color: #1abc9c;
+    color: #fff;
+  }
+  
+  .filter-buttons .dropdown-menu {
+    background-color: #2c2c2c;
+    border: 1px solid #444;
+  }
+  
+  .filter-buttons .dropdown-item {
+    color: #f0f0f0;
+  }
+  
+  .filter-buttons .dropdown-item:hover {
+    background-color: #1abc9c;
+    color: #fff;
+  }
+  
+  .entrenamientos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    justify-content: center;
+  }
+  
+  .entrenamiento-card {
+    background-color: #2c2c2c;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .entrenamiento-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .card-img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    display: block;
+  }
+  
+  .card-body {
+    padding: 15px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .card-title {
+    font-size: 1.3em;
+    font-weight: bold;
+    color: #1abc9c;
+    margin-bottom: 8px;
+  }
+  
+  .card-text {
+    font-size: 0.9em;
+    color: #bbb;
+    line-height: 1.4;
+    margin-bottom: 10px;
+  }
+  
+  .card-level {
+    font-size: 0.85em;
+    color: #888;
+    font-style: italic;
+    margin-top: auto;
+  }
+  
+  .pagination .page-item .page-link {
+    background-color: #2c2c2c;
+    border: 1px solid #444;
+    color: #f0f0f0;
+    border-radius: 5px;
+    margin: 0 3px;
+  }
+  
+  .pagination .page-item .page-link:hover {
+    background-color: #1abc9c;
+    color: #fff;
+    border-color: #1abc9c;
+  }
+  
+  .pagination .page-item.active .page-link {
+    background-color: #1abc9c;
+    border-color: #1abc9c;
+    color: #fff;
+  }
+  
+  .pagination .page-item.disabled .page-link {
+    color: #666;
+    background-color: #222;
+    border-color: #333;
+  }
+  
+  .alert-info {
+    background-color: #2c3e50;
+    border-color: #34495e;
+    color: #ecf0f1;
+    text-align: center;
+    padding: 15px;
+    border-radius: 8px;
+  }
+  
+  .loading-message {
+    text-align: center;
+    color: #cccccc;
+    font-style: italic;
+  }
+  
+  @media (max-width: 768px) {
+    .entrenamientos-grid {
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+    .search-and-filters {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .search-bar {
+      max-width: 100%;
+    }
+    .filter-buttons {
+      justify-content: center;
+      width: 100%;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .entrenamientos-grid {
+      grid-template-columns: 1fr;
+    }
+    .header-section h1 {
+      font-size: 2em;
+    }
+  }

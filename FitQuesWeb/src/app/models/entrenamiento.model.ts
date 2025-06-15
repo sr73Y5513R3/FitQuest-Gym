@@ -32,3 +32,11 @@ export interface Page<T> {
   last: boolean;
   empty: boolean;
 }
+
+export interface EntrenamientoCreateUpdateDto {
+  nombre: string;
+  descripcion: string;
+  calorias: number;
+  puntos: number;
+  entrenadorId: string; 
+}

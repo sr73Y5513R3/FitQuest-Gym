@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { GetEntrenoConEjercicioDto, Page } from '../../models/entrenamiento.model';
+import { EntrenamientoCreateUpdateDto, GetEntrenoConEjercicioDto, Page } from '../../models/entrenamiento.model';
 
 @Injectable({
   providedIn: 'root'
@@ -26,5 +26,17 @@ export class EntrenamientoService {
 
   getEntrenamientoById(id: number): Observable<GetEntrenoConEjercicioDto> {
     return this.http.get<GetEntrenoConEjercicioDto>(`${this.apiUrl}/${id}`);
+  }
+
+  createEntrenamiento(entrenamientoDto: EntrenamientoCreateUpdateDto): Observable<GetEntrenoConEjercicioDto> { // Use GetEntrenoConEjercicioDto or a more appropriate type for the response
+    return this.http.post<GetEntrenoConEjercicioDto>(`${this.apiUrl}/add`, entrenamientoDto);
+  }
+
+  updateEntrenamiento(id: number, entrenamientoDto: EntrenamientoCreateUpdateDto): Observable<GetEntrenoConEjercicioDto> { // Use GetEntrenoConEjercicioDto or a more appropriate type
+    return this.http.put<GetEntrenoConEjercicioDto>(`${this.apiUrl}/edit/${id}`, entrenamientoDto);
+  }
+
+  deleteEntrenamiento(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/delete/${id}`);
   }
 }
