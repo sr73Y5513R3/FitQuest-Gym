@@ -30,11 +30,26 @@
           <i class="bi bi-person"></i> Perfil
         </a>
       </li>
-      <li *ngIf="isAdmin$ | async" routerLinkActive="active">
-        <a routerLink="/admin/entrenamiento">
-          <i class="bi bi-sliders"></i> Panel Admin
-        </a>
-      </li>
+      <li>
+      <a (click)="toggleAdminPanel()" class="admin-panel-toggle">
+        <i class="bi bi-sliders"></i> Panel de admin
+      </a>
+
+      <ng-container *ngIf="isDropdownOpen">
+        <li routerLinkActive="active"><a routerLink="/admin/entrenamiento" >
+          <i class="bi bi-dumbbell"></i> Lista de entrenamientos
+        </a></li>
+        <li routerLinkActive="active"><a routerLink="/admin/ejercicios" >
+          <i class="bi bi-person-walking"></i> Lista de ejercicios
+        </a></li>
+        <li routerLinkActive="active"><a routerLink="/admin/materiales">
+          <i class="bi bi-basket"></i> Lista de materiales
+        </a></li>
+        <li routerLinkActive="active"><a routerLink="/admin/usuarios">
+          <i class="bi bi-person"></i> Lista de usuarios
+        </a></li>
+      </ng-container>
+    </li>
       <li *ngIf="isLoggedIn$ | async">
         <a (click)="logout()">
           <i class="bi bi-box-arrow-right"></i> Cerrar Sesión

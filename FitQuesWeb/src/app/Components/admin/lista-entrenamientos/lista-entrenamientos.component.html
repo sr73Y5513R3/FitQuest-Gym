@@ -9,6 +9,9 @@
     </div>
 
 <div class="entrenamientos-page-container" *ngIf="create">
+    <div>
+      <h1 class="title-form">Crea un entrenamiento</h1>
+    </div>
     <form>
         <div class="form-group">
           <label for="nombre" class="form-label-custom">Program Title</label>
@@ -59,7 +62,7 @@
                   required #entrenadorIdRef="ngModel"
                   [class.is-invalid]="entrenadorIdRef.invalid && (entrenadorIdRef.dirty || entrenadorIdRef.touched)">
             <option [ngValue]="''" disabled>Selecciona un entrenador</option>
-            <option *ngFor="let entrenador of entrenadores" [ngValue]="entrenador.id">
+            <option class="form-option" *ngFor="let entrenador of entrenadores" [ngValue]="entrenador.id">
               {{ entrenador.Username }}
             </option>
           </select>
@@ -81,7 +84,7 @@
 
 </div>
 
-<div class="entrenamientos-page-container" *ngIf="!create">
+<div class="entrenamientos-page-container-card" *ngIf="!create">
   
     <div class="entrenamientos-grid">
       <ng-container *ngIf="entrenamientosPage?.content && entrenamientosPage!.content.length > 0">
