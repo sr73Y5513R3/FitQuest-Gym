@@ -1,39 +1,62 @@
-<div class="details-header">
-  <button class="btn btn-link back-button" (click)="goBack()">
-    <i class="bi bi-arrow-left-circle"></i> Volver a Entrenamientos
-  </button>
-  <h1>Detalles del entrenamiento</h1>
-</div>
+<div class="main-container">
+  <app-menu-lateral></app-menu-lateral>
 
-<div *ngIf="entrenamiento" class="entrenamiento-details-card">
-  <div class="detail-main-info">
-    <div class="detail-text-content">
-      <h2>{{ entrenamiento.nombre }}</h2>
-      <p class="detail-description">{{ entrenamiento.descripcion }}</p>
-      <div class="detail-meta">
-        <span>Duración: {{ entrenamiento.duracion }} minutos</span>
-        <span>Puntos: {{ entrenamiento.puntos }}</span>
-        <span>Calorías: {{ entrenamiento.calorias }}</span>
+  <main class="content-area">
+    <app-top-menu></app-top-menu>
+
+    <div class="entrenamiento-detalle-page-container">
+      <div class="details-header">
+        
+        <h1>Detalles del entrenamiento</h1>
       </div>
-      <p class="detail-trainer">Entrenador: {{ entrenamiento.entrenador.username || 'N/A' }}</p>
-      <p class="detail-rating">Valoración: {{ entrenamiento.valoracionMedia | number:'1.1-1' }}</p>
+
+      <div *ngIf="entrenamiento; else loadingOrError" class="entrenamiento-content-card">
+        <h2>{{ entrenamiento.nombre }}</h2>
+
+        <div class="section-divider">
+          <h3>Descripción</h3>
+        </div>
+        <p class="content-description">{{ entrenamiento.descripcion }}</p>
+
+        <div class="section-divider">
+          <h3>Información General</h3>
+        </div>
+        <div class="general-info-grid">
+          <p><strong>Duración:</strong> {{ entrenamiento.duracion }} minutos</p>
+          <p><strong>Puntos:</strong> {{ entrenamiento.puntos }}</p>
+          <p><strong>Calorías:</strong> {{ entrenamiento.calorias }}</p>
+          <p><strong>Entrenador:</strong> {{ entrenamiento.entrenador.username || 'N/A' }}</p>
+          <p><strong>Valoración:</strong> {{ entrenamiento.valoracionMedia | number:'1.1-1' }}</p>
+        </div>
+
+        <div class="section-divider">
+          <h3>Ejercicios del Entrenamiento</h3>
+        </div>
+        <ul class="exercises-list">
+          <li *ngFor="let ejercicio of entrenamiento.ejercicios" (click)="navigateToEjercicioDetails(ejercicio.id)">
+            <i class="bi bi-dumbbell"></i>
+            <span>{{ ejercicio.nombre }}</span>
+            <span class="exercise-details-hint">Ver detalles <i class="bi bi-chevron-right"></i></span>
+          </li>
+          <ng-container *ngIf="!entrenamiento.ejercicios || entrenamiento.ejercicios.length === 0">
+            <li>No hay ejercicios asignados a este entrenamiento.</li>
+          </ng-container>
+        </ul>
+      </div>
+
+      <ng-template #loadingOrError>
+        <div *ngIf="!entrenamiento && !errorMessage" class="loading-message mt-3">
+          Cargando detalles del entrenamiento...
+        </div>
+        <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+          {{ errorMessage }}
+          <button class="btn btn-secondary ms-3" (click)="goBack()">Volver</button>
+        </div>
+      </ng-template>
+      <button class="btn btn-link back-button mt-4" (click)="goBack()">
+          <i class="bi bi-arrow-left-circle "></i> Volver a Entrenamientos
+        </button>
     </div>
-  </div>
-
-  <div class="detail-exercises-section">
-    <h3>Ejercicios</h3>
-    <ul class="exercises-list">
-      <li *ngFor="let ejercicio of entrenamiento.ejercicios">
-        <i class="bi bi-dumbbell"></i> {{ ejercicio.nombre }}
-        </li>
-    </ul>
-  </div>
-</div>
-
-<div *ngIf="!entrenamiento && !errorMessage" class="loading-message mt-3">
-    Cargando detalles del entrenamiento...
-</div>
-<div *ngIf="errorMessage" class="alert alert-danger mt-3">
-    {{ errorMessage }}
-    <button class="btn btn-secondary ms-3" (click)="goBack()">Volver</button>
+    
+  </main>
 </div>

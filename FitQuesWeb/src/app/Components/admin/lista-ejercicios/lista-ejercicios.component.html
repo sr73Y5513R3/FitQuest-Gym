@@ -1,1 +1,126 @@
-<p>lista-ejercicios works!</p>
+<div class="main-container">
+  <app-menu-lateral></app-menu-lateral>
+
+  <main class="content-area">
+    <app-top-menu></app-top-menu>
+
+    <div class="search-and-filters"  >
+      <button class="btn-primary-custom" (click)="changeEstado()">
+        <i class="bi bi-plus-circle"></i> Crear Ejercicio
+      </button>
+    </div>
+
+    <div class="ejercicios-page-container" *ngIf="!create"> 
+        <div class="header-section">
+        <h1>Ejercicios</h1> <p>Explora nuestra biblioteca de ejercicios para mejorar tu rutina de entrenamiento y alcanzar tus objetivos.</p> 
+        </div>
+
+      <div class="ejercicios-grid"> <ng-container *ngIf="ejerciciosPage?.content && ejerciciosPage!.content.length > 0; else noEjercicios">
+          <div class="ejercicio-card" *ngFor="let ejercicio of ejerciciosPage!.content"> <div class="card-body">
+              <h5 class="card-title">{{ ejercicio.nombre }}</h5>
+              <p class="card-text">{{ ejercicio.descripcion }}</p>
+              <p class="card-info">Series: {{ ejercicio.series }}</p> <p class="card-info">Repeticiones: {{ ejercicio.repeticiones }}</p> <p class="card-info">Duración: {{ ejercicio.duracion }} minutos</p> <p class="card-info">Nivel: {{ ejercicio.nivel.nombre || 'N/A' }}
+              <img *ngIf="ejercicio.urlImagen && ejercicio.urlImagen !== 'No hay'" [src]="ejercicio.urlImagen" alt="Imagen del ejercicio" class="card-image">
+            </div>
+          </div>
+        </ng-container>
+        <ng-template #noEjercicios>
+          <div *ngIf="ejerciciosPage?.empty" class="alert alert-info mt-3">
+            No se encontraron ejercicios.
+          </div>
+          </ng-template>
+      </div>
+
+      <nav aria-label="Page navigation" *ngIf="ejerciciosPage && ejerciciosPage.totalPages > 1">
+        <ul class="pagination justify-content-center mt-4">
+          <li class="page-item" [class.disabled]="currentPage === 0">
+            <a class="page-link" (click)="previousPage()">Anterior</a>
+          </li>
+          <li class="page-item" *ngFor="let pageNum of [].constructor(ejerciciosPage.totalPages); let i = index"
+              [class.active]="i === currentPage">
+            <a class="page-link" (click)="goToPage(i)">{{ i + 1 }}</a>
+          </li>
+          <li class="page-item" [class.disabled]="currentPage === ejerciciosPage.totalPages - 1">
+            <a class="page-link" (click)="nextPage()">Siguiente</a>
+          </li>
+        </ul>
+      </nav>
+
+    </div>
+
+    
+    <div class="ejercicios-page-container-form" *ngIf="create">
+      <div>
+        <h1 class="title-form">Crea un ejercicio</h1>
+      </div>
+      <form #ejercicioForm="ngForm" (ngSubmit)="createEjercicio()">
+        <div class="form-group">
+          <label for="nombre" class="form-label-custom">Nombre del Ejercicio</label>
+          <input type="text" id="nombre" name="nombre" [(ngModel)]="nombre" class="form-control-custom"
+                 required #nombreRef="ngModel"
+                 [class.is-invalid]="nombreRef.invalid && (nombreRef.dirty || nombreRef.touched)">
+          <div *ngIf="nombreRef.invalid && (nombreRef.dirty || nombreRef.touched)" class="invalid-feedback">
+            <div *ngIf="nombreRef.errors?.['required']">El nombre del ejercicio es requerido.</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="descripcion" class="form-label-custom">Descripción</label>
+          <textarea id="descripcion" name="descripcion" [(ngModel)]="descripcion" class="form-control-custom textarea-custom" rows="4"
+                    required #descripcionRef="ngModel"
+                    [class.is-invalid]="descripcionRef.invalid && (descripcionRef.dirty || descripcionRef.touched)"></textarea>
+          <div *ngIf="descripcionRef.invalid && (descripcionRef.dirty || descripcionRef.touched)" class="invalid-feedback">
+            <div *ngIf="descripcionRef.errors?.['required']">La descripción es requerida.</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="series" class="form-label-custom">Series</label>
+          <input type="number" id="series" name="series" [(ngModel)]="series" class="form-control-custom"
+                 required min="1" #seriesRef="ngModel"
+                 [class.is-invalid]="seriesRef.invalid && (seriesRef.dirty || seriesRef.touched)">
+          <div *ngIf="seriesRef.invalid && (seriesRef.dirty || seriesRef.touched)" class="invalid-feedback">
+            <div *ngIf="seriesRef.errors?.['required']">El número de series es requerido.</div>
+            <div *ngIf="seriesRef.errors?.['min']">Las series deben ser al menos 1.</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="repeticiones" class="form-label-custom">Repeticiones</label>
+          <input type="number" id="repeticiones" name="repeticiones" [(ngModel)]="repeticiones" class="form-control-custom"
+                 required min="1" #repeticionesRef="ngModel"
+                 [class.is-invalid]="repeticionesRef.invalid && (repeticionesRef.dirty || repeticionesRef.touched)">
+          <div *ngIf="repeticionesRef.invalid && (repeticionesRef.dirty || repeticionesRef.touched)" class="invalid-feedback">
+            <div *ngIf="repeticionesRef.errors?.['required']">El número de repeticiones es requerido.</div>
+            <div *ngIf="repeticionesRef.errors?.['min']">Las repeticiones deben ser al menos 1.</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="duracion" class="form-label-custom">Duración (minutos)</label>
+          <input type="number" id="duracion" name="duracion" [(ngModel)]="duracion" class="form-control-custom"
+                 required min="0" #duracionRef="ngModel"
+                 [class.is-invalid]="duracionRef.invalid && (duracionRef.dirty || duracionRef.touched)">
+          <div *ngIf="duracionRef.invalid && (duracionRef.dirty || duracionRef.touched)" class="invalid-feedback">
+            <div *ngIf="duracionRef.errors?.['required']">La duración es requerida.</div>
+            <div *ngIf="duracionRef.errors?.['min']">La duración debe ser un número positivo.</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="urlImagen" class="form-label-custom">URL de la Imagen</label>
+          <input type="text" id="urlImagen" name="urlImagen" [(ngModel)]="urlImagen" class="form-control-custom">
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn-secondary-custom" (click)="goBack()">Volver</button>
+          <button type="submit" class="btn-primary-custom" [disabled]="ejercicioForm.invalid">
+            <i class="bi bi-plus-circle"></i> Crear Ejercicio
+          </button>
+        </div>
+      </form>
+    </div>
+
+    
+  </main>
+</div>

@@ -1,8 +1,11 @@
+/* src/app/components/material-detalle/material-detalle.component.css */
+
+/* Contenedores generales de la aplicación (reutilizados) */
 .main-container {
     display: flex;
     min-height: 100vh;
-    background-color: #212529;
-    color: #f8f9fa;
+    background-color: #212529; /* dark-green */
+    color: #f8f9fa; /* text-color */
     font-family: 'Arial', sans-serif;
 }
 
@@ -12,7 +15,8 @@
     background-color: #212121;
 }
 
-.entrenamiento-detalle-page-container {
+/* Contenedor principal de la página de detalles del material */
+.material-detalle-page-container {
     padding: 30px;
     background-color: #1a1a1a;
     color: #f0f0f0;
@@ -22,6 +26,7 @@
     align-items: center;
 }
 
+/* Encabezado de la página de detalles (volver, título) */
 .details-header {
     display: flex;
     align-items: center;
@@ -29,6 +34,7 @@
     padding-bottom: 15px;
     width: 100%;
     max-width: 900px;
+    border-bottom: 1px solid #444; /* Línea separadora */
 }
 
 .details-header h1 {
@@ -42,7 +48,7 @@
 .back-button {
     background: none;
     border: none;
-    color: #00bcd4;
+    color: #00bcd4; /* Color similar al teal */
     font-size: 1.1rem;
     cursor: pointer;
     display: flex;
@@ -62,27 +68,50 @@
     font-size: 1.4rem;
 }
 
-.entrenamiento-content-card {
+/* Contenedor principal de la información del material (la "tarjeta" principal) */
+.material-content-card {
     background-color: #2c2c2c;
     border-radius: 12px;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
     padding: 30px 40px;
     width: 100%;
+    max-width: 900px;
     color: #f8f9fa;
+    display: flex;
+    flex-direction: column; /* Cambiado a columna para que la imagen esté arriba */
+    align-items: center; /* Centra la imagen y el título */
 }
 
-.entrenamiento-content-card h2 {
+/* Contenedor de la imagen del material */
+.material-image-container {
+    width: 100%;
+    max-width: 600px; /* Limitar el ancho de la imagen */
+    margin-bottom: 30px; /* Espacio debajo de la imagen */
+    border-radius: 8px;
+    overflow: hidden; /* Asegura que la imagen respete el border-radius */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.material-image {
+    width: 100%;
+    height: auto; /* Mantener la proporción */
+    display: block;
+}
+
+.material-content-card h2 {
     font-size: 2.5rem;
     color: #1abc9c;
     margin-bottom: 25px;
     text-align: center;
 }
 
+/* Divisor de secciones (la línea azul bajo "Descripción" en la foto) */
 .section-divider {
     border-bottom: 2px solid #1abc9c;
     padding-bottom: 10px;
     margin-top: 30px;
     margin-bottom: 20px;
+    width: 100%; /* Asegura que el divisor ocupe todo el ancho de la tarjeta */
 }
 
 .section-divider h3 {
@@ -91,34 +120,29 @@
     margin: 0;
 }
 
+/* Estilo para la descripción del contenido */
 .content-description {
-    font-size: 1.25rem;
+    font-size: 1.15rem;
     color: #cccccc;
     line-height: 1.6;
     margin-bottom: 30px;
+    width: 100%; /* Ocupar todo el ancho de la tarjeta */
 }
 
-.general-info-grid {
-    display: wrap;
-    gap: 15px 30px;
-    margin-bottom: 30px;
+/* Estilo para el tipo de material */
+.material-type {
+    font-size: 1.15rem;
+    color: #cccccc;
+    line-height: 1.6;
+    width: 100%;
 }
 
-.general-info-grid p {
-    font-size: 1.3rem;
-    color: #e0e0e0;
-    margin: 0;
-}
-
-.general-info-grid strong {
-    color: #1abc9c;
-    margin-right: 5px;
-}
-
+/* Lista de ejercicios (si se implementara en el futuro) */
 .exercises-list {
     list-style: none;
     padding: 0;
     margin: 0;
+    width: 100%;
 }
 
 .exercises-list li {
@@ -155,6 +179,7 @@
     gap: 5px;
 }
 
+/* Mensajes de carga y error */
 .loading-message {
     text-align: center;
     padding: 40px;
@@ -191,8 +216,9 @@
     border-color: #545b62;
 }
 
+/* Media Queries para responsividad */
 @media (max-width: 768px) {
-    .entrenamiento-detalle-page-container {
+    .material-detalle-page-container {
         padding: 20px;
     }
 
@@ -209,11 +235,11 @@
         margin-top: 15px;
     }
 
-    .entrenamiento-content-card {
+    .material-content-card {
         padding: 20px 25px;
     }
 
-    .entrenamiento-content-card h2 {
+    .material-content-card h2 {
         font-size: 2rem;
         text-align: left;
     }
@@ -221,15 +247,10 @@
     .section-divider h3 {
         font-size: 1.5rem;
     }
-
-    .general-info-grid {
-        grid-template-columns: 1fr;
-        gap: 10px;
-    }
 }
 
 @media (max-width: 480px) {
-    .entrenamiento-detalle-page-container {
+    .material-detalle-page-container {
         padding: 15px;
     }
 
@@ -237,11 +258,11 @@
         font-size: 1.8rem;
     }
 
-    .entrenamiento-content-card {
+    .material-content-card {
         padding: 15px 20px;
     }
 
-    .entrenamiento-content-card h2 {
+    .material-content-card h2 {
         font-size: 1.8rem;
     }
 }

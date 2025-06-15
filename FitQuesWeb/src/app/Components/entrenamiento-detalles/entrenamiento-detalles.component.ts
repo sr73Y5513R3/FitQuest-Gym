@@ -52,7 +52,11 @@ export class EntrenamientoDetallesComponent implements OnInit {
   }
 
   goBack(): void {
-    this.router.navigate(['/entrenamientos']); // Redirige a la lista principal de entrenamientos
+    this.router.navigate(['/entrenamientos']); 
+  }
+
+  navigateToEjercicioDetails(ejercicioId: number): void {
+    this.router.navigate(['/ejercicios', ejercicioId]);
   }
 }
 

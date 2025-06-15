@@ -1,0 +1,62 @@
+<div class="main-container">
+  <app-menu-lateral></app-menu-lateral>
+
+  <main class="content-area">
+    <app-top-menu></app-top-menu>
+
+    <div class="ejercicio-details-page-container">
+      <div *ngIf="isLoading" class="loading-message">
+        Cargando detalles del ejercicio...
+      </div>
+
+      <div *ngIf="errorMessage" class="alert alert-danger">
+        {{ errorMessage }}
+      </div>
+
+      <div *ngIf="ejercicio && !isLoading">
+        <div class="header-section">
+          <h1>Ejecución del ejercicio</h1>
+          <h2 class="ejercicio-title">{{ ejercicio.nombre }}</h2>
+        </div>
+
+        <div class="ejercicio-content">
+          <div class="ejercicio-description-card">
+            <h3>Descripción</h3>
+            <p>{{ ejercicio.descripcion }}</p>
+
+            <div class="ejercicio-image-section" *ngIf="ejercicio.urlImagen && ejercicio.urlImagen !== 'No hay'">
+            <img [src]="ejercicio.urlImagen" alt="Imagen del ejercicio" class="ejercicio-image">
+            </div>
+
+            <div class="ejercicio-info-grid">
+              <div class="info-item">
+                <strong>Series:</strong> {{ ejercicio.series }}
+              </div>
+              <div class="info-item">
+                <strong>Repeticiones:</strong> {{ ejercicio.repeticiones }}
+              </div>
+              <div class="info-item">
+                <strong>Duración:</strong> {{ ejercicio.duracion }} minutos
+              </div>
+              <div class="info-item">
+                <strong>Nivel:</strong> {{ ejercicio.nivel.nombre || 'No especificado' }}
+              </div>
+              <div class="info-item" *ngIf="ejercicio.materiales && ejercicio.materiales.length > 0">
+                <strong>Materiales:</strong>
+                <ul>
+                  <li *ngFor="let material of ejercicio.materiales" (click)="navigateToMaterialDetail(material.id)" class="materiales-card">{{ material.nombre }}</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          
+        </div>
+
+        <div class="action-buttons">
+          <button class="btn btn-primary" (click)="goBackToList()">Volver a la lista de ejercicios</button>
+          </div>
+      </div>
+    </div>
+  </main>
+</div>

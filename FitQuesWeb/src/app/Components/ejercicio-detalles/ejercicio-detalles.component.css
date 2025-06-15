@@ -1,0 +1,258 @@
+/* src/app/components/ejercicio-details/ejercicio-details.component.css */
+
+/* Estilos globales y de contenedores principales (similares a los de lista) */
+.main-container {
+    display: flex;
+    min-height: 100vh;
+    background-color: #212529; /* dark-green */
+    color: #f8f9fa; /* text-color */
+    font-family: 'Arial', sans-serif;
+}
+
+.content-area {
+    flex-grow: 1;
+   
+    background-color: #212121;
+    box-sizing: border-box;
+}
+
+app-top-menu {
+    height: 60px; /* O la altura de tu top-menu */
+    width: 100%;
+    background-color: #2c2c2c; /* Color de fondo del top-menu */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+
+    top: 0;
+    z-index: 100;
+}
+
+.ejercicio-details-page-container {
+    padding: 30px;
+    background-color: #1a1a1a;
+    color: #f0f0f0;
+    min-height: calc(100vh - 60px); /* Resta la altura del top-menu */
+    box-sizing: border-box;
+    margin: 0 auto; /* Centrar el contenido */
+}
+
+/* Sección de cabecera */
+.header-section {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.header-section h1 {
+    font-size: 2.8em;
+    margin-bottom: 10px;
+    color: #1abc9c; /* Color primario */
+    font-weight: 700;
+}
+
+.ejercicio-title {
+    font-size: 2.2em;
+    color: #f0f0f0;
+    margin-top: 10px;
+    font-weight: 600;
+}
+
+
+.ejercicio-content {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+    align-items: flex-start; 
+}
+
+.ejercicio-description-card {
+    flex: 2; 
+    min-width: 300px; 
+    background-color: #2c2c2c;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+.ejercicio-description-card h3 {
+    font-size: 1.8em;
+    color: #1abc9c;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #1abc9c;
+    padding-bottom: 5px;
+}
+
+.ejercicio-description-card p {
+    font-size: 1.1em;
+    color: #bbb;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.ejercicio-info-grid {
+    display: wrap;
+    gap: 25px;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px dashed #444;
+}
+
+.info-item {
+    font-size: 1.5em;
+    color: #cccccc;
+    margin:10px
+}
+
+.info-item strong {
+    color: #f0f0f0;
+    margin-right: 5px;
+}
+
+.info-item ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 5px;
+}
+
+.info-item ul li {
+    background-color: #3a3a3a;
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    display: inline-block; /* Para que los materiales se muestren en línea */
+    margin-right: 8px;
+    font-size: 0.9em;
+}
+
+.ejercicio-image-section {
+    flex: 1; /* Ocupa menos espacio */
+    min-width: 280px; /* Ancho mínimo para la imagen */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #2c2c2c;
+    border-radius: 12px;
+    padding: 15px; /* Espacio alrededor de la imagen dentro de su contenedor */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+.ejercicio-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    display: block; /* Elimina espacios extra debajo de la imagen */
+}
+
+/* Botones de acción */
+.action-buttons {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.btn {
+    background-color: #1abc9c;
+    color: #fff;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn:hover {
+    background-color: #16a085; /* Un tono más oscuro */
+    transform: translateY(-2px);
+}
+
+/* Mensajes de carga y error */
+.loading-message, .alert-danger {
+    text-align: center;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-size: 1.1em;
+}
+
+.loading-message {
+    background-color: #34495e;
+    color: #ecf0f1;
+}
+
+.alert-danger {
+    background-color: #e74c3c;
+    color: #fff;
+}
+
+/* Media Queries para responsividad */
+@media (max-width: 768px) {
+    .content-area {
+        padding-left: 0; /* Ajusta o elimina el padding si el sidebar se oculta */
+    }
+
+    .ejercicio-content {
+        flex-direction: column; /* Apila descripción e imagen verticalmente */
+        align-items: center;
+    }
+
+    .ejercicio-description-card,
+    .ejercicio-image-section {
+        min-width: unset; /* Elimina el ancho mínimo fijo en móviles */
+        width: 100%; /* Ocupa todo el ancho disponible */
+    }
+
+    .header-section h1 {
+        font-size: 2.2em;
+    }
+
+    .ejercicio-title {
+        font-size: 1.8em;
+    }
+
+    .ejercicio-details-page-container {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .header-section h1 {
+        font-size: 1.8em;
+    }
+
+    .ejercicio-title {
+        font-size: 1.5em;
+    }
+
+    .ejercicio-description-card h3 {
+        font-size: 1.5em;
+    }
+
+    .ejercicio-description-card p {
+        font-size: 1em;
+    }
+
+    .info-item {
+        font-size: 0.9em;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        font-size: 1em;
+    }
+}
+
+.info-item .materiales-card {
+ 
+  background-color: #3e3e3e; 
+  padding: 10px 15px;
+  margin-bottom: 8px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease; 
+  color: #f8f9fa; 
+  display: flex;
+  align-items: center;
+}
+
+.info-item .materiales-card:hover {
+  background-color: #1abc9c;
+  color: #ffffff; 
+}

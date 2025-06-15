@@ -5,14 +5,24 @@ import { LoginComponent } from './Components/login/login.component';
 import { EntrenamientoComponent } from './Components/entrenamiento/entrenamiento.component';
 import { EntrenamientoDetallesComponent } from './Components/entrenamiento-detalles/entrenamiento-detalles.component';
 import { ListaEntrenamientosComponent } from './Components/admin/lista-entrenamientos/lista-entrenamientos.component';
+import { ListaEjerciciosComponent } from './Components/admin/lista-ejercicios/lista-ejercicios.component';
+import { EjercicioComponent } from './Components/ejercicio/ejercicio.component';
+import { EjercicioDetallesComponent } from './Components/ejercicio-detalles/ejercicio-detalles.component';
+import { MaterialesComponent } from './Components/materiales/materiales.component';
+import { MaterialesDetallesComponent } from './Components/materiales-detalles/materiales-detalles.component';
 
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'inicio', component: InicioComponent },
   { path: 'entrenamientos', component: EntrenamientoComponent},
+  { path: 'ejercicios', component: EjercicioComponent},
+  { path: 'materiales', component: MaterialesComponent},
   { path: 'entrenamientos/:id', component: EntrenamientoDetallesComponent },
+  { path: 'ejercicios/:id', component: EjercicioDetallesComponent },
+  { path: 'materiales/:id', component: MaterialesDetallesComponent },
   { path: 'admin/entrenamiento', component: ListaEntrenamientosComponent},
+  { path: 'admin/ejercicio', component: ListaEjerciciosComponent},
   // { path: 'register', component: RegisterComponent }, // Descomenta si usas un componente de registro
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: '**', redirectTo: '/login' }
