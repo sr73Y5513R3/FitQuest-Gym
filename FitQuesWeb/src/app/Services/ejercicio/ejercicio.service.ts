@@ -39,4 +39,12 @@ export class EjercicioService {
   deleteEjercicio(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/delete/${id}`);
   }
+
+  addMaterialToEjercicio(ejercicioId: number, materialId: number): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/${ejercicioId}/material/${materialId}`, {}); 
+  }
+
+  removeMaterialFromEjercicio(ejercicioId: number, materialId: number): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/${ejercicioId}/material/${materialId}`);
+  }
 }

@@ -11,6 +11,7 @@ import com.salesianos.FitQuestPrototype.Entrenamiento.Model.Nivel;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Repos.EjercicioRepository;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Repos.NivelRepository;
 import com.salesianos.FitQuestPrototype.User.Error.EqualLevelException;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -41,6 +42,10 @@ public class EjercicioService {
     }
 
     public Ejercicio save (CreateEjercicioCmd createEjercicioCmd){
+
+        Nivel nivel = nivelRepository.findById(createEjercicioCmd.nivel().getId())
+                .orElseThrow(() -> new EntityNotFoundException("Nivel no encontrado con ID: " + createEjercicioCmd.nivel().getId()));
+
         return ejercicioRepository.save(Ejercicio.builder()
                 .nombre(createEjercicioCmd.nombre())
                 .descripcion(createEjercicioCmd.descripcion())
@@ -48,11 +53,14 @@ public class EjercicioService {
                 .repeticiones(createEjercicioCmd.repeticiones())
                 .duracion(createEjercicioCmd.duracion())
                 .urlImagenes(createEjercicioCmd.urlImagen())
+                .nivel(nivel)
                 .build());
     }
 
     public Ejercicio edit (Long id, CreateEjercicioCmd createEjercicioCmd){
         Ejercicio ejercicio = findEjercicioById(id);
+        Nivel nivel = nivelRepository.findById(createEjercicioCmd.nivel().getId())
+                .orElseThrow(() -> new EntityNotFoundException("Nivel no encontrado con ID: " + createEjercicioCmd.nivel().getId()));
 
         ejercicio.setNombre(createEjercicioCmd.nombre());
         ejercicio.setDescripcion(createEjercicioCmd.descripcion());
@@ -60,6 +68,7 @@ public class EjercicioService {
         ejercicio.setRepeticiones(createEjercicioCmd.repeticiones());
         ejercicio.setDuracion(createEjercicioCmd.duracion());
         ejercicio.setUrlImagenes(createEjercicioCmd.urlImagen());
+        ejercicio.setNivel(nivel);
 
         return ejercicioRepository.save(ejercicio);
     }

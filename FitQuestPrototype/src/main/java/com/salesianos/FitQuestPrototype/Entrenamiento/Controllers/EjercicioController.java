@@ -85,7 +85,7 @@ public class EjercicioController {
                     content = @Content)
     })
     @PostMapping("/add")
-    @PreAuthorize("hasRole('ENTRENADOR')")
+    @PreAuthorize("hasRole('ENTRENADOR') or hasRole('ADMIN')")
     public ResponseEntity<GetEjercicioDto> addEjercicio(@io.swagger.v3.oas.annotations.parameters.RequestBody(
             description = "Cuerpo del ejercicio", required = true,
             content = @Content(mediaType = "application/json",

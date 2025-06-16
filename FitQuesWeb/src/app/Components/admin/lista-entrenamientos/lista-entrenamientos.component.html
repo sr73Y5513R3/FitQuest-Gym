@@ -131,6 +131,9 @@
 
     <div class="entrenamientos-page-container-card" *ngIf="!create && !showAddEjercicioForm">
 
+      <div class="header-section">
+        <h1>Entrenamientos</h1>
+        </div>
       <div class="entrenamientos-grid">
         <ng-container
           *ngIf="entrenamientosPage?.content && entrenamientosPage!.content.length > 0; else noEntrenamientos">

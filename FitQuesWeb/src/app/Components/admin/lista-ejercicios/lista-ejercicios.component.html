@@ -10,9 +10,9 @@
       </button>
     </div>
 
-    <div class="ejercicios-page-container" *ngIf="!create"> 
+    <div class="ejercicios-page-container" *ngIf="!create && !showAddMaterialToEjercicioForm"> 
         <div class="header-section">
-        <h1>Ejercicios</h1> <p>Explora nuestra biblioteca de ejercicios para mejorar tu rutina de entrenamiento y alcanzar tus objetivos.</p> 
+        <h1>Ejercicios</h1>
         </div>
 
       <div class="ejercicios-grid"> <ng-container *ngIf="ejerciciosPage?.content && ejerciciosPage!.content.length > 0; else noEjercicios">
@@ -24,6 +24,22 @@
               <p class="card-info">Repeticiones: {{ ejercicio.repeticiones }}</p> 
               <p class="card-info">Duración: {{ ejercicio.duracion }} minutos</p> <p class="card-info">Nivel: {{ ejercicio.nivel.nombre || 'NA' }}
               <img *ngIf="ejercicio.urlImagen && ejercicio.urlImagen !== 'No hay'" [src]="ejercicio.urlImagen" alt="Imagen del ejercicio" class="card-image">
+              </div>
+              <div *ngIf="ejercicio.materiales && ejercicio.materiales.length > 0" class="ms-3 mt-1">
+                <small class="text-muted-custom">Materiales:</small> <ul class="list-unstyled materiales-grid-list"> <li *ngFor="let mat of ejercicio.materiales" class="text-secondary">
+                    - {{ mat.nombre }}
+                  </li>
+                </ul>
+              </div>
+              <div class="card-actions">
+                <button class="btn btn-sm btn-info me-2">
+                  <i class="bi bi-pencil"></i> Editar
+                </button>
+                <button class="btn btn-sm btn-danger me-2" (click)="deleteEntrenamiento(ejercicio.id)">
+                  <i class="bi bi-trash"></i> Eliminar
+                </button>
+                 <button class="btn btn-sm btn-primary" (click)="showAddMaterialToExerciseForm(ejercicio.id)">
+                <i class="bi bi-gear"></i> Gestionar Materiales </button>
               </div>
             </div>
           </div>
@@ -53,7 +69,7 @@
     </div>
 
     
-    <div class="ejercicios-page-container-form" *ngIf="create">
+    <div class="ejercicios-page-container-form" *ngIf="create && !showAddMaterialToEjercicioForm">
       <div>
         <h1 class="title-form">Crea un ejercicio</h1>
       </div>
@@ -143,6 +159,66 @@
         
       </form>
     </div>
+    <div class="entrenamientos-page-container" *ngIf="showAddMaterialToEjercicioForm">
+    <div>
+        <h1 class="title-form">Gestionar Materiales del Ejercicio: {{ ejercicioToAddMaterialToId }}</h1>
+        <p class="subtitle-form">Añade o elimina materiales asociados a este ejercicio.</p>
+    </div>
+
+    <div class="materials-associated-section mt-4">
+        <h3>Materiales Actualmente en este Ejercicio:</h3>
+        <ng-container *ngIf="materialesEnEjercicioActualMap.size > 0; else noMaterialesAsociados">
+            <table class="table table-striped table-hover mt-2">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                        <th>Tipo</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let material of getMaterialesAsociadosList()">
+                        <td>{{ material.nombre }}</td>
+                        <td>{{ material.descripcion }}</td>
+                        <td>{{ material.tipo }}</td>
+                        <td>
+                            <button class="btn btn-sm btn-danger"
+                                    (click)="removeMaterialFromEjercicio(ejercicioToAddMaterialToId!, material.id!)">
+                                <i class="bi bi-trash"></i> Eliminar
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </ng-container>
+        <ng-template #noMaterialesAsociados>
+            <div class="alert alert-info mt-3">Este ejercicio aún no tiene materiales asociados.</div>
+        </ng-template>
+    </div>
+    <hr class="my-4"> <div>
+        <h3>Materiales Disponibles para Añadir:</h3>
+    </div>
+    <div class="ejercicios-grid">
+        <ng-container *ngIf="materialesDisponibles.length > 0; else noMoreMaterialesDisponibles">
+            <div class="ejercicio-card-selectable" *ngFor="let material of materialesDisponibles"
+                 (click)="addMaterialToEjercicio(material.id)">
+                <h5 class="card-title">{{ material.nombre }}</h5>
+                <p class="card-text">{{ material.descripcion }}</p>
+                <p class="card-text">Tipo: {{ material.tipo }}</p>
+                <button class="btn btn-sm btn-outline-primary mt-2">
+                    <i class="bi bi-plus-circle"></i> Añadir Material
+                </button>
+            </div>
+        </ng-container>
+        <ng-template #noMoreMaterialesDisponibles>
+            <div class="alert alert-info mt-3">No hay más materiales disponibles para añadir a este ejercicio.</div>
+        </ng-template>
+    </div>
+    <div class="form-actions mt-3">
+        <button type="button" class="btn-secondary-custom" (click)="changeAddMaterial()">Volver</button>
+    </div>
+</div>
 
     
   </main>

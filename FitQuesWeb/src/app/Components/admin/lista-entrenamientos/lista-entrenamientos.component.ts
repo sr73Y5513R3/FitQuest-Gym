@@ -37,7 +37,7 @@ export class ListaEntrenamientosComponent implements OnInit{
   currentEntrenamientoId: number | null = null;
 
   showAddEjercicioForm: boolean = false; 
-  entrenamientoToAddExerciseToId: number | null = null; 
+  entrenamientoId: number | null = null; 
   ejercicioToAddId: number = 0; 
   ejerciciosDisponibles: GetEjercicioDto[] = []; 
   ejerciciosPage: Page<GetEjercicioDto> | undefined;
@@ -188,7 +188,7 @@ export class ListaEntrenamientosComponent implements OnInit{
       this.entrenamientoService.deleteEntrenamiento(id).subscribe({
         next: () => {
           this.successMessage = 'Entrenamiento eliminado con éxito.';
-          this.loadEntrenamientos(); // Recargar la lista de entrenamientos
+          this.loadEntrenamientos();
           setTimeout(() => {
             this.successMessage = null;
           }, 3000);
@@ -258,7 +258,7 @@ export class ListaEntrenamientosComponent implements OnInit{
       this.errorMessage = 'ID de entrenamiento no válido.';
       return;
     }
-    this.entrenamientoToAddExerciseToId = entrenamientoId;
+    this.entrenamientoId = entrenamientoId;
     this.showAddEjercicioForm = true;
     this.create = false; 
     this.editing = false;
@@ -276,7 +276,7 @@ export class ListaEntrenamientosComponent implements OnInit{
     this.errorMessage = null;
     this.successMessage = null;
 
-    if (this.entrenamientoToAddExerciseToId === null) {
+    if (this.entrenamientoId === null) {
       this.errorMessage = 'No se ha seleccionado un entrenamiento para añadir el ejercicio.';
       return;
     }
@@ -285,10 +285,11 @@ export class ListaEntrenamientosComponent implements OnInit{
         return;
     }
 
-    this.entrenamientoService.addEjercicioToEntrenamiento(this.entrenamientoToAddExerciseToId, ejercicioId).subscribe({
+    this.entrenamientoService.addEjercicioToEntrenamiento(this.entrenamientoId, ejercicioId).subscribe({
       next: () => {
         this.successMessage = `Ejercicio añadido al entrenamiento con éxito.`;
-        this.loadEntrenamientos();
+        window.location.reload();
+        this.showAddEjercicioForm = false;
         setTimeout(() => this.successMessage = null, 2000);
       },
       error: (err: HttpErrorResponse) => {

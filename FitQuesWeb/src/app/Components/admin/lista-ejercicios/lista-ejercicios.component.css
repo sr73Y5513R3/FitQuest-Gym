@@ -12,7 +12,7 @@
 .content-area {
     flex-grow: 1;
     padding: 0px;
-    background-color: #212121;
+    background-color: #1a1a1a;
 }
 
 /* Contenedor principal de la página de ejercicios */
@@ -91,7 +91,7 @@
     cursor: pointer; 
     margin: 10px 10px;
     width: 70%;
-    max-height: 250px;
+    max-height: 300px;
 }
 
 .ejercicio-card:hover {
@@ -378,4 +378,25 @@ select.form-control-custom {
 
 .form-option{
   color: #212529;
+}
+
+
+.text-muted-custom {
+  color: #6c757d;
+}
+
+.materiales-grid-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(100px, 1fr));
+  gap: 10px; 
+  margin-top: 5px; 
+  padding: 0; 
+}
+
+.materiales-grid-list li {
+  text-align: center; 
+  padding: 5px;
+  white-space: nowrap; 
+  overflow: hidden; 
+  text-overflow: ellipsis; 
 }
