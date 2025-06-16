@@ -40,10 +40,7 @@ export class LoginComponent {
   }
 
   onRegisterClick(): void {
-    console.log('Botón Registrarse clicado');
-    // Si tienes una ruta de registro, redirige aquí
-    // this.router.navigate(['/register']);
-    // Por ahora, solo un mensaje
-    alert('Funcionalidad de registro aún no implementada.');
+    console.log('Redirigiendo a la página de registro...');
+    this.router.navigate(['/register']); 
   }
 }

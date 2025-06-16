@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { GetMaterialDto, Page } from '../../models/material.model';
+import { GetMaterialDto, MaterialCreateUpdateDto, Page } from '../../models/material.model';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 
@@ -26,6 +26,18 @@ export class MaterialService {
 
   getMaterialById(id: number): Observable<GetMaterialDto> {
     return this.http.get<GetMaterialDto>(`${this.apiUrl}/${id}`);
+  }
+
+   createMaterial(material: MaterialCreateUpdateDto): Observable<GetMaterialDto> {
+    return this.http.post<GetMaterialDto>(`${this.apiUrl}/add`, material);
+  }
+
+  updateMaterial(id: number, material: MaterialCreateUpdateDto): Observable<GetMaterialDto> {
+    return this.http.put<GetMaterialDto>(`${this.apiUrl}/edit/${id}`, material);
+  }
+
+  deleteMaterial(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/delete/${id}`);
   }
 
 }

@@ -22,6 +22,7 @@ import { EjercicioDetallesComponent } from './Components/ejercicio-detalles/ejer
 import { MaterialesComponent } from './Components/materiales/materiales.component';
 import { MaterialesDetallesComponent } from './Components/materiales-detalles/materiales-detalles.component';
 import { authTokenInterceptor } from './intenceptor/auth-token.interceptor';
+import { RegisterComponent } from './Components/register/register.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { authTokenInterceptor } from './intenceptor/auth-token.interceptor';
     EjercicioComponent,
     EjercicioDetallesComponent,
     MaterialesComponent,
-    MaterialesDetallesComponent
+    MaterialesDetallesComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,

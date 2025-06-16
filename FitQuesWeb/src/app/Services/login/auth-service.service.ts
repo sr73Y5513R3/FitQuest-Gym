@@ -22,6 +22,27 @@ interface RefreshTokenResponse {
   roles: string[];
 }
 
+export interface RegisterRequest {
+  nombre: string;
+  apellido1: string;
+  apellido2: string;
+  email: string;
+  username: string;
+  password: string;
+  verifyPassword: string;
+  peso: number; 
+  altura: number; 
+  edad: number; 
+  genero: string;
+  nivelId: number;
+}
+
+export interface RegisterResponse {
+  id: string;
+  username: string;
+  roles: string[];
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -135,6 +156,12 @@ export class AuthService {
     );
   }
 
+  isEntrenador(): Observable<boolean> {
+    return this.userRoles$.pipe(
+      map(roles => roles.includes('ENTRENADOR') || roles.includes('ROLE_ENTRENADOR'))
+    );
+  }
+
   private handleError(error: HttpErrorResponse): Observable<never> {
     let errorMessage = 'Ocurrió un error desconocido. Por favor, inténtalo de nuevo.';
     if (error.error instanceof ErrorEvent) {
@@ -152,5 +179,11 @@ export class AuthService {
     }
     console.error('Error en la API de Autenticación:', errorMessage);
     return throwError(() => new Error(errorMessage));
+  }
+
+  register(registerData: RegisterRequest): Observable<RegisterResponse> {
+    return this.http.post<RegisterResponse>(`${this.AUTH_API_BASE_URL}/register/cliente`, registerData).pipe(
+      catchError(this.handleError)
+    );
   }
 }

@@ -1,5 +1,6 @@
 // src/app/models/ejercicio.interface.ts
 
+import { GetMaterialDto } from "./material.model";
 import { Nivel } from "./nivel.model";
 
 
@@ -18,7 +19,7 @@ export interface GetEjercicioDto {
   duracion: number; 
   urlImagen: string;
   nivel: Nivel;
-  materiales: Material[];
+  materiales: GetMaterialDto[];
 }
 
 

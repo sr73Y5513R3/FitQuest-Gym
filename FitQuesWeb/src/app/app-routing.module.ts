@@ -10,10 +10,13 @@ import { EjercicioComponent } from './Components/ejercicio/ejercicio.component';
 import { EjercicioDetallesComponent } from './Components/ejercicio-detalles/ejercicio-detalles.component';
 import { MaterialesComponent } from './Components/materiales/materiales.component';
 import { MaterialesDetallesComponent } from './Components/materiales-detalles/materiales-detalles.component';
+import { ListaMaterialesComponent } from './Components/admin/lista-materiales/lista-materiales.component';
+import { RegisterComponent } from './Components/register/register.component';
 
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
   { path: 'inicio', component: InicioComponent },
   { path: 'entrenamientos', component: EntrenamientoComponent},
   { path: 'ejercicios', component: EjercicioComponent},
@@ -23,6 +26,8 @@ const routes: Routes = [
   { path: 'materiales/:id', component: MaterialesDetallesComponent },
   { path: 'admin/entrenamiento', component: ListaEntrenamientosComponent},
   { path: 'admin/ejercicio', component: ListaEjerciciosComponent},
+  { path: 'admin/material', component: ListaMaterialesComponent},
+
   // { path: 'register', component: RegisterComponent }, // Descomenta si usas un componente de registro
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: '**', redirectTo: '/login' }

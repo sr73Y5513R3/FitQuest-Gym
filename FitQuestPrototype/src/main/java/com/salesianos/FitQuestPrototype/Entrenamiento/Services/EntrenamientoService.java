@@ -2,6 +2,7 @@ package com.salesianos.FitQuestPrototype.Entrenamiento.Services;
 
 import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Entrenamiento.CreateEntrenoCmd;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Entrenamiento.EditEntrenoCmd;
+import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Entrenamiento.GetEntrenadorFromEntreno;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Error.EntidadNoEncontradaException;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Error.EntidadYaAñadidaException;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Error.NoContainsException;
@@ -152,5 +153,9 @@ public class EntrenamientoService {
         Entrenamiento entrenamiento = findEntrenamientoById(idEntrenamietno);
 
         entrenamientoRepository.delete(entrenamiento);
+    }
+
+    public Page<Entrenamiento> findAllEntrenamientosByEntrenador(Entrenador entrenador, Pageable pageable) {
+        return entrenamientoRepository.findAllByEntrenador(entrenador, pageable);
     }
 }

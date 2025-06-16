@@ -1,6 +1,7 @@
 package com.salesianos.FitQuestPrototype.Entrenamiento.Repos;
 
 import com.salesianos.FitQuestPrototype.Entrenamiento.Model.Entrenamiento;
+import com.salesianos.FitQuestPrototype.User.Model.Entrenador;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -32,5 +33,12 @@ public interface EntrenamientoRepository extends JpaRepository<Entrenamiento, Lo
     WHERE e.nombre = :nombre
 """)
     Optional<Entrenamiento> findEntrenamientoByNombre(@Param("nombre") String nombre);
+
+    @Query("""
+    SELECT e
+    FROM Entrenamiento e LEFT JOIN FETCH e.ejercicios ej
+    Where e.entrenador = :entrenador
+""")
+    Page<Entrenamiento> findAllByEntrenador(@Param("entrenador") Entrenador entrenador, Pageable pageable);
 
 }

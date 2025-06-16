@@ -30,19 +30,19 @@
           <i class="bi bi-person"></i> Perfil
         </a>
       </li>
-      <li>
+    <li *ngIf="isAdmin$ | async">
       <a (click)="toggleAdminPanel()" class="admin-panel-toggle">
         <i class="bi bi-sliders"></i> Panel de admin
       </a>
 
-      <ng-container *ngIf="isDropdownOpen">
+      <ng-container *ngIf="isDropdowAdminOpen">
         <li routerLinkActive="active"><a routerLink="/admin/entrenamiento" >
           <i class="bi bi-dumbbell"></i> Lista de entrenamientos
         </a></li>
         <li routerLinkActive="active"><a routerLink="/admin/ejercicio" >
           <i class="bi bi-person-walking"></i> Lista de ejercicios
         </a></li>
-        <li routerLinkActive="active"><a routerLink="/admin/materiales">
+        <li routerLinkActive="active"><a routerLink="/admin/material">
           <i class="bi bi-basket"></i> Lista de materiales
         </a></li>
         <li routerLinkActive="active"><a routerLink="/admin/usuarios">
@@ -50,6 +50,22 @@
         </a></li>
       </ng-container>
     </li>
+    <li *ngIf="isEntrenador$ | async">
+        <a (click)="toggleEntrenadorPanel()" class="entrenador-panel-toggle">
+          <i class="bi bi-person-badge"></i> Panel de Entrenador
+        </a>
+        <ng-container *ngIf="isDropdownEntrenadorOpen">
+            <li routerLinkActive="active"><a routerLink="/entrenador/mis-entrenamientos">
+              <i class="bi bi-fire"></i> Mis Entrenamientos
+            </a></li>
+            <li routerLinkActive="active"><a routerLink="/entrenador/crear-entrenamiento">
+              <i class="bi bi-plus-circle"></i> Crear Entrenamiento
+            </a></li>
+            <li routerLinkActive="active"><a routerLink="/entrenador/validar-entrenamiento">
+              <i class="bi bi-check2-square"></i> Validar Entrenamiento
+            </a></li>
+        </ng-container>
+      </li>
       <li *ngIf="isLoggedIn$ | async">
         <a (click)="logout()">
           <i class="bi bi-box-arrow-right"></i> Cerrar Sesión

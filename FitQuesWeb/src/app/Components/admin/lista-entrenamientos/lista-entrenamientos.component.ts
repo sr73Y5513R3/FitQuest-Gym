@@ -42,6 +42,7 @@ export class ListaEntrenamientosComponent implements OnInit{
   ejerciciosDisponibles: GetEjercicioDto[] = []; 
   ejerciciosPage: Page<GetEjercicioDto> | undefined;
   ejerciciosEnEntrenamientoActual: Set<number> = new Set();
+  ejerciciosEnEntrenamientoActualMap: Map<number, GetEjercicioDto> = new Map();
 
   constructor(
     private entrenamientoService: EntrenamientoService,
@@ -253,25 +254,36 @@ export class ListaEntrenamientosComponent implements OnInit{
     this.create = !this.create;
   }
 
+  getEjerciciosAsociadosList(): GetEjercicioDto[] {
+    return Array.from(this.ejerciciosEnEntrenamientoActualMap.values());
+  }
+
+ 
   showAddExerciseForm(entrenamientoId: number | undefined): void {
     if (entrenamientoId === undefined) {
       this.errorMessage = 'ID de entrenamiento no válido.';
       return;
     }
     this.entrenamientoId = entrenamientoId;
-    this.showAddEjercicioForm = true;
-    this.create = false; 
+    this.showAddEjercicioForm = true; 
+
+    
+    this.create = false;
     this.editing = false;
-    this.currentEntrenamientoId = null;
+    this.showAddEjercicioForm = true; 
+
     this.errorMessage = null;
     this.successMessage = null;
 
-    this.ejerciciosDisponibles = []; 
+    
+    this.ejerciciosDisponibles = [];
+    this.ejerciciosEnEntrenamientoActualMap.clear(); 
+
     this.loadAllEjerciciosForSelection(); 
-    this.loadEjerciciosFromEntrenamiento(entrenamientoId);
+    this.loadEjerciciosFromEntrenamiento(entrenamientoId); 
   }
 
-
+  
   addEjercicioToEntrenamiento(ejercicioId: number): void {
     this.errorMessage = null;
     this.successMessage = null;
@@ -280,7 +292,7 @@ export class ListaEntrenamientosComponent implements OnInit{
       this.errorMessage = 'No se ha seleccionado un entrenamiento para añadir el ejercicio.';
       return;
     }
-    if (ejercicioId === undefined || ejercicioId === 0) { 
+    if (ejercicioId === undefined || ejercicioId === 0) {
         this.errorMessage = 'ID de ejercicio no válido.';
         return;
     }
@@ -288,8 +300,9 @@ export class ListaEntrenamientosComponent implements OnInit{
     this.entrenamientoService.addEjercicioToEntrenamiento(this.entrenamientoId, ejercicioId).subscribe({
       next: () => {
         this.successMessage = `Ejercicio añadido al entrenamiento con éxito.`;
-        window.location.reload();
-        this.showAddEjercicioForm = false;
+        this.loadEjerciciosFromEntrenamiento(this.entrenamientoId!); 
+        this.loadAllEjerciciosForSelection(); 
+        this.loadEntrenamientos();
         setTimeout(() => this.successMessage = null, 2000);
       },
       error: (err: HttpErrorResponse) => {
@@ -306,12 +319,47 @@ export class ListaEntrenamientosComponent implements OnInit{
     });
   }
 
- loadAllEjerciciosForSelection(): void {
+  
+  removeEjercicioFromEntrenamiento(entrenamientoId: number, ejercicioId: number): void {
+    this.errorMessage = null;
+    this.successMessage = null;
+
+    if (entrenamientoId === undefined || entrenamientoId === 0 || ejercicioId === undefined || ejercicioId === 0) {
+      this.errorMessage = 'IDs de entrenamiento o ejercicio no válidos para la eliminación.';
+      return;
+    }
+
+    if (!confirm('¿Estás seguro de que quieres eliminar este ejercicio de este entrenamiento?')) {
+      return; 
+    }
+
+    this.entrenamientoService.deleteEjercicioToEntrenamiento(entrenamientoId, ejercicioId).subscribe({
+      next: () => {
+        this.successMessage = 'Ejercicio eliminado del entrenamiento con éxito.';
+       
+        this.loadEjerciciosFromEntrenamiento(entrenamientoId); 
+        this.loadAllEjerciciosForSelection(); 
+        this.loadEntrenamientos();
+        setTimeout(() => this.successMessage = null, 2000);
+      },
+      error: (err: HttpErrorResponse) => {
+        console.error('Error al eliminar ejercicio del entrenamiento:', err);
+        if (err.status === 404) {
+          this.errorMessage = 'Entrenamiento o ejercicio no encontrado para eliminar.';
+        } else {
+          this.errorMessage = 'Hubo un error al eliminar el ejercicio del entrenamiento. Inténtalo de nuevo.';
+        }
+        setTimeout(() => this.errorMessage = null, 5000);
+      }
+    });
+  }
+
+  
+  loadAllEjerciciosForSelection(): void {
     this.ejercicioService.findAllEjercicios(0, 500, '').subscribe({
       next: (data) => {
         this.ejerciciosDisponibles = data.content;
         console.log('Todos los ejercicios cargados para selección:', this.ejerciciosDisponibles);
-       
         this.filterAvailableEjercicios();
       },
       error: (err: HttpErrorResponse) => {
@@ -322,18 +370,22 @@ export class ListaEntrenamientosComponent implements OnInit{
     });
   }
 
+ 
   loadEjerciciosFromEntrenamiento(entrenamientoId: number): void {
-    this.ejerciciosEnEntrenamientoActual.clear(); 
-
+    this.ejerciciosEnEntrenamientoActualMap.clear(); 
 
     this.entrenamientoService.getEntrenamientoById(entrenamientoId).subscribe({
       next: (entrenamiento: GetEntrenoConEjercicioDto) => {
         if (entrenamiento.ejercicios) {
           entrenamiento.ejercicios.forEach(ej => {
-            this.ejerciciosEnEntrenamientoActual.add(ej.id!); 
+            this.ejerciciosEnEntrenamientoActualMap.set(ej.id!, ej); 
           });
-          console.log('IDs de ejercicios ya en el entrenamiento:', this.ejerciciosEnEntrenamientoActual);
-          this.filterAvailableEjercicios();
+          console.log('Ejercicios YA en el entrenamiento (Map):', this.ejerciciosEnEntrenamientoActualMap);
+          this.filterAvailableEjercicios(); 
+        } else {
+          console.log('El entrenamiento no tiene la propiedad "ejercicios" o está vacía.');
+          this.ejerciciosEnEntrenamientoActualMap.clear();
+          this.filterAvailableEjercicios(); 
         }
       },
       error: (err: HttpErrorResponse) => {
@@ -345,15 +397,23 @@ export class ListaEntrenamientosComponent implements OnInit{
   }
 
   filterAvailableEjercicios(): void {
-    if (this.ejerciciosDisponibles.length > 0 && this.ejerciciosEnEntrenamientoActual.size > 0) {
-      this.ejerciciosDisponibles = this.ejerciciosDisponibles.filter(ejercicio =>
-        !this.ejerciciosEnEntrenamientoActual.has(ejercicio.id!)
-      );
-      console.log('Ejercicios disponibles después de filtrar:', this.ejerciciosDisponibles);
+    if (this.ejerciciosDisponibles.length === 0) {
+      console.log('No hay ejercicios disponibles para filtrar (lista vacía).');
+      return;
     }
+
+    this.ejerciciosDisponibles = this.ejerciciosDisponibles.filter(ejercicio =>
+      !this.ejerciciosEnEntrenamientoActualMap.has(ejercicio.id!) 
+    );
+    console.log('Ejercicios disponibles después de filtrar:', this.ejerciciosDisponibles);
   }
-  
-  changeAddExercise() {
+
+  changeAddExercise(): void {
     this.showAddEjercicioForm = false;
+    this.ejerciciosDisponibles = [];
+    this.ejerciciosEnEntrenamientoActualMap.clear();
+    this.loadEntrenamientos(); 
   }
+
 }
+  

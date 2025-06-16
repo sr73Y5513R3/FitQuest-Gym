@@ -375,3 +375,13 @@ select.form-control-custom {
 .form-option{
   color: #212529;
 }
+
+.entrenamientos-page-container-ejercicio{
+  display: wrap;
+  gap:10px
+}
+
+.entrenamientos-page-container-ejercicio .title{
+  margin: 0 auto;
+  padding: 0;
+}

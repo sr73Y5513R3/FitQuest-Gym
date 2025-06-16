@@ -56,15 +56,16 @@
   }
   
   .sidebar .sidebar-nav ul li.active a {
-    background-color: #28a745; 
-    color: #212529; 
+    background-color: #28a745;
+    color: #212529;
     font-weight: bold;
     border-radius: 0 20px 20px 0;
-  }
+}
+
 
   .sidebar .sidebar-nav ul li +ng-container li.active a {
-    background-color: #28a745; 
-    color: #212529; 
+    background-color: #28a745;
+    color: #212529;
     font-weight: bold;
     border-radius: 0 20px 20px 0;
   }

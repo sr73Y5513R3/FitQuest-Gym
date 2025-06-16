@@ -2,6 +2,8 @@ package com.salesianos.FitQuestPrototype.Entrenamiento.Controllers;
 
 import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Entrenamiento.*;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Services.EntrenamientoService;
+import com.salesianos.FitQuestPrototype.User.Model.Entrenador;
+import com.salesianos.FitQuestPrototype.User.Services.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -23,6 +25,7 @@ import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,6 +33,7 @@ import java.util.List;
 public class EntrenamientoController {
 
     private final EntrenamientoService entrenamientoService;
+    private final UsuarioService usuarioService;
 
 
     @Operation(summary = "Obtiene todas los entrenamientos")
@@ -50,6 +54,26 @@ public class EntrenamientoController {
         return entrenamientoService.findAllEntrenamientos(pageable)
                 .map(GetEntrenoConEjercicioDto::of);
 
+    }
+
+    @Operation(summary = "Obtiene todas los entrenamientos de un entrenador")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se han encontrado todos los entrenamientos",
+                    content = {@Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = GetEntrenoConEjercicioDto.class)))}),
+            @ApiResponse(responseCode = "404",
+                    description = "No se han encontrado entrenamientos",
+                    content = @Content)
+    })
+    @GetMapping("/all/entrenador/{idEntrenador}")
+    public Page<GetEntrenoConEjercicioDto> findAllEntrenamientosByEntrenador(@PathVariable UUID idEntrenador,@RequestParam(defaultValue = "0") int page,
+                                                                             @RequestParam(defaultValue = "10") int size ){
+        Pageable pageable = PageRequest.of(page, size);
+        Entrenador entrenador = usuarioService.findEntrenadorById(idEntrenador);
+
+        return entrenamientoService.findAllEntrenamientosByEntrenador(entrenador, pageable)
+                .map(GetEntrenoConEjercicioDto::of);
     }
 
     @Operation(summary = "Busca un entrenamietno por id")

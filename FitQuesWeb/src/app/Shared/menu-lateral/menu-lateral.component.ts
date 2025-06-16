@@ -11,18 +11,21 @@ import { NavigationEnd, Router } from '@angular/router';
 })
 export class MenuLateralComponent {
   
-  isDropdownOpen: boolean = false;
+  isDropdowAdminOpen: boolean = false;
+  isDropdownEntrenadorOpen: boolean = false;
   isAdmin$: Observable<boolean>;
-  isLoggedIn$: Observable<boolean>; // Opcional: para mostrar/ocultar elementos basados en si el usuario está logeado
+  isEntrenador$: Observable<boolean>;
+  isLoggedIn$: Observable<boolean>;
 
   constructor(private authService: AuthService, private router: Router) {
     this.isAdmin$ = this.authService.isAdmin();
+    this.isEntrenador$ = this.authService.isEntrenador();
     this.isLoggedIn$ = this.authService.isAuthenticated$;
   }
 
   ngOnInit(): void {
      if(this.router.url.startsWith('/admin/')){
-      this.isDropdownOpen = true;
+      this.isDropdowAdminOpen = true;
     };
   }
 
@@ -31,8 +34,19 @@ export class MenuLateralComponent {
   }
 
   toggleAdminPanel(): void {
-    this.isDropdownOpen = !this.isDropdownOpen;
+    this.isDropdowAdminOpen = !this.isDropdowAdminOpen;
   }
 
-  
+  toggleEntrenadorPanel(): void { 
+    this.isDropdownEntrenadorOpen = !this.isDropdownEntrenadorOpen;
+  }
+  /*
+  isPanelAdminActive(): boolean {
+    const currentUrl = this.router.url;
+    return currentUrl.startsWith('/admin/entrenamiento') ||
+           currentUrl.startsWith('/admin/ejercicio') ||
+           currentUrl.startsWith('/admin/materiales') ||
+           currentUrl.startsWith('/admin/usuarios');
+  }
+  */
 }
