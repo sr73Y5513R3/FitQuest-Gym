@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { TopMenuComponent } from './Shared/top-menu/top-menu.component';
 import { FooterComponent } from './Shared/footer/footer.component';
 import { InicioComponent } from './Components/inicio/inicio.component';
@@ -21,6 +21,7 @@ import { EjercicioComponent } from './Components/ejercicio/ejercicio.component';
 import { EjercicioDetallesComponent } from './Components/ejercicio-detalles/ejercicio-detalles.component';
 import { MaterialesComponent } from './Components/materiales/materiales.component';
 import { MaterialesDetallesComponent } from './Components/materiales-detalles/materiales-detalles.component';
+import { authTokenInterceptor } from './intenceptor/auth-token.interceptor';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,13 @@ import { MaterialesDetallesComponent } from './Components/materiales-detalles/ma
     FormsModule, 
     HttpClientModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: authTokenInterceptor,
+      multi: true 
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

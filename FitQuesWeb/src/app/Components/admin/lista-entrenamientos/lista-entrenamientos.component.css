@@ -72,38 +72,6 @@
     color: #aaa;
   }
   
-  .filter-buttons {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
-  
-  .filter-buttons .btn {
-    background-color: #2c2c2c;
-    border: 1px solid #1abc9c;
-    color: #1abc9c;
-    font-weight: bold;
-    border-radius: 8px;
-  }
-  
-  .filter-buttons .btn:hover {
-    background-color: #1abc9c;
-    color: #fff;
-  }
-  
-  .filter-buttons .dropdown-menu {
-    background-color: #2c2c2c;
-    border: 1px solid #444;
-  }
-  
-  .filter-buttons .dropdown-item {
-    color: #f0f0f0;
-  }
-  
-  .filter-buttons .dropdown-item:hover {
-    background-color: #1abc9c;
-    color: #fff;
-  }
   
   .entrenamientos-grid {
     display: grid;

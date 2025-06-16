@@ -39,4 +39,8 @@ export class EntrenamientoService {
   deleteEntrenamiento(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/delete/${id}`);
   }
+
+   addEjercicioToEntrenamiento(entrenamientoId: number, ejercicioId: number): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/${entrenamientoId}/ejercicio/${ejercicioId}`, {}); 
+  }
 }

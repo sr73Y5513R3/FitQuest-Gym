@@ -1,9 +1,7 @@
 // src/app/models/ejercicio.interface.ts
 
-export interface Nivel {
-  id: number;
-  nombre: string;
-}
+import { Nivel } from "./nivel.model";
+
 
 export interface Material {
   id: number;
@@ -60,4 +58,5 @@ export interface EjercicioCreateUpdateDto {
   repeticiones: number;
   duracion: number;
   urlImagen: string;
+  nivel: Nivel;
 }

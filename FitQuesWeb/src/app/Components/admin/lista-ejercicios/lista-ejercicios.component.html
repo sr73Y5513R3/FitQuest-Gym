@@ -16,11 +16,15 @@
         </div>
 
       <div class="ejercicios-grid"> <ng-container *ngIf="ejerciciosPage?.content && ejerciciosPage!.content.length > 0; else noEjercicios">
-          <div class="ejercicio-card" *ngFor="let ejercicio of ejerciciosPage!.content"> <div class="card-body">
+          <div class="ejercicio-card" *ngFor="let ejercicio of ejerciciosPage!.content"> 
+            <div class="card-body">
               <h5 class="card-title">{{ ejercicio.nombre }}</h5>
-              <p class="card-text">{{ ejercicio.descripcion }}</p>
-              <p class="card-info">Series: {{ ejercicio.series }}</p> <p class="card-info">Repeticiones: {{ ejercicio.repeticiones }}</p> <p class="card-info">Duración: {{ ejercicio.duracion }} minutos</p> <p class="card-info">Nivel: {{ ejercicio.nivel.nombre || 'N/A' }}
+              <div class="card-info-text">
+              <p class="card-info">Series: {{ ejercicio.series }}</p> 
+              <p class="card-info">Repeticiones: {{ ejercicio.repeticiones }}</p> 
+              <p class="card-info">Duración: {{ ejercicio.duracion }} minutos</p> <p class="card-info">Nivel: {{ ejercicio.nivel.nombre || 'NA' }}
               <img *ngIf="ejercicio.urlImagen && ejercicio.urlImagen !== 'No hay'" [src]="ejercicio.urlImagen" alt="Imagen del ejercicio" class="card-image">
+              </div>
             </div>
           </div>
         </ng-container>
@@ -53,7 +57,7 @@
       <div>
         <h1 class="title-form">Crea un ejercicio</h1>
       </div>
-      <form #ejercicioForm="ngForm" (ngSubmit)="createEjercicio()">
+      <form>
         <div class="form-group">
           <label for="nombre" class="form-label-custom">Nombre del Ejercicio</label>
           <input type="text" id="nombre" name="nombre" [(ngModel)]="nombre" class="form-control-custom"
@@ -106,18 +110,37 @@
             <div *ngIf="duracionRef.errors?.['min']">La duración debe ser un número positivo.</div>
           </div>
         </div>
+        
 
         <div class="form-group">
-          <label for="urlImagen" class="form-label-custom">URL de la Imagen</label>
-          <input type="text" id="urlImagen" name="urlImagen" [(ngModel)]="urlImagen" class="form-control-custom">
+            <label for="urlImagen" class="form-label-custom">URL de la Imagen</label>
+            <input type="text" id="urlImagen" name="urlImagen" [(ngModel)]="urlImagen" class="form-control-custom"
+                    maxlength="255" #urlImagenRef="ngModel"
+                    [class.is-invalid]="urlImagenRef.invalid && (urlImagenRef.dirty || urlImagenRef.touched)">
+            <div *ngIf="urlImagenRef.invalid && (urlImagenRef.dirty || urlImagenRef.touched)" class="invalid-feedback">
+                <div *ngIf="urlImagenRef.errors?.['maxlength']">La URL de la imagen no puede exceder los 255 caracteres.</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="nivel" class="form-label-custom">Nivel</label>
+            <select id="nivel" name="nivel" [(ngModel)]="selectedNivelId" class="form-control-custom"
+                    required #nivelRef="ngModel"
+                    [class.is-invalid]="nivelRef.invalid && (nivelRef.dirty || nivelRef.touched)">
+                <option [ngValue]="null" disabled>Selecciona un nivel</option> <option *ngFor="let nivel of niveles" [ngValue]="nivel.id" class="text-dark">{{ nivel.nombre }}</option>
+            </select>
+            <div *ngIf="nivelRef.invalid && (nivelRef.dirty || nivelRef.touched)" class="invalid-feedback">
+                <div *ngIf="nivelRef.errors?.['required']">El nivel es requerido.</div>
+            </div>
         </div>
 
         <div class="form-actions">
           <button type="button" class="btn-secondary-custom" (click)="goBack()">Volver</button>
-          <button type="submit" class="btn-primary-custom" [disabled]="ejercicioForm.invalid">
+          <button type="submit" class="btn-primary-custom" (click)="createEjercicio()">
             <i class="bi bi-plus-circle"></i> Crear Ejercicio
           </button>
         </div>
+        
       </form>
     </div>
 

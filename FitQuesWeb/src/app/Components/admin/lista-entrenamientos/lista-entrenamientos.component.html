@@ -5,19 +5,28 @@
     <app-top-menu></app-top-menu>
 
     <div class="search-and-filters">
-      <button (click)="changeEstado()">Crear</button>
+      <button class="btn-primary-custom" (click)="changeEstado()">
+        <i class="bi bi-plus-circle"></i> Crear entrenamiento
+      </button>
     </div>
 
-<div class="entrenamientos-page-container" *ngIf="create">
-    <div>
-      <h1 class="title-form">Crea un entrenamiento</h1>
+    <div *ngIf="successMessage" class="alert alert-success mt-3" role="alert">
+      {{ successMessage }}
     </div>
-    <form>
+    <div *ngIf="errorMessage" class="alert alert-danger mt-3" role="alert">
+      {{ errorMessage }}
+    </div>
+
+
+    <div class="entrenamientos-page-container" *ngIf="create && !showAddEjercicioForm">
+      <div>
+        <h1 class="title-form">{{ editing ? 'Editar Entrenamiento' : 'Crea un entrenamiento' }}</h1>
+      </div>
+      <form>
         <div class="form-group">
           <label for="nombre" class="form-label-custom">Program Title</label>
-          <input type="text" id="nombre" name="nombre" [(ngModel)]="nombre" class="form-control-custom"
-                 required #nombreRef="ngModel"
-                 [class.is-invalid]="nombreRef.invalid && (nombreRef.dirty || nombreRef.touched)">
+          <input type="text" id="nombre" name="nombre" [(ngModel)]="nombre" class="form-control-custom" required
+            #nombreRef="ngModel" [class.is-invalid]="nombreRef.invalid && (nombreRef.dirty || nombreRef.touched)">
           <div *ngIf="nombreRef.invalid && (nombreRef.dirty || nombreRef.touched)" class="invalid-feedback">
             <div *ngIf="nombreRef.errors?.['required']">El título del programa es requerido.</div>
           </div>
@@ -25,20 +34,20 @@
 
         <div class="form-group">
           <label for="descripcion" class="form-label-custom">Descripción</label>
-          <textarea id="descripcion" name="descripcion" [(ngModel)]="descripcion" class="form-control-custom textarea-custom" rows="4"
-                    required #descripcionRef="ngModel"
-                    [class.is-invalid]="descripcionRef.invalid && (descripcionRef.dirty || descripcionRef.touched)"></textarea>
-          <div *ngIf="descripcionRef.invalid && (descripcionRef.dirty || descripcionRef.touched)" class="invalid-feedback">
+          <textarea id="descripcion" name="descripcion" [(ngModel)]="descripcion"
+            class="form-control-custom textarea-custom" rows="4" required #descripcionRef="ngModel"
+            [class.is-invalid]="descripcionRef.invalid && (descripcionRef.dirty || descripcionRef.touched)"></textarea>
+          <div *ngIf="descripcionRef.invalid && (descripcionRef.dirty || descripcionRef.touched)"
+            class="invalid-feedback">
             <div *ngIf="descripcionRef.errors?.['required']">La descripción es requerida.</div>
           </div>
         </div>
 
-
         <div class="form-group">
           <label for="puntos" class="form-label-custom">Points Awarded</label>
-          <input type="number" id="puntos" name="puntos" [(ngModel)]="puntos" class="form-control-custom"
-                 required min="0" #puntosRef="ngModel"
-                 [class.is-invalid]="puntosRef.invalid && (puntosRef.dirty || puntosRef.touched)">
+          <input type="number" id="puntos" name="puntos" [(ngModel)]="puntos" class="form-control-custom" required
+            min="0" #puntosRef="ngModel"
+            [class.is-invalid]="puntosRef.invalid && (puntosRef.dirty || puntosRef.touched)">
           <div *ngIf="puntosRef.invalid && (puntosRef.dirty || puntosRef.touched)" class="invalid-feedback">
             <div *ngIf="puntosRef.errors?.['required']">Los puntos son requeridos.</div>
             <div *ngIf="puntosRef.errors?.['min']">Los puntos deben ser un número positivo.</div>
@@ -48,8 +57,8 @@
         <div class="form-group">
           <label for="calorias" class="form-label-custom">Estimated Calorie Burn</label>
           <input type="number" id="calorias" name="calorias" [(ngModel)]="calorias" class="form-control-custom"
-                 required min="0" #caloriasRef="ngModel"
-                 [class.is-invalid]="caloriasRef.invalid && (caloriasRef.dirty || caloriasRef.touched)">
+            required min="0" #caloriasRef="ngModel"
+            [class.is-invalid]="caloriasRef.invalid && (caloriasRef.dirty || caloriasRef.touched)">
           <div *ngIf="caloriasRef.invalid && (caloriasRef.dirty || caloriasRef.touched)" class="invalid-feedback">
             <div *ngIf="caloriasRef.errors?.['required']">Las calorías estimadas son requeridas.</div>
             <div *ngIf="caloriasRef.errors?.['min']">Las calorías deben ser un número positivo.</div>
@@ -58,15 +67,16 @@
 
         <div class="form-group">
           <label for="entrenadorId" class="form-label-custom">Entrenador:</label>
-          <select id="entrenadorId" name="entrenadorId" [(ngModel)]="entrenadorId" class="form-control-custom"
-                  required #entrenadorIdRef="ngModel"
-                  [class.is-invalid]="entrenadorIdRef.invalid && (entrenadorIdRef.dirty || entrenadorIdRef.touched)">
+          <select id="entrenadorId" name="entrenadorId" [(ngModel)]="entrenadorId" class="form-control-custom" required
+            #entrenadorIdRef="ngModel"
+            [class.is-invalid]="entrenadorIdRef.invalid && (entrenadorIdRef.dirty || entrenadorIdRef.touched)">
             <option [ngValue]="''" disabled>Selecciona un entrenador</option>
             <option class="form-option" *ngFor="let entrenador of entrenadores" [ngValue]="entrenador.id">
               {{ entrenador.Username }}
             </option>
           </select>
-          <div *ngIf="entrenadorIdRef.invalid && (entrenadorIdRef.dirty || entrenadorIdRef.touched)" class="invalid-feedback">
+          <div *ngIf="entrenadorIdRef.invalid && (entrenadorIdRef.dirty || entrenadorIdRef.touched)"
+            class="invalid-feedback">
             <div *ngIf="entrenadorIdRef.errors?.['required']">El entrenador es requerido.</div>
           </div>
           <div *ngIf="entrenadores.length === 0 && !errorMessage" class="text-muted mt-2">
@@ -76,65 +86,105 @@
 
         <div class="form-actions">
           <button type="button" class="btn-secondary-custom" (click)="goBack()">Volver</button>
-          <button type="submit" class="btn-primary-custom" (click)="createEntrenamiento()">
-            <i class="bi bi-plus-circle"></i> Crear Entrenamiento
+          <button *ngIf="editing" type="button" class="btn-cancel-custom">
+            Cancelar Edición
+          </button>
+          <button type="submit" class="btn-primary-custom"
+            (click)="editing ? updateEntrenamiento() : createEntrenamiento()">
+            <i class="bi bi-save" *ngIf="editing"></i>
+            <i class="bi bi-plus-circle" *ngIf="!editing"></i>
+            {{ editing ? 'Guardar Cambios' : 'Crear Entrenamiento' }}
           </button>
         </div>
       </form>
+    </div>
 
-</div>
-
-<div class="entrenamientos-page-container-card" *ngIf="!create">
-  
-    <div class="entrenamientos-grid">
-      <ng-container *ngIf="entrenamientosPage?.content && entrenamientosPage!.content.length > 0">
-    <div class="entrenamiento-card"
-         *ngFor="let entreno of entrenamientosPage!.content"> <div class="card-body">
-        <h5 class="card-title">{{ entreno.nombre }}</h5>
-        <p class="card-text">{{ entreno.descripcion }}</p>
-        <p class="card-level">Duración: {{ entreno.duracion }} minutos</p>
-        <p class="card-level">Valoración: {{ entreno.valoracionMedia }}</p>
+    <div class="entrenamientos-page-container" *ngIf="showAddEjercicioForm">
+      <div>
+        <h1 class="title-form">Selecciona un Ejercicio para Añadir</h1>
+      </div>
+      <div class="ejercicios-grid">
+        <ng-container *ngIf="ejerciciosDisponibles.length > 0; else noEjerciciosDisponibles">
+          <div class="ejercicio-card-selectable" *ngFor="let ejercicio of ejerciciosDisponibles"
+               (click)="addEjercicioToEntrenamiento(ejercicio.id)">
+            <h5 class="card-title">{{ ejercicio.nombre }}</h5>
+            <p class="card-text">{{ ejercicio.descripcion }}</p>
+            <p class="card-text">Series: {{ ejercicio.series }} | Repeticiones: {{ ejercicio.repeticiones }}</p>
+            <p class="card-text">Duración: {{ ejercicio.duracion }} mins | Nivel: {{ ejercicio.nivel }}</p>
+            <p class="card-text" *ngIf="ejercicio.urlImagen">
+              <img [src]="ejercicio.urlImagen" alt="Imagen del ejercicio" class="ejercicio-img-thumbnail">
+            </p>
+            <button class="btn btn-sm btn-outline-primary mt-2">
+              <i class="bi bi-plus-circle"></i> Añadir
+            </button>
+          </div>
+        </ng-container>
+        <ng-template #noEjerciciosDisponibles>
+          <div class="alert alert-info mt-3">No hay ejercicios disponibles para añadir.</div>
+        </ng-template>
+      </div>
+      <div class="form-actions mt-3">
+        <button type="button" class="btn-secondary-custom" (click)="changeAddExercise()">Volver</button>
       </div>
     </div>
-  </ng-container>
-      <ng-template #noEntrenamientos>
-        <div *ngIf="entrenamientosPage?.empty" class="alert alert-info mt-3">
-          No se encontraron entrenamientos.
-        </div>
-      </ng-template>
-    </div>
-  
-    <nav aria-label="Page navigation" *ngIf="entrenamientosPage && entrenamientosPage.totalPages > 1">
-      <ul class="pagination justify-content-center mt-4">
-        <li class="page-item">
-          <a class="page-link" (click)="previousPage()">Anterior</a>
-        </li>
-        <li class="page-item" *ngFor="let pageNum of [].constructor(entrenamientosPage.totalPages); let i = index"
+
+
+    <div class="entrenamientos-page-container-card" *ngIf="!create && !showAddEjercicioForm">
+
+      <div class="entrenamientos-grid">
+        <ng-container
+          *ngIf="entrenamientosPage?.content && entrenamientosPage!.content.length > 0; else noEntrenamientos">
+          <div class="entrenamiento-card" *ngFor="let entreno of entrenamientosPage!.content">
+            <div class="card-body">
+              <h5 class="card-title">{{ entreno.nombre }}</h5>
+              <p class="card-text">{{ entreno.descripcion }}</p>
+              <p class="card-level">Puntos: {{ entreno.puntos }}</p>
+              <p class="card-level">Calorías: {{ entreno.calorias }}</p>
+              <p class="card-level">Entrenador: {{ entreno.entrenador.username || 'N/A' }}</p>
+              <div *ngIf="entreno.ejercicios && entreno.ejercicios.length > 0" class="mt-2">
+                <h6>Ejercicios Incluidos:</h6>
+                <ul>
+                  <li *ngFor="let ej of entreno.ejercicios">{{ ej.nombre }}</li>
+                </ul>
+              </div>
+
+              <div class="card-actions">
+                <button class="btn btn-sm btn-info me-2" (click)="editEntrenamiento(entreno)">
+                  <i class="bi bi-pencil"></i> Editar
+                </button>
+                <button class="btn btn-sm btn-danger me-2" (click)="deleteEntrenamiento(entreno.id)">
+                  <i class="bi bi-trash"></i> Eliminar
+                </button>
+                <button class="btn btn-sm btn-success" (click)="showAddExerciseForm(entreno.id)">
+                  <i class="bi bi-plus"></i> Añadir Ejercicio
+                </button>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+        <ng-template #noEntrenamientos>
+          <div *ngIf="entrenamientosPage?.empty" class="alert alert-info mt-3">
+            No se encontraron entrenamientos.
+          </div>
+        </ng-template>
+      </div>
+
+      <nav aria-label="Page navigation" *ngIf="entrenamientosPage && entrenamientosPage.totalPages > 1">
+        <ul class="pagination justify-content-center mt-4">
+          <li class="page-item" [class.disabled]="currentPage === 0">
+            <a class="page-link" (click)="previousPage()">Anterior</a>
+          </li>
+          <li class="page-item" *ngFor="let pageNum of [].constructor(entrenamientosPage.totalPages); let i = index"
             [class.active]="i === currentPage">
-          <a class="page-link" (click)="goToPage(i)">{{ i + 1 }}</a>
-        </li>
-        <li class="page-item">
-          <a class="page-link" (click)="nextPage()">Siguiente</a>
-        </li>
-      </ul>
-    </nav>
-  
-  </div>
+            <a class="page-link" (click)="goToPage(i)">{{ i + 1 }}</a>
+          </li>
+          <li class="page-item" [class.disabled]="currentPage === entrenamientosPage.totalPages - 1">
+            <a class="page-link" (click)="nextPage()">Siguiente</a>
+          </li>
+        </ul>
+      </nav>
+
+    </div>
 
   </main>
 </div>
-    <!--
-    <div class="form-card" *ngIf="create">
-      <h2 class="form-title">Crear entrenamiento</h2>
-
-      <div *ngIf="successMessage" class="alert alert-success custom-alert" role="alert">
-        {{ successMessage }}
-        <button type="button" class="btn-close" (click)="successMessage = null"></button>
-      </div>
-      <div *ngIf="errorMessage" class="alert alert-danger custom-alert" role="alert">
-        {{ errorMessage }}
-        <button type="button" class="btn-close" (click)="errorMessage = null"></button>
-      </div>
-
-      -->
- 

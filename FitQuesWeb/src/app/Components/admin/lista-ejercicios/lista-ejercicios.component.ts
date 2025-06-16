@@ -3,6 +3,8 @@ import { Component } from '@angular/core';
 import { EjercicioCreateUpdateDto, GetEjercicioDto, Page } from '../../../models/ejercicio.model';
 import { EjercicioService } from '../../../Services/ejercicio/ejercicio.service';
 import { Router } from '@angular/router';
+import { Nivel } from '../../../models/nivel.model';
+import { NivelService } from '../../../Services/nivel/nivel.service';
 
 
 @Component({
@@ -27,23 +29,41 @@ export class ListaEjerciciosComponent {
   duracion: number | null = null;
   urlImagen: string = '';
 
+
+  niveles: Nivel[] = []; 
+  selectedNivelId: number | null = null;
+
   
   errorMessage: string | null = null;
   successMessage: string | null = null;
 
   constructor(
     private ejercicioService: EjercicioService,
-    
+    private nivelService: NivelService,
     private router: Router
   ) { }
 
   ngOnInit(): void {
     
     this.loadEjercicios();
+    this.loadNiveles();
+  }
+
+  loadNiveles(): void {
+    this.nivelService.findAll().subscribe({
+      next: (data) => {
+        this.niveles = data; 
+        console.log('Niveles cargados:', this.niveles);
+      },
+      error: (err) => {
+        console.error('Error al cargar niveles:', err);
+        this.errorMessage = 'Hubo un error al cargar los niveles disponibles. Por favor, inténtalo de nuevo más tarde.';
+      }
+    });
   }
 
 
-  createEjercicio(): void {
+  /*createEjercicio(): void {
     this.errorMessage = null;
     this.successMessage = null;
 
@@ -58,6 +78,10 @@ export class ListaEjerciciosComponent {
       return;
     }
 
+    this.nivelService.findById(this.selectedNivelId).subscribe(nivel =>{
+      const niveles = nivel;
+    })
+    
     const newEjercicio: EjercicioCreateUpdateDto = {
       nombre: this.nombre,
       descripcion: this.descripcion,
@@ -65,6 +89,7 @@ export class ListaEjerciciosComponent {
       repeticiones: this.repeticiones,
       duracion: this.duracion,
       urlImagen: this.urlImagen || 'No hay',
+      Nivel: this.nivel,
       
     };
 
@@ -83,7 +108,7 @@ export class ListaEjerciciosComponent {
         this.loadEjercicios(); 
 
         setTimeout(() => {
-          this.changeEstado(); 
+          this.router.navigate(["/admin/ejercicio"])
           this.successMessage = null;
         }, 2000);
       },
@@ -94,6 +119,77 @@ export class ListaEjerciciosComponent {
         } else {
           this.errorMessage = 'Hubo un error al crear el ejercicio. Inténtalo de nuevo.';
         }
+      }
+
+      
+    });
+
+  }*/
+
+     createEjercicio(): void {
+    this.errorMessage = null;
+    this.successMessage = null;
+
+    if (!this.nombre || !this.descripcion || this.series === null || this.repeticiones === null ||
+        this.duracion === null || !this.selectedNivelId) { 
+      this.errorMessage = 'Por favor, completa todos los campos requeridos (nombre, descripción, series, repeticiones, duración, nivel).';
+      return;
+    }
+    if (this.series < 1 || this.repeticiones < 1 || this.duracion < 0) {
+      this.errorMessage = 'Series, repeticiones y duración deben ser números positivos.';
+      return;
+    }
+
+   
+    this.nivelService.findById(this.selectedNivelId).subscribe({
+      next: (nivelSeleccionado: Nivel) => {
+ 
+        const newEjercicio: EjercicioCreateUpdateDto = {
+          nombre: this.nombre!,
+          descripcion: this.descripcion!,
+          series: this.series!,
+          repeticiones: this.repeticiones!,
+          duracion: this.duracion!,
+          urlImagen: this.urlImagen || 'No hay',
+          nivel: nivelSeleccionado, 
+        };
+
+        
+        this.ejercicioService.createEjercicio(newEjercicio).subscribe({
+      next: () => {
+        this.successMessage = 'Ejercicio creado con éxito.';
+       
+        this.nombre = '';
+        this.descripcion = '';
+        this.series = null;
+        this.repeticiones = null;
+        this.duracion = null;
+        this.urlImagen = '';
+       
+
+        this.loadEjercicios(); 
+
+        setTimeout(() => {
+          this.router.navigate(["/admin/ejercicio"])
+          this.changeEstado()
+          this.successMessage = null;
+        }, 2000);
+      },
+      error: (err: HttpErrorResponse) => {
+        console.error('Error al crear ejercicio:', err);
+        if (err.status === 403) {
+          this.errorMessage = 'No tienes permisos para crear ejercicios.';
+        } else {
+          this.errorMessage = 'Hubo un error al crear el ejercicio. Inténtalo de nuevo.';
+        }
+      }
+
+      
+    });
+      },
+      error: (err) => {
+        console.error('Error al obtener el nivel seleccionado:', err);
+        this.errorMessage = 'No se pudo obtener la información del nivel seleccionado. Por favor, inténtalo de nuevo.';
       }
     });
   }
@@ -148,19 +244,5 @@ export class ListaEjerciciosComponent {
 
   changeEstado(): void {
     this.create = !this.create;
-    this.errorMessage = null;
-    this.successMessage = null;
-    if (this.create) {
-      this.resetForm();
-    }
-  }
-
-  resetForm(): void {
-    this.nombre = '';
-    this.descripcion = '';
-    this.series = null;
-    this.repeticiones = null;
-    this.duracion = null;
-    this.urlImagen = '';
   }
 }
