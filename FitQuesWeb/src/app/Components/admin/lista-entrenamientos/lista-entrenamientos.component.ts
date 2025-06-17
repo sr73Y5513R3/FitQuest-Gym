@@ -254,6 +254,19 @@ export class ListaEntrenamientosComponent implements OnInit{
     this.create = !this.create;
   }
 
+  goAtras(){
+    this.create = false;
+    this.showAddEjercicioForm = false;
+    this.editing = false;
+
+  
+    this.nombre = '';
+    this.descripcion = '';
+    this.calorias = null;
+    this.puntos = null;
+    this.entrenadorId = '';
+  }
+
   getEjerciciosAsociadosList(): GetEjercicioDto[] {
     return Array.from(this.ejerciciosEnEntrenamientoActualMap.values());
   }

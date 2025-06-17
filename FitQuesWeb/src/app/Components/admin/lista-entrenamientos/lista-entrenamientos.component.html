@@ -85,8 +85,8 @@
         </div>
 
         <div class="form-actions">
-          <button type="button" class="btn-secondary-custom" (click)="goBack()">Volver</button>
-          <button *ngIf="editing" type="button" class="btn-cancel-custom">
+          <button type="button" class="btn-secondary-custom" (click)="goAtras()">Volver</button>
+          <button *ngIf="editing" type="button" class="btn-cancel-custom" (click)="goAtras()">
             Cancelar Edición
           </button>
           <button type="submit" class="btn-primary-custom"

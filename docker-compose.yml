@@ -34,7 +34,9 @@ services:
 
 
   app:
-    build: .
+    build: 
+      context: .
+      dockerfile: DockerfileBack
     container_name: fitQuestPrototype
     ports:
       - "8080:8080"
@@ -42,6 +44,17 @@ services:
       pg:
         condition: service_healthy
     restart: on-failure
+
+  frontend:
+      build:
+        context: .
+        dockerfile: DockerfileFront
+      container_name: fitQuest-frontend
+      ports:
+        - "4200:4200"
+      restart: on-failure
+      depends_on:
+        - app
 
 
 volumes:
