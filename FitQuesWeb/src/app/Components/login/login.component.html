@@ -1,0 +1,37 @@
+<app-top-menu></app-top-menu>
+
+<div class="container d-flex flex-column align-items-center justify-content-center min-vh-100 bg-dark text-white">
+  <div class="card bg-dark border-0 mb-4" style="max-width: 800px;">
+    <img src="https://images.fineartamerica.com/images/artworkimages/medium/3/patrick-start-powerlifting-squat-bench-deadlift-funny-gym-matthew-chan-transparent.png" class="card-img-top" alt="Gym Image">
+  </div>
+
+  <div class="card bg-dark p-4 border-0 text-white" style="width: 100%; max-width: 400px;">
+    <h2 class="text-center mb-4">Bienvenido a FitQuest Gym</h2>
+    <form (ngSubmit)="onLoginSubmit()"> <div class="mb-3">
+        <input
+          type="text"
+          class="form-control form-control-lg bg-dark text-white border-success"
+          placeholder="Nombre de usuario"
+          name="username"
+          [(ngModel)]="username" required
+        >
+      </div>
+      <div class="mb-3">
+        <input
+          type="password"
+          class="form-control form-control-lg bg-dark text-white border-success"
+          placeholder="Contraseña"
+          name="password"
+          [(ngModel)]="password" required
+        >
+      </div>
+      <div *ngIf="errorMessage" class="alert alert-danger mt-3" role="alert">
+        {{ errorMessage }}
+      </div>
+      <div class="d-grid gap-2 mt-3">
+        <button type="submit" class="btn btn-success btn-lg">Iniciar sesión</button>
+        <button type="button" class="btn btn-secondary btn-lg" (click)="onRegisterClick()">Registrarse</button>
+      </div>
+    </form>
+  </div>
+</div>

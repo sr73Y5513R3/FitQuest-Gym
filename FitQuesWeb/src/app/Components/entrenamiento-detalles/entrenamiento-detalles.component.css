@@ -1,0 +1,247 @@
+.main-container {
+    display: flex;
+    min-height: 100vh;
+    background-color: #212529;
+    color: #f8f9fa;
+    font-family: 'Arial', sans-serif;
+}
+
+.content-area {
+    flex-grow: 1;
+    padding: 0px;
+    background-color: #212121;
+}
+
+.entrenamiento-detalle-page-container {
+    padding: 30px;
+    background-color: #1a1a1a;
+    color: #f0f0f0;
+    min-height: calc(100vh - 60px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.details-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    width: 100%;
+    max-width: 900px;
+}
+
+.details-header h1 {
+    font-size: 2.5rem;
+    color: #f8f9fa;
+    margin-left: 20px;
+    flex-grow: 1;
+    text-align: center;
+}
+
+.back-button {
+    background: none;
+    border: none;
+    color: #00bcd4;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    border-radius: 5px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.back-button:hover {
+    background-color: rgba(0, 188, 212, 0.1);
+    color: #00e5ff;
+}
+
+.back-button i {
+    margin-right: 8px;
+    font-size: 1.4rem;
+}
+
+.entrenamiento-content-card {
+    background-color: #2c2c2c;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    padding: 30px 40px;
+    width: 100%;
+    color: #f8f9fa;
+}
+
+.entrenamiento-content-card h2 {
+    font-size: 2.5rem;
+    color: #1abc9c;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.section-divider {
+    border-bottom: 2px solid #1abc9c;
+    padding-bottom: 10px;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+.section-divider h3 {
+    font-size: 1.8rem;
+    color: #f8f9fa;
+    margin: 0;
+}
+
+.content-description {
+    font-size: 1.25rem;
+    color: #cccccc;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+.general-info-grid {
+    display: wrap;
+    gap: 15px 30px;
+    margin-bottom: 30px;
+}
+
+.general-info-grid p {
+    font-size: 1.3rem;
+    color: #e0e0e0;
+    margin: 0;
+}
+
+.general-info-grid strong {
+    color: #1abc9c;
+    margin-right: 5px;
+}
+
+.exercises-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.exercises-list li {
+    background-color: #3e3e3e;
+    padding: 15px 20px;
+    margin-bottom: 12px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    font-size: 1.1rem;
+    color: #f8f9fa;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    cursor: pointer;
+}
+
+.exercises-list li:hover {
+    background-color: #4a4a4a;
+    transform: translateY(-2px);
+}
+
+.exercises-list li i.bi-dumbbell {
+    margin-right: 15px;
+    color: #00bcd4;
+    font-size: 1.5rem;
+}
+
+.exercise-details-hint {
+    margin-left: auto;
+    font-size: 0.9em;
+    color: #bbb;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.loading-message {
+    text-align: center;
+    padding: 40px;
+    font-size: 1.2rem;
+    color: #adb5bd;
+}
+
+.alert {
+    padding: 20px;
+    margin-top: 30px;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.alert-danger {
+    background-color: #dc3545;
+    color: white;
+    border: 1px solid #dc3545;
+}
+
+.alert .btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    color: white;
+    margin-left: 20px;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.alert .btn-secondary:hover {
+    background-color: #5a6268;
+    border-color: #545b62;
+}
+
+@media (max-width: 768px) {
+    .entrenamiento-detalle-page-container {
+        padding: 20px;
+    }
+
+    .details-header {
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: left;
+    }
+
+    .details-header h1 {
+        font-size: 2rem;
+        margin-left: 0;
+        text-align: left;
+        margin-top: 15px;
+    }
+
+    .entrenamiento-content-card {
+        padding: 20px 25px;
+    }
+
+    .entrenamiento-content-card h2 {
+        font-size: 2rem;
+        text-align: left;
+    }
+
+    .section-divider h3 {
+        font-size: 1.5rem;
+    }
+
+    .general-info-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .entrenamiento-detalle-page-container {
+        padding: 15px;
+    }
+
+    .details-header h1 {
+        font-size: 1.8rem;
+    }
+
+    .entrenamiento-content-card {
+        padding: 15px 20px;
+    }
+
+    .entrenamiento-content-card h2 {
+        font-size: 1.8rem;
+    }
+}

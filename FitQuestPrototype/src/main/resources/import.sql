@@ -7,7 +7,7 @@ INSERT INTO USUARIO_ROLES (USUARIO_ID, roles) VALUES ('e2e55861-356d-4087-bdb7-8
 INSERT INTO ENTRENADOR (USUARIO_ID) VALUES ('e2e55861-356d-4087-bdb7-879b234c972c');
 
 /*Insertar admin*/
-INSERT INTO USUARIO (ID, NOMBRE, APELLIDO1, APELLIDO2, EMAIL, USERNAME, PASSWORD, ENABLED ) VALUES ('8dc6a461-f0dc-4876-b727-834cbc396fa4', 'Felipe', 'Neduro', 'Ylargo', 'FelipeNeduro@gmail.com','Felipe Neduro', '{bcrypt}$2a$12$zKYqTeiCPvPHMdKUo6VAp.G66i.y9SGGqzpv73vqp6c1QjEx7c83O', 'true');
+INSERT INTO USUARIO (ID, NOMBRE, APELLIDO1, APELLIDO2, EMAIL, USERNAME, PASSWORD, ENABLED ) VALUES ('8dc6a461-f0dc-4876-b727-834cbc396fa4', 'Felipe', 'Neduro', 'Ylargo', 'FelipeNeduro@gmail.com','admin', '{bcrypt}$2a$12$zKYqTeiCPvPHMdKUo6VAp.G66i.y9SGGqzpv73vqp6c1QjEx7c83O', 'true');
 INSERT INTO USUARIO_ROLES(USUARIO_ID, roles) VALUES ('8dc6a461-f0dc-4876-b727-834cbc396fa4','ADMIN');
 
 /*Insertar clientes*/

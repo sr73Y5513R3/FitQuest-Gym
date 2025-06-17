@@ -1,0 +1,44 @@
+<div class="main-container">
+  <app-menu-lateral></app-menu-lateral>
+
+  <main class="content-area">
+    <app-top-menu></app-top-menu>
+
+    <div class="material-detalle-page-container">
+      
+        <h1>Detalles del material</h1>
+
+      <div *ngIf="material; else loadingOrError" class="material-content-card">
+
+        <h2>{{ material.nombre }}</h2>
+
+        <div class="section-divider">
+          <h3>Descripción</h3>
+        </div>
+        <p class="content-description">{{ material.descripcion }}</p>
+
+        <div class="section-divider">
+          <h3>Tipo</h3>
+        </div>
+        <p class="material-type">{{ material.tipo }}</p>
+
+        </div>
+
+      <ng-template #loadingOrError>
+        <div *ngIf="!material && !errorMessage" class="loading-message mt-3">
+          Cargando detalles del material...
+        </div>
+        <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+          {{ errorMessage }}
+          <button class="btn btn-secondary ms-3" (click)="goBack()">Volver</button>
+        </div>
+      </ng-template>
+      <div class="details-header">
+        <button class="btn btn-link back-button" (click)="goBack()">
+          <i class="bi bi-arrow-left-circle"></i> Volver a Materiales
+        </button>
+      </div>
+    </div>
+
+  </main>
+</div>

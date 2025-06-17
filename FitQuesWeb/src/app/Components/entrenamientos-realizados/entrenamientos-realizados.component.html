@@ -1,0 +1,59 @@
+<div class="main-container">
+  <app-menu-lateral></app-menu-lateral>
+
+  <main class="content-area">
+    <app-top-menu></app-top-menu>
+
+    <div class="realiza-list-container">
+      <div class="header-section">
+        <h1>Mis Entrenamientos Realizados</h1>
+        <p>Aquí puedes ver el historial de los entrenamientos que has completado.</p>
+      </div>
+
+      <div *ngIf="errorMessage" class="alert alert-danger mt-3" role="alert">
+        {{ errorMessage }}
+      </div>
+
+      <div class="realiza-grid">
+        <ng-container *ngIf="realizasPage?.content && realizasPage!.content.length > 0; else noRealizas">
+          <div class="realiza-card" *ngFor="let realiza of realizasPage!.content">
+            <div class="card-body">
+              <h5 class="card-title">Entrenamiento: {{ realiza.entreno.nombre }}</h5>
+              <p class="card-text">
+                Completado:
+                <span [class.text-success]="realiza.realizado">Sí </span>
+                <span >/</span>
+                <span [class.text-danger]="!realiza.realizado"> No</span>
+              </p>
+              </div>
+          </div>
+        </ng-container>
+
+        <ng-template #noRealizas>
+          <div *ngIf="realizasPage?.empty && userId" class="alert alert-info mt-3">
+            Aún no has marcado ningún entrenamiento como realizado.
+          </div>
+          <div *ngIf="!userId" class="alert alert-warning mt-3">
+            Para ver tus entrenamientos realizados, por favor inicia sesión.
+          </div>
+        </ng-template>
+      </div>
+
+      <nav aria-label="Page navigation" *ngIf="realizasPage && realizasPage.totalPages > 1">
+        <ul class="pagination justify-content-center mt-4">
+          <li class="page-item" [class.disabled]="realizasPage.first">
+            <a class="page-link" (click)="previousPage()">Anterior</a>
+          </li>
+          <li class="page-item" *ngFor="let pageNum of [].constructor(realizasPage.totalPages); let i = index"
+              [class.active]="i === currentPage">
+            <a class="page-link" (click)="goToPage(i)">{{ i + 1 }}</a>
+          </li>
+          <li class="page-item" [class.disabled]="realizasPage.last">
+            <a class="page-link" (click)="nextPage()">Siguiente</a>
+          </li>
+        </ul>
+      </nav>
+
+    </div>
+  </main>
+</div>

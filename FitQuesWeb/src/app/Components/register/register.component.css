@@ -1,0 +1,55 @@
+body {
+  background-color: #1a1a1a;
+}
+
+.form-control.border-success {
+  border-color: #198754;
+}
+
+.navbar {
+  background-color: #1a1a1a; 
+  border-bottom: 1px solid #333; 
+}
+
+.card {
+  background-color: #1a1a1a;
+}
+
+.min-vh-100 {
+  min-height: 100vh;
+}
+
+.form-select.bg-dark {
+  background-color: #1a1a1a !important;
+  color: #fff !important;
+  border-color: #198754 !important;
+}
+
+.form-select.bg-dark option {
+  background-color: #1a1a1a;
+  color: #fff;
+}
+
+.form-control.bg-dark.text-white::placeholder {
+  color: #999 !important;
+  opacity: 1 !important;
+}
+
+.form-control.bg-dark.text-white::-webkit-input-placeholder {
+  color: #999 !important;
+  opacity: 1 !important;
+}
+
+.form-control.bg-dark.text-white::-moz-placeholder {
+  color: #999 !important;
+  opacity: 1 !important;
+}
+
+.form-control.bg-dark.text-white:-ms-input-placeholder {
+  color: #999 !important;
+  opacity: 1 !important;
+}
+
+.form-select.bg-dark.text-white option[disabled][selected] {
+  color: #999 !important;
+}

@@ -1,5 +1,6 @@
 package com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Ejercicio;
 
+import com.salesianos.FitQuestPrototype.Entrenamiento.Model.Nivel;
 import jakarta.validation.constraints.*;
 import org.hibernate.validator.constraints.URL;
 
@@ -25,6 +26,9 @@ public record CreateEjercicioCmd(
 
         @NotBlank(message = "La URL de la imagen no puede estar vacía")
         //@URL(message = "La URL de la imagen debe ser válida")
-        String urlImagen
+        String urlImagen,
+
+        @NotNull
+        Nivel nivel //Cambio
 ) {
 }

@@ -1,0 +1,232 @@
+<div class="main-container">
+    <app-menu-lateral></app-menu-lateral>
+
+    <main class="content-area">
+        <app-top-menu></app-top-menu>
+
+        <div class="search-and-filters">
+            <button class="btn-primary-custom" (click)="changeEstado()">
+                <i class="bi bi-plus-circle"></i> Crear Ejercicio
+            </button>
+        </div>
+
+        <div class="ejercicios-page-container" *ngIf="!create && !showAddMaterialToEjercicioForm">
+            <div class="header-section">
+                <h1>Ejercicios</h1>
+            </div>
+
+            <div class="ejercicios-grid">
+                <ng-container *ngIf="ejerciciosPage?.content && ejerciciosPage!.content.length > 0; else noEjercicios">
+                    <div class="ejercicio-card" *ngFor="let ejercicio of ejerciciosPage!.content">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ ejercicio.nombre }}</h5>
+                            <div class="card-info-text">
+                                <p class="card-info">Series: {{ ejercicio.series }}</p>
+                                <p class="card-info">Repeticiones: {{ ejercicio.repeticiones }}</p>
+                                <p class="card-info">Duración: {{ ejercicio.duracion }} minutos</p>
+                                <p class="card-info">Nivel: {{ ejercicio.nivel.nombre || 'NA' }}</p>
+                                <img *ngIf="ejercicio.urlImagen && ejercicio.urlImagen !== 'No hay'" [src]="ejercicio.urlImagen" alt="Imagen del ejercicio" class="card-image">
+                            </div>
+                            <div *ngIf="ejercicio.materiales && ejercicio.materiales.length > 0" class="ms-3 mt-1">
+                                <small class="text-muted-custom">Materiales:</small>
+                                <ul class="list-unstyled materiales-grid-list">
+                                    <li *ngFor="let mat of ejercicio.materiales" class="text-secondary">
+                                        - {{ mat.nombre }}
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn btn-sm btn-info me-2" (click)="editEjercicio(ejercicio)">
+                                    <i class="bi bi-pencil"></i> Editar
+                                </button>
+                                <button class="btn btn-sm btn-danger me-2" (click)="deleteEntrenamiento(ejercicio.id)">
+                                    <i class="bi bi-trash"></i> Eliminar
+                                </button>
+                                <button class="btn btn-sm btn-primary" (click)="showAddMaterialToExerciseForm(ejercicio.id)">
+                                    <i class="bi bi-gear"></i> Gestionar Materiales
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+                <ng-template #noEjercicios>
+                    <div *ngIf="ejerciciosPage?.empty" class="alert alert-info mt-3">
+                        No se encontraron ejercicios.
+                    </div>
+                </ng-template>
+            </div>
+
+            <nav aria-label="Page navigation" *ngIf="ejerciciosPage && ejerciciosPage.totalPages > 1">
+                <ul class="pagination justify-content-center mt-4">
+                    <li class="page-item" [class.disabled]="currentPage === 0">
+                        <a class="page-link" (click)="previousPage()">Anterior</a>
+                    </li>
+                    <li class="page-item" *ngFor="let pageNum of [].constructor(ejerciciosPage.totalPages); let i = index"
+                        [class.active]="i === currentPage">
+                        <a class="page-link" (click)="goToPage(i)">{{ i + 1 }}</a>
+                    </li>
+                    <li class="page-item" [class.disabled]="currentPage === ejerciciosPage.totalPages - 1">
+                        <a class="page-link" (click)="nextPage()">Siguiente</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+        <div class="ejercicios-page-container-form" *ngIf="create && !showAddMaterialToEjercicioForm">
+            <div>
+                <h1 class="title-form">{{ editingEjercicio ? 'Editar Ejercicio' : 'Crear un Ejercicio' }}</h1>
+            </div>
+            <form (ngSubmit)="editingEjercicio ? updateEjercicio() : createEjercicio()">
+                <div class="form-group">
+                    <label for="ejercicioNombre" class="form-label-custom">Nombre del Ejercicio</label>
+                    <input type="text" id="ejercicioNombre" name="nombre" [(ngModel)]="nombre" class="form-control-custom"
+                           required #nombreRef="ngModel"
+                           [class.is-invalid]="nombreRef.invalid && (nombreRef.dirty || nombreRef.touched)">
+                    <div *ngIf="nombreRef.invalid && (nombreRef.dirty || nombreRef.touched)" class="invalid-feedback">
+                        <div *ngIf="nombreRef.errors?.['required']">El nombre del ejercicio es requerido.</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="ejercicioDescripcion" class="form-label-custom">Descripción</label>
+                    <textarea id="ejercicioDescripcion" name="descripcion" [(ngModel)]="descripcion" class="form-control-custom textarea-custom" rows="4"
+                              required #descripcionRef="ngModel"
+                              [class.is-invalid]="descripcionRef.invalid && (descripcionRef.dirty || descripcionRef.touched)"></textarea>
+                    <div *ngIf="descripcionRef.invalid && (descripcionRef.dirty || descripcionRef.touched)" class="invalid-feedback">
+                        <div *ngIf="descripcionRef.errors?.['required']">La descripción es requerida.</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="ejercicioSeries" class="form-label-custom">Series</label>
+                    <input type="number" id="ejercicioSeries" name="series" [(ngModel)]="series" class="form-control-custom"
+                           required min="1" #seriesRef="ngModel"
+                           [class.is-invalid]="seriesRef.invalid && (seriesRef.dirty || seriesRef.touched)">
+                    <div *ngIf="seriesRef.invalid && (seriesRef.dirty || seriesRef.touched)" class="invalid-feedback">
+                        <div *ngIf="seriesRef.errors?.['required']">El número de series es requerido.</div>
+                        <div *ngIf="seriesRef.errors?.['min']">Las series deben ser al menos 1.</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="ejercicioRepeticiones" class="form-label-custom">Repeticiones</label>
+                    <input type="number" id="ejercicioRepeticiones" name="repeticiones" [(ngModel)]="repeticiones" class="form-control-custom"
+                           required min="1" #repeticionesRef="ngModel"
+                           [class.is-invalid]="repeticionesRef.invalid && (repeticionesRef.dirty || repeticionesRef.touched)">
+                    <div *ngIf="repeticionesRef.invalid && (repeticionesRef.dirty || repeticionesRef.touched)" class="invalid-feedback">
+                        <div *ngIf="repeticionesRef.errors?.['required']">El número de repeticiones es requerido.</div>
+                        <div *ngIf="repeticionesRef.errors?.['min']">Las repeticiones deben ser al menos 1.</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="ejercicioDuracion" class="form-label-custom">Duración (minutos)</label>
+                    <input type="number" id="ejercicioDuracion" name="duracion" [(ngModel)]="duracion" class="form-control-custom"
+                           required min="0" #duracionRef="ngModel"
+                           [class.is-invalid]="duracionRef.invalid && (duracionRef.dirty || duracionRef.touched)">
+                    <div *ngIf="duracionRef.invalid && (duracionRef.dirty || duracionRef.touched)" class="invalid-feedback">
+                        <div *ngIf="duracionRef.errors?.['required']">La duración es requerida.</div>
+                        <div *ngIf="duracionRef.errors?.['min']">La duración debe ser un número positivo.</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="ejercicioUrlImagen" class="form-label-custom">URL de la Imagen</label>
+                    <input type="text" id="ejercicioUrlImagen" name="urlImagen" [(ngModel)]="urlImagen" class="form-control-custom"
+                           maxlength="255" #urlImagenRef="ngModel"
+                           [class.is-invalid]="urlImagenRef.invalid && (urlImagenRef.dirty || urlImagenRef.touched)">
+                    <div *ngIf="urlImagenRef.invalid && (urlImagenRef.dirty || urlImagenRef.touched)" class="invalid-feedback">
+                        <div *ngIf="urlImagenRef.errors?.['maxlength']">La URL de la imagen no puede exceder los 255 caracteres.</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="ejercicioNivel" class="form-label-custom">Nivel</label>
+                    <select id="ejercicioNivel" name="nivel" [(ngModel)]="selectedNivelId" class="form-control-custom"
+                            required #nivelRef="ngModel"
+                            [class.is-invalid]="nivelRef.invalid && (nivelRef.dirty || nivelRef.touched)">
+                        <option [ngValue]="null" disabled>Selecciona un nivel</option>
+                        <option *ngFor="let nivel of niveles" [ngValue]="nivel.id" class="text-dark">{{ nivel.nombre }}</option>
+                    </select>
+                    <div *ngIf="nivelRef.invalid && (nivelRef.dirty || nivelRef.touched)" class="invalid-feedback">
+                        <div *ngIf="nivelRef.errors?.['required']">El nivel es requerido.</div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary-custom" (click)="goBack()">Volver</button>
+                    <button *ngIf="editingEjercicio" type="button" class="btn-cancel-custom" (click)="cancelEditEjercicio()">
+                        Cancelar Edición
+                    </button>
+                    <button type="submit" class="btn-primary-custom">
+                        <i class="bi bi-save" *ngIf="editingEjercicio"></i>
+                        <i class="bi bi-plus-circle" *ngIf="!editingEjercicio"></i>
+                        {{ editingEjercicio ? 'Guardar Cambios' : 'Crear Ejercicio' }}
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="entrenamientos-page-container" *ngIf="showAddMaterialToEjercicioForm">
+            <div>
+                <h1 class="title-form">Gestionar Materiales del Ejercicio: {{ ejercicioToAddMaterialToId }}</h1>
+                <p class="subtitle-form">Añade o elimina materiales asociados a este ejercicio.</p>
+            </div>
+
+            <div class="materials-associated-section mt-4">
+                <h3>Materiales Actualmente en este Ejercicio:</h3>
+                <ng-container *ngIf="materialesEnEjercicioActualMap.size > 0; else noMaterialesAsociados">
+                    <table class="table table-striped table-hover mt-2">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Descripción</th>
+                                <th>Tipo</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let material of getMaterialesAsociadosList()">
+                                <td>{{ material.nombre }}</td>
+                                <td>{{ material.descripcion }}</td>
+                                <td>{{ material.tipo }}</td>
+                                <td>
+                                    <button class="btn btn-sm btn-danger"
+                                            (click)="removeMaterialFromEjercicio(ejercicioToAddMaterialToId!, material.id!)">
+                                        <i class="bi bi-trash"></i> Eliminar
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </ng-container>
+                <ng-template #noMaterialesAsociados>
+                    <div class="alert alert-info mt-3">Este ejercicio aún no tiene materiales asociados.</div>
+                </ng-template>
+            </div>
+            <hr class="my-4">
+            <div>
+                <h3>Materiales Disponibles para Añadir:</h3>
+            </div>
+            <div class="ejercicios-grid">
+                <ng-container *ngIf="materialesDisponibles.length > 0; else noMoreMaterialesDisponibles">
+                    <div class="ejercicio-card-selectable" *ngFor="let material of materialesDisponibles"
+                         (click)="addMaterialToEjercicio(material.id)">
+                        <h5 class="card-title">{{ material.nombre }}</h5>
+                        <p class="card-text">{{ material.descripcion }}</p>
+                        <p class="card-text">Tipo: {{ material.tipo }}</p>
+                        <button class="btn btn-sm btn-outline-primary mt-2">
+                            <i class="bi bi-plus-circle"></i> Añadir Material
+                        </button>
+                    </div>
+                </ng-container>
+                <ng-template #noMoreMaterialesDisponibles>
+                    <div class="alert alert-info mt-3">No hay más materiales disponibles para añadir a este ejercicio.</div>
+                </ng-template>
+            </div>
+            <div class="form-actions mt-3">
+                <button type="button" class="btn-secondary-custom" (click)="changeAddMaterial()">Volver</button>
+            </div>
+        </div>
+    </main>
+</div>

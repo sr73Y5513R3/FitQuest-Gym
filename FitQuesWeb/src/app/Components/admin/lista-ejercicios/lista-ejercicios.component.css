@@ -1,0 +1,402 @@
+/* src/app/components/ejercicio/ejercicio.component.css */
+
+/* Contenedor principal de la aplicación */
+.main-container {
+    display: flex;
+    min-height: 100vh;
+    background-color: #212529; /* dark-green */
+    color: #f8f9fa; /* text-color */
+    font-family: 'Arial', sans-serif;
+}
+
+.content-area {
+    flex-grow: 1;
+    padding: 0px;
+    background-color: #1a1a1a;
+}
+
+/* Contenedor principal de la página de ejercicios */
+.ejercicios-page-container { /* Renombrado */
+    padding: 20px;
+    background-color: #1a1a1a;
+    color: #f0f0f0;
+    min-height: calc(100vh - 60px); /* Asumiendo una altura de top-menu de 60px */
+}
+
+.header-section {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.header-section h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+    color: #1abc9c; /* Color primario */
+}
+
+.header-section p {
+    font-size: 1.1em;
+    color: #cccccc;
+}
+
+.search-and-filters {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    gap: 15px;
+}
+
+.search-bar {
+    position: relative;
+    flex-grow: 1;
+    max-width: 400px;
+}
+
+.search-bar .form-control {
+    background-color: #2c2c2c;
+    border: 1px solid #444;
+    color: #f0f0f0;
+    padding-left: 40px;
+    border-radius: 8px;
+}
+
+.search-bar .form-control::placeholder {
+    color: #aaa;
+}
+
+.search-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #aaa;
+}
+
+.ejercicios-grid { 
+    display: wrap;
+    gap: 35px;
+    justify-content: center;
+}
+
+
+.ejercicio-card { 
+    background-color: #2c2c2c;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    
+    transition: transform 0.2s ease-in-out;
+    cursor: pointer; 
+    margin: 10px 10px;
+    width: 70%;
+    max-height: 300px;
+}
+
+.ejercicio-card:hover {
+    transform: translateY(-5px);
+}
+
+.card-img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    display: block;
+}
+
+.card-body {
+    padding: 15px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card-title {
+    font-size: 1.3em;
+    font-weight: bold;
+    color: #1abc9c;
+    margin-bottom: 8px;
+}
+
+.card-text {
+    font-size: 0.9em;
+    color: #bbb;
+    line-height: 1.4;
+    margin-bottom: 10px;
+}
+.card-info-text{
+    display: flex;
+    gap:40px;
+}
+
+.card-info { /* Usado para series, repeticiones, duración, nivel, materiales */
+    font-size: 0.85em;
+    color: #888;
+    font-style: italic;
+    margin-top: auto; /* Empuja la información al final de la tarjeta */
+}
+
+/* Estilo para la imagen del ejercicio dentro de la tarjeta */
+.ejercicio-card .card-image {
+    width: 100%;
+    height: 180px; /* Altura fija para la imagen */
+    object-fit: cover; /* Asegura que la imagen cubra el área */
+    border-radius: 8px; /* Bordes redondeados para la imagen */
+    margin-top: 15px; /* Espacio superior para separar del texto */
+}
+
+
+/* Paginación */
+.pagination {
+    list-style: none;
+    display: flex;
+    padding: 0;
+    margin-top: 40px;
+    justify-content: center;
+}
+
+.pagination .page-item .page-link {
+    background-color: #2c2c2c;
+    border: 1px solid #444;
+    color: #f0f0f0;
+    border-radius: 5px;
+    margin: 0 3px;
+}
+
+.pagination .page-item .page-link:hover {
+    background-color: #1abc9c;
+    color: #fff;
+    border-color: #1abc9c;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #1abc9c;
+    border-color: #1abc9c;
+    color: #fff;
+}
+
+.pagination .page-item.disabled .page-link {
+    color: #666;
+    background-color: #222;
+    border-color: #333;
+    cursor: not-allowed;
+}
+
+/* Mensajes de alerta y carga */
+.alert-info {
+    background-color: #2c3e50;
+    border-color: #34495e;
+    color: #ecf0f1;
+    text-align: center;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.loading-message {
+    text-align: center;
+    color: #cccccc;
+    font-style: italic;
+}
+
+/* Media Queries para responsividad */
+@media (max-width: 768px) {
+    .ejercicios-grid { /* Renombrado */
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+    .search-and-filters {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .search-bar {
+        max-width: 100%;
+    }
+    .filter-buttons {
+        justify-content: center;
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .ejercicios-grid { /* Renombrado */
+        grid-template-columns: 1fr;
+    }
+    .header-section h1 {
+        font-size: 2em;
+    }
+}
+
+.ejercicios-page-container-form{
+    margin-left: 100px;
+}
+
+.title-form{
+  padding: 30px 50px;
+}
+
+
+form {
+    background-color: var(--card-bg-color);
+    padding: 10px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    width: 100%;
+    max-width: 600px; 
+    box-sizing: border-box;
+}
+
+
+.form-group {
+    margin-bottom: 25px; 
+}
+
+
+.form-label-custom {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-color-light); 
+}
+
+
+.form-control-custom { 
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #4a4a4a;
+    border-radius: 8px;
+    background-color: var(--primary-color); 
+    color: var(--text-color-light); 
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    box-sizing: border-box;
+}
+
+.form-control-custom:focus {
+    border-color: var(--primary-color); 
+    box-shadow: 0 0 0 3px rgba(0, 191, 140, 0.3); 
+    outline: none; 
+}
+
+
+.textarea-custom {
+    resize: vertical; 
+    min-height: 100px; 
+}
+
+
+select.form-control-custom {
+    -webkit-appearance: none; 
+    -moz-appearance: none;    
+    appearance: none;         
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23e0e0e0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 18px;
+    padding-right: 40px; 
+}
+
+
+.invalid-feedback {
+    color: var(--invalid-color);
+    font-size: 0.875rem;
+    margin-top: 5px;
+    display: block; 
+}
+
+
+.form-control-custom.is-invalid {
+    border-color: var(--invalid-color);
+}
+
+
+.text-muted {
+    color: var(--text-color-muted) !important;
+    font-size: 0.9rem;
+    margin-top: 10px;
+}
+
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end; 
+    gap: 15px; 
+    margin-top: 30px;
+}
+.btn-primary-custom {
+    background-color: var(--primary-color);
+    color: var(--dark-bg-color);
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: flex; 
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-primary-custom:hover {
+    background-color: var(--primary-color-hover);
+    transform: translateY(-2px); 
+}
+
+.btn-primary-custom:active {
+    transform: translateY(0);
+}
+
+.btn-secondary-custom {
+    background-color: var(--secondary-color);
+    color: var(--text-color-light);
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-secondary-custom:hover {
+    background-color: var(--secondary-color-hover);
+    transform: translateY(-2px);
+}
+
+.btn-secondary-custom:active {
+    transform: translateY(0);
+}
+
+.bi {
+    font-size: 1.1rem;
+}
+
+.form-option{
+  color: #212529;
+}
+
+
+.text-muted-custom {
+  color: #6c757d;
+}
+
+.materiales-grid-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(100px, 1fr));
+  gap: 10px; 
+  margin-top: 5px; 
+  padding: 0; 
+}
+
+.materiales-grid-list li {
+  text-align: center; 
+  padding: 5px;
+  white-space: nowrap; 
+  overflow: hidden; 
+  text-overflow: ellipsis; 
+}

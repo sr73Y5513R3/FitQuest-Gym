@@ -1,0 +1,65 @@
+<div class="main-container">
+  <app-menu-lateral></app-menu-lateral>
+
+  <main class="content-area">
+    <app-top-menu></app-top-menu>
+
+    <div class="realiza-list-container">
+      <div class="header-section">
+        <h1>Entrenamientos Realizados Pendientes de Validación</h1>
+        <p>Aquí puedes ver los entrenamientos que los usuarios han marcado como realizados y aceptarlos como Entrenador.</p>
+      </div>
+
+      <div *ngIf="successMessage" class="alert alert-success mt-3" role="alert">
+        {{ successMessage }}
+      </div>
+      <div *ngIf="errorMessage" class="alert alert-danger mt-3" role="alert">
+        {{ errorMessage }}
+      </div>
+
+      <div class="realiza-grid">
+        <ng-container *ngIf="realizasPage?.content && realizasPage!.content.length > 0">
+          <div class="realiza-card" *ngFor="let realiza of realizasPage!.content">
+            <div class="card-body">
+              <h5 class="card-title">{{ realiza.entreno.nombre }}</h5>
+              <p class="card-text">Usuario: {{ realiza.usuario.username }}</p>
+              <p class="card-text">ID de Usuario: <strong>{{ realiza.usuario.id }}</strong></p>
+              <p class="card-status">Estado:
+                <span [class.text-danger]="!realiza.realizado">Pendiente</span>
+                <span *ngIf="realiza.realizado" class="text-success">Aceptado</span>
+              </p>
+              <div class="card-actions">
+                <button class="btn btn-success btn-sm"
+                        [disabled]="realiza.realizado"
+                        (click)="aceptarEntrenamiento(realiza.usuario.id, realiza.entreno.id)">
+                  Aceptar Entrenamiento
+                </button>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+        <ng-template #noRealizas>
+          <div *ngIf="realizasPage?.empty" class="alert alert-info mt-3">
+            No hay entrenamientos pendientes de aceptación.
+          </div>
+        </ng-template>
+      </div>
+
+      <nav aria-label="Page navigation" *ngIf="realizasPage && realizasPage.totalPages > 1">
+        <ul class="pagination justify-content-center mt-4">
+          <li class="page-item" [class.disabled]="realizasPage.first">
+            <a class="page-link" (click)="previousPage()">Anterior</a>
+          </li>
+          <li class="page-item" *ngFor="let pageNum of [].constructor(realizasPage.totalPages); let i = index"
+              [class.active]="i === currentPage">
+            <a class="page-link" (click)="goToPage(i)">{{ i + 1 }}</a>
+          </li>
+          <li class="page-item" [class.disabled]="realizasPage.last">
+            <a class="page-link" (click)="nextPage()">Siguiente</a>
+          </li>
+        </ul>
+      </nav>
+
+    </div>
+  </main>
+</div>

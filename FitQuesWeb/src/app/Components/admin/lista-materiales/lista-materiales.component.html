@@ -1,0 +1,106 @@
+<div class="main-container">
+  <app-menu-lateral></app-menu-lateral>
+
+  <main class="content-area">
+    <app-top-menu></app-top-menu>
+
+    <div class="materiales-admin-container">
+      <div class="header-section">
+        <h1>Administración de Materiales</h1>
+        <p>Gestiona la biblioteca de materiales y equipos del gimnasio.</p>
+      </div>
+
+      <div class="search-and-create">
+        <button class="btn btn-primary" (click)="openCreateForm()">
+          <i class="fas fa-plus"></i> Crear Material
+        </button>
+      </div>
+
+      <div *ngIf="showMaterialForm" class="material-form-card card mt-4">
+        <div class="card-header">
+          {{ isEditMode ? 'Editar Material' : 'Crear Nuevo Material' }}
+        </div>
+        <div class="card-body">
+          <form #materialFormRef="ngForm" (ngSubmit)="saveMaterial()">
+            <div class="mb-3">
+              <label for="nombre" class="form-label">Nombre</label>
+              <input type="text" id="nombre" name="nombre" [(ngModel)]="materialData.nombre" class="form-control" required
+                     #nombreField="ngModel"
+                     [class.is-invalid]="nombreField.invalid && (nombreField.dirty || nombreField.touched)">
+              <div *ngIf="nombreField.invalid && (nombreField.dirty || nombreField.touched)" class="invalid-feedback">
+                El nombre es obligatorio.
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="descripcion" class="form-label">Descripción</label>
+              <textarea id="descripcion" name="descripcion" [(ngModel)]="materialData.descripcion" class="form-control" rows="3" required
+                        #descripcionField="ngModel"
+                        [class.is-invalid]="descripcionField.invalid && (descripcionField.dirty || descripcionField.touched)"></textarea>
+              <div *ngIf="descripcionField.invalid && (descripcionField.dirty || descripcionField.touched)" class="invalid-feedback">
+                La descripción es obligatoria.
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="tipo" class="form-label">Tipo</label>
+              <select id="tipo" name="tipo" [(ngModel)]="materialData.tipo" class="form-control" required
+                      #tipoField="ngModel"
+                      [class.is-invalid]="tipoField.invalid && (tipoField.dirty || tipoField.touched)">
+                <option value="" disabled selected>Selecciona un tipo</option> <option *ngFor="let type of materialTypes" [value]="type">{{ type }}</option>
+              </select>
+              <div *ngIf="tipoField.invalid && (tipoField.dirty || tipoField.touched)" class="invalid-feedback">
+                El tipo es obligatorio.
+              </div>
+            </div>
+            <button type="submit" class="btn btn-success me-2">
+              <i class="fas fa-save"></i> {{ isEditMode ? 'Actualizar' : 'Guardar' }}
+            </button>
+            <button type="button" class="btn btn-secondary" (click)="cancelForm()">
+              <i class="fas fa-times"></i> Cancelar
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <div *ngIf="!showMaterialForm" class="materiales-grid mt-4">
+        <ng-container *ngIf="materialesPage?.content && materialesPage!.content.length > 0; else noMateriales">
+          <div class="material-card" *ngFor="let material of materialesPage!.content">
+            <div class="card-body">
+              <h5 class="card-title">{{ material.nombre }}</h5>
+              <p class="card-text">{{ material.descripcion }}</p>
+              <p class="card-info">Tipo: {{ material.tipo }}</p>
+              <div class="card-actions">
+                <button class="btn btn-warning btn-sm me-2" (click)="openEditForm(material)">
+                  <i class="fas fa-edit"></i> Editar
+                </button>
+                <button class="btn btn-danger btn-sm" (click)="deleteMaterial(material.id!)">
+                  <i class="fas fa-trash-alt"></i> Borrar
+                </button>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+        <ng-template #noMateriales>
+          <div *ngIf="materialesPage?.empty" class="alert alert-info mt-3">
+            No se encontraron materiales.
+          </div>
+        </ng-template>
+      </div>
+
+      <nav aria-label="Page navigation" *ngIf="materialesPage && materialesPage.totalPages > 1 && !showMaterialForm">
+        <ul class="pagination justify-content-center mt-4">
+          <li class="page-item" [class.disabled]="currentPage === 0">
+            <a class="page-link" (click)="previousPage()">Anterior</a>
+          </li>
+          <li class="page-item" *ngFor="let pageNum of [].constructor(materialesPage.totalPages); let i = index"
+              [class.active]="i === currentPage">
+            <a class="page-link" (click)="goToPage(i)">{{ i + 1 }}</a>
+          </li>
+          <li class="page-item" [class.disabled]="currentPage === materialesPage.totalPages - 1">
+            <a class="page-link" (click)="nextPage()">Siguiente</a>
+          </li>
+        </ul>
+      </nav>
+
+    </div>
+  </main>
+</div>

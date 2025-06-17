@@ -57,7 +57,7 @@ public class Entrenamiento {
     @ToString.Exclude
     private List<Realiza> realizados = new ArrayList<>();
 
-    @OneToMany(mappedBy = "entrenamientoValorado", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "entrenamientoValorado", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
     private List<Valoracion> valoraciones = new ArrayList<>();
 

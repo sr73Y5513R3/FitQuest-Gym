@@ -12,6 +12,9 @@ import java.util.UUID;
 public record GetClienteDto(
         UUID id,
         String username,
+        String nombre,
+        String apellido1,
+        String apellido2,
         String email,
         Set<UserRole> roles,
         double peso,
@@ -26,6 +29,9 @@ public record GetClienteDto(
         return new GetClienteDto(
                 cliente.getId(),
                 cliente.getUsername(),
+                cliente.getNombre(),
+                cliente.getApellido1(),
+                cliente.getApellido2(),
                 cliente.getEmail(),
                 cliente.getRoles(),
                 cliente.getPeso(),

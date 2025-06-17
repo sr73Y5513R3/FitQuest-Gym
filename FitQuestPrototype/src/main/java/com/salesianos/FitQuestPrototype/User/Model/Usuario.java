@@ -51,7 +51,7 @@ public class Usuario implements UserDetails {
     @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Realiza> entrenosRealizados = new ArrayList<>();
 
-    @OneToMany(mappedBy = "usuarioValorar", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "usuarioValorar", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Valoracion> entrenosValorados = new ArrayList<>();
 
 

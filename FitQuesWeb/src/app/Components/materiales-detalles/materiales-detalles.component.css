@@ -1,0 +1,268 @@
+/* src/app/components/material-detalle/material-detalle.component.css */
+
+/* Contenedores generales de la aplicación (reutilizados) */
+.main-container {
+    display: flex;
+    min-height: 100vh;
+    background-color: #212529; /* dark-green */
+    color: #f8f9fa; /* text-color */
+    font-family: 'Arial', sans-serif;
+}
+
+.content-area {
+    flex-grow: 1;
+    padding: 0px;
+    background-color: #212121;
+}
+
+/* Contenedor principal de la página de detalles del material */
+.material-detalle-page-container {
+    padding: 30px;
+    background-color: #1a1a1a;
+    color: #f0f0f0;
+    min-height: calc(100vh - 60px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Encabezado de la página de detalles (volver, título) */
+.details-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    width: 100%;
+    max-width: 900px;
+    border-bottom: 1px solid #444; /* Línea separadora */
+}
+
+.details-header h1 {
+    font-size: 2.5rem;
+    color: #f8f9fa;
+    margin-left: 20px;
+    flex-grow: 1;
+    text-align: center;
+}
+
+.back-button {
+    background: none;
+    border: none;
+    color: #00bcd4; /* Color similar al teal */
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    border-radius: 5px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.back-button:hover {
+    background-color: rgba(0, 188, 212, 0.1);
+    color: #00e5ff;
+}
+
+.back-button i {
+    margin-right: 8px;
+    font-size: 1.4rem;
+}
+
+/* Contenedor principal de la información del material (la "tarjeta" principal) */
+.material-content-card {
+    background-color: #2c2c2c;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    padding: 30px 40px;
+    width: 100%;
+    max-width: 900px;
+    color: #f8f9fa;
+    display: flex;
+    flex-direction: column; /* Cambiado a columna para que la imagen esté arriba */
+    align-items: center; /* Centra la imagen y el título */
+}
+
+/* Contenedor de la imagen del material */
+.material-image-container {
+    width: 100%;
+    max-width: 600px; /* Limitar el ancho de la imagen */
+    margin-bottom: 30px; /* Espacio debajo de la imagen */
+    border-radius: 8px;
+    overflow: hidden; /* Asegura que la imagen respete el border-radius */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.material-image {
+    width: 100%;
+    height: auto; /* Mantener la proporción */
+    display: block;
+}
+
+.material-content-card h2 {
+    font-size: 2.5rem;
+    color: #1abc9c;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+/* Divisor de secciones (la línea azul bajo "Descripción" en la foto) */
+.section-divider {
+    border-bottom: 2px solid #1abc9c;
+    padding-bottom: 10px;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    width: 100%; /* Asegura que el divisor ocupe todo el ancho de la tarjeta */
+}
+
+.section-divider h3 {
+    font-size: 1.8rem;
+    color: #f8f9fa;
+    margin: 0;
+}
+
+/* Estilo para la descripción del contenido */
+.content-description {
+    font-size: 1.15rem;
+    color: #cccccc;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    width: 100%; /* Ocupar todo el ancho de la tarjeta */
+}
+
+/* Estilo para el tipo de material */
+.material-type {
+    font-size: 1.15rem;
+    color: #cccccc;
+    line-height: 1.6;
+    width: 100%;
+}
+
+/* Lista de ejercicios (si se implementara en el futuro) */
+.exercises-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
+.exercises-list li {
+    background-color: #3e3e3e;
+    padding: 15px 20px;
+    margin-bottom: 12px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    font-size: 1.1rem;
+    color: #f8f9fa;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    cursor: pointer;
+}
+
+.exercises-list li:hover {
+    background-color: #4a4a4a;
+    transform: translateY(-2px);
+}
+
+.exercises-list li i.bi-dumbbell {
+    margin-right: 15px;
+    color: #00bcd4;
+    font-size: 1.5rem;
+}
+
+.exercise-details-hint {
+    margin-left: auto;
+    font-size: 0.9em;
+    color: #bbb;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Mensajes de carga y error */
+.loading-message {
+    text-align: center;
+    padding: 40px;
+    font-size: 1.2rem;
+    color: #adb5bd;
+}
+
+.alert {
+    padding: 20px;
+    margin-top: 30px;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.alert-danger {
+    background-color: #dc3545;
+    color: white;
+    border: 1px solid #dc3545;
+}
+
+.alert .btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    color: white;
+    margin-left: 20px;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.alert .btn-secondary:hover {
+    background-color: #5a6268;
+    border-color: #545b62;
+}
+
+/* Media Queries para responsividad */
+@media (max-width: 768px) {
+    .material-detalle-page-container {
+        padding: 20px;
+    }
+
+    .details-header {
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: left;
+    }
+
+    .details-header h1 {
+        font-size: 2rem;
+        margin-left: 0;
+        text-align: left;
+        margin-top: 15px;
+    }
+
+    .material-content-card {
+        padding: 20px 25px;
+    }
+
+    .material-content-card h2 {
+        font-size: 2rem;
+        text-align: left;
+    }
+
+    .section-divider h3 {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .material-detalle-page-container {
+        padding: 15px;
+    }
+
+    .details-header h1 {
+        font-size: 1.8rem;
+    }
+
+    .material-content-card {
+        padding: 15px 20px;
+    }
+
+    .material-content-card h2 {
+        font-size: 1.8rem;
+    }
+}
