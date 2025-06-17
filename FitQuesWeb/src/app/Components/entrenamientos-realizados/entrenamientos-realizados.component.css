@@ -1,0 +1,161 @@
+.main-container {
+    display: flex;
+    min-height: 100vh;
+    background-color: #212529; /* dark-green */
+    color: #f8f9fa; /* text-color */
+    font-family: 'Arial', sans-serif;
+}
+
+.content-area {
+    flex-grow: 1;
+   
+    background-color: #212121;
+    box-sizing: border-box;
+}
+
+.realiza-list-container {
+  background-color: #2b2b2b;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  max-width: 1200px;
+  margin: 30px auto;
+  padding: 30px;
+  color: #e0e0e0;
+}
+
+.header-section {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.header-section h1 {
+  color: #1abc9c;
+  font-size: 2.8em;
+  font-weight: 700;
+  margin-bottom: 10px;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.header-section p {
+  color: #b0b0b0;
+  font-size: 1.1em;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.alert {
+  margin-top: 20px;
+  padding: 15px 25px;
+  border-radius: 6px;
+  font-weight: bold;
+  text-align: center;
+  border: none;
+}
+
+.alert-success {
+  background-color: #388e3c;
+  color: #c8e6c9;
+}
+
+.alert-danger {
+  background-color: #d32f2f;
+  color: #ffcdd2;
+}
+
+.alert-info {
+  background-color: #1976d2;
+  color: #bbdefb;
+}
+
+.alert-warning {
+  background-color: #ffc107;
+  color: #856404;
+}
+
+.realiza-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 25px;
+  justify-content: center;
+}
+
+.realiza-card {
+  background-color: #3c3c3c;
+  border-radius: 10px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  display: flex;
+  flex-direction: column;
+}
+
+.realiza-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+}
+
+.realiza-card .card-body {
+  padding: 25px;
+  flex-grow: 1;
+}
+
+.realiza-card .card-title {
+  color: #1abc9c;
+  font-size: 1.6em;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+.realiza-card .card-text {
+  color: #e0e0e0;
+  margin-bottom: 8px;
+  font-size: 0.95em;
+}
+
+.realiza-card .card-text strong {
+  color: #e0e0e0;
+}
+
+.realiza-card .text-danger {
+  color: #ff8a80;
+}
+
+.realiza-card .text-success {
+  color: #b9f6ca;
+}
+
+.pagination {
+  margin-top: 40px;
+  padding: 10px;
+  background-color: #3c3c3c;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.pagination .page-item .page-link {
+  color: #e0e0e0;
+  background-color: #2b2b2b;
+  border: 1px solid #505050;
+  margin: 0 4px;
+  border-radius: 5px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.pagination .page-item .page-link:hover {
+  background-color: #1abc9c;
+  color: white;
+  border-color: #1abc9c;
+}
+
+.pagination .page-item.active .page-link {
+  background-color: #1abc9c;
+  color: white;
+  border-color: #1abc9c;
+}
+
+.pagination .page-item.disabled .page-link {
+  color: #b0b0b0;
+  pointer-events: none;
+  background-color: #3c3c3c;
+  border-color: #505050;
+}

@@ -13,6 +13,7 @@ export class MenuLateralComponent {
   
   isDropdowAdminOpen: boolean = false;
   isDropdownEntrenadorOpen: boolean = false;
+  isDropdownProfileOpen: boolean = false;
   isAdmin$: Observable<boolean>;
   isEntrenador$: Observable<boolean>;
   isLoggedIn$: Observable<boolean>;
@@ -39,6 +40,10 @@ export class MenuLateralComponent {
 
   toggleEntrenadorPanel(): void { 
     this.isDropdownEntrenadorOpen = !this.isDropdownEntrenadorOpen;
+  }
+
+  togglePerfilPanel(): void { 
+    this.isDropdownProfileOpen = !this.isDropdownProfileOpen;
   }
   /*
   isPanelAdminActive(): boolean {

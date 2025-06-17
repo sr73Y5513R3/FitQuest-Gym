@@ -144,9 +144,9 @@ public class SecurityConfig {
 
                 .requestMatchers(HttpMethod.GET).permitAll()
 
-                .requestMatchers(HttpMethod.PUT, "cliente/edit/**", "entrenador/edit/**").authenticated()
+                .requestMatchers(HttpMethod.PUT, "cliente/edit/**", "entrenador/edit/**", "realizado/**").authenticated()
 
-                .requestMatchers(HttpMethod.POST, "realizado/**", "valoracion/**", "nivel/**", "ejercicio/{idEjercicio}/material/**").authenticated()
+                .requestMatchers(HttpMethod.POST, "valoracion/**", "nivel/**", "ejercicio/{idEjercicio}/material/**").authenticated()
 
                 .requestMatchers("/me/admin", "usuario/baja/**").hasRole("ADMIN")
 

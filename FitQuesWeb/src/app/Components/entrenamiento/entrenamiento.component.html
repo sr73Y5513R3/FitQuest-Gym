@@ -32,9 +32,12 @@
               <h5 class="card-title">{{ entreno.nombre }}</h5>
               <p class="card-text">{{ entreno.descripcion }}</p>
               <p class="card-level">Duración: {{ entreno.duracion }} minutos</p>
-              <p class="card-level">Valoración: {{ entreno.valoracionMedia | number:'1.1-1' }}</p> <div class="card-actions">
+              <p class="card-level">Valoración: {{ entreno.valoracionMedia | number:'1.1-1' }}</p>
+              <div class="card-actions">
                 <button class="btn btn-primary btn-sm" (click)="navigateToEntrenamientoDetails(entreno.id)">Ver Detalles</button>
                 <button class="btn btn-warning btn-sm" (click)="startRating(entreno.id)">Valorar</button>
+                <!-- NUEVO BOTÓN PARA REALIZAR ENTRENAMIENTO -->
+                <button class="btn btn-success btn-sm" (click)="realizarEntrenamiento(entreno.id)">Realizar Entrenamiento</button>
               </div>
             </div>
           </div>

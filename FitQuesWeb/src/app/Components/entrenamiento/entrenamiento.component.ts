@@ -4,9 +4,8 @@ import { GetEntrenoConEjercicioDto, Page } from '../../models/entrenamiento.mode
 import { Router } from '@angular/router';
 import { AuthService } from '../../Services/login/auth-service.service';
 import { HttpErrorResponse } from '@angular/common/http';
-
-// Ya no necesitamos la interfaz ValoracionBody aquí, ya que el servicio construye el body completo.
-// La interfaz CreateValoracionCommand ya está definida o se definirá en el servicio.
+import { RealizaService } from '../../Services/realiza/realiza.service'; // Importa RealizaService
+import { CreateRealizaCmd } from '../../models/realiza.model'; // Importa CreateRealizaCmd
 
 @Component({
   selector: 'app-entrenamiento',
@@ -30,7 +29,8 @@ export class EntrenamientoComponent implements OnInit {
   constructor(
     private entrenamientoService: EntrenamientoService,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private realizaService: RealizaService // Inyecta RealizaService
   ) { }
 
   ngOnInit(): void {
@@ -81,7 +81,7 @@ export class EntrenamientoComponent implements OnInit {
     this.router.navigate(['/entrenamientos', id]);
   }
 
- 
+  
   startRating(entrenoId: number): void {
     this.currentEntrenoIdToRate = entrenoId;
     this.selectedRating = 0; 
@@ -141,5 +141,46 @@ export class EntrenamientoComponent implements OnInit {
     this.showRatingInput = false;
     this.selectedRating = 0;
     this.currentEntrenoIdToRate = null;
+  }
+
+  // --- NUEVO MÉTODO PARA REALIZAR ENTRENAMIENTO ---
+  realizarEntrenamiento(entrenoId: number): void {
+    this.successMessage = null;
+    this.errorMessage = null;
+
+    const userId = this.authService.getLoggedInUserId(); // Obtener el ID del usuario logueado
+    if (!userId) {
+      this.errorMessage = 'Necesitas iniciar sesión para realizar un entrenamiento.';
+      setTimeout(() => this.errorMessage = null, 5000);
+      this.router.navigate(['/login']);
+      return;
+    }
+
+    const realizaCmd: CreateRealizaCmd = {
+      idUsuario: userId,
+      idEntrenamiento: entrenoId
+    };
+
+    this.realizaService.entrenamientoRealizado(realizaCmd).subscribe({
+      next: (response) => {
+        this.successMessage = '¡Entrenamiento realizado con éxito! Un entrenador lo revisará pronto.';
+        console.log('Entrenamiento realizado:', response);
+        this.loadEntrenamientos(); 
+        setTimeout(() => this.successMessage = null, 5000);
+      },
+      error: (err: HttpErrorResponse) => {
+        console.error('Error al realizar entrenamiento:', err);
+        if (err.status === 409) {
+          this.errorMessage = 'Ya has marcado este entrenamiento como realizado.';
+        } else if (err.status === 404) {
+          this.errorMessage = 'Entrenamiento o usuario no encontrado.';
+        } else if (err.status === 400) {
+          this.errorMessage = 'Solicitud inválida. Verifica los datos.';
+        } else {
+          this.errorMessage = 'Error al marcar entrenamiento como realizado. Inténtalo de nuevo.';
+        }
+        setTimeout(() => this.errorMessage = null, 5000);
+      }
+    });
   }
 }

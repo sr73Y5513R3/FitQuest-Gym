@@ -25,6 +25,8 @@ import { authTokenInterceptor } from './intenceptor/auth-token.interceptor';
 import { RegisterComponent } from './Components/register/register.component';
 import { MisEntrenamientosComponent } from './Components/mis-entrenamientos/mis-entrenamientos.component';
 import { CrearEntrenamientoComponent } from './Components/crear-entrenamiento/crear-entrenamiento.component';
+import { EntrenadorValidaComponent } from './Components/entrenador-valida/entrenador-valida.component';
+import { EntrenamientosRealizadosComponent } from './Components/entrenamientos-realizados/entrenamientos-realizados.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +48,9 @@ import { CrearEntrenamientoComponent } from './Components/crear-entrenamiento/cr
     MaterialesDetallesComponent,
     RegisterComponent,
     MisEntrenamientosComponent,
-    CrearEntrenamientoComponent
+    CrearEntrenamientoComponent,
+    EntrenadorValidaComponent,
+    EntrenamientosRealizadosComponent
   ],
   imports: [
     BrowserModule,

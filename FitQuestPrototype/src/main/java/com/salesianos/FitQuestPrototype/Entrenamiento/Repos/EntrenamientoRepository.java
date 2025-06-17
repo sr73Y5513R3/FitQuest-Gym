@@ -25,7 +25,7 @@ public interface EntrenamientoRepository extends JpaRepository<Entrenamiento, Lo
     FROM Entrenamiento e LEFT JOIN FETCH e.ejercicios ej
     WHERE e.id = :id
 """)
-    Optional<Entrenamiento> findEntrenamientoById(@PathVariable("id") Long id);
+    Optional<Entrenamiento> findEntrenamientoById(@Param("id") Long id);
 
     @Query("""
     SELECT e
