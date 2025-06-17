@@ -5,16 +5,13 @@ import com.salesianos.FitQuestPrototype.Entrenamiento.Model.Valoracion;
 public record GetValoracionDto(
         GetUsuarioFromValorar usuario,
         GetEntrenoFromValorar entrenamiento,
-        double notaValoracion,
-        String textoDescriptivo
-) {
+        double notaValoracion) {
 
     public static GetValoracionDto of (Valoracion valoracion){
         return new GetValoracionDto(
                 GetUsuarioFromValorar.of(valoracion.getUsuarioValorar()),
                 GetEntrenoFromValorar.of(valoracion.getEntrenamientoValorado()),
-                valoracion.getNotaValoracion(),
-                valoracion.getTextoDescriptivo()
+                valoracion.getNotaValoracion()
         );
     }
 }

@@ -12,6 +12,8 @@ import { MaterialesComponent } from './Components/materiales/materiales.componen
 import { MaterialesDetallesComponent } from './Components/materiales-detalles/materiales-detalles.component';
 import { ListaMaterialesComponent } from './Components/admin/lista-materiales/lista-materiales.component';
 import { RegisterComponent } from './Components/register/register.component';
+import { MisEntrenamientosComponent } from './Components/mis-entrenamientos/mis-entrenamientos.component';
+import { CrearEntrenamientoComponent } from './Components/crear-entrenamiento/crear-entrenamiento.component';
 
 
 const routes: Routes = [
@@ -27,6 +29,8 @@ const routes: Routes = [
   { path: 'admin/entrenamiento', component: ListaEntrenamientosComponent},
   { path: 'admin/ejercicio', component: ListaEjerciciosComponent},
   { path: 'admin/material', component: ListaMaterialesComponent},
+  { path: 'entrenador/mis-entrenamientos', component: MisEntrenamientosComponent},
+  { path: 'entrenador/crear-entrenamiento', component: CrearEntrenamientoComponent},
 
   // { path: 'register', component: RegisterComponent }, // Descomenta si usas un componente de registro
   { path: '', redirectTo: '/login', pathMatch: 'full' },

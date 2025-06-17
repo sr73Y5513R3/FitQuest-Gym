@@ -1,0 +1,220 @@
+<div class="main-container">
+  <app-menu-lateral></app-menu-lateral>
+  <main class="content-area">
+    <app-top-menu></app-top-menu>
+    <div *ngIf="errorMessage" class="alert alert-danger mt-3" role="alert">
+      {{ errorMessage }}
+    </div>
+    <div *ngIf="successMessage" class="alert alert-success mt-3" role="alert">
+      {{ successMessage }}
+    </div>
+
+    <div class="entrenamientos-page-container" *ngIf="!showExerciseSelection">
+      <div>
+        <h1 class="title-form">Crear un Entrenamiento</h1>
+      </div>
+      <form (ngSubmit)="createEntrenamiento()">
+        <div class="form-group">
+          <label for="nombre" class="form-label-custom"
+            >Nombre del Programa</label
+          >
+          <input
+            type="text"
+            id="nombre"
+            name="nombre"
+            [(ngModel)]="nombre"
+            class="form-control-custom"
+            required
+            #nombreRef="ngModel"
+            [class.is-invalid]="nombreRef.invalid && (nombreRef.dirty || nombreRef.touched)"
+          />
+          <div
+            *ngIf="nombreRef.invalid && (nombreRef.dirty || nombreRef.touched)"
+            class="invalid-feedback"
+          >
+            <div *ngIf="nombreRef.errors?.['required']">
+              El nombre del programa es requerido.
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="descripcion" class="form-label-custom">Descripción</label>
+          <textarea
+            id="descripcion"
+            name="descripcion"
+            [(ngModel)]="descripcion"
+            class="form-control-custom textarea-custom"
+            rows="4"
+            required
+            #descripcionRef="ngModel"
+            [class.is-invalid]="descripcionRef.invalid && (descripcionRef.dirty || descripcionRef.touched)"
+          ></textarea>
+          <div
+            *ngIf="
+              descripcionRef.invalid && (descripcionRef.dirty || descripcionRef.touched)
+            "
+            class="invalid-feedback"
+          >
+            <div *ngIf="descripcionRef.errors?.['required']">
+              La descripción es requerida.
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="puntos" class="form-label-custom">Puntos Ganados</label>
+          <input
+            type="number"
+            id="puntos"
+            name="puntos"
+            [(ngModel)]="puntos"
+            class="form-control-custom"
+            required
+            min="0"
+            #puntosRef="ngModel"
+            [class.is-invalid]="puntosRef.invalid && (puntosRef.dirty || puntosRef.touched)"
+          />
+          <div
+            *ngIf="puntosRef.invalid && (puntosRef.dirty || puntosRef.touched)"
+            class="invalid-feedback"
+          >
+            <div *ngIf="puntosRef.errors?.['required']">
+              Los puntos son requeridos.
+            </div>
+            <div *ngIf="puntosRef.errors?.['min']">
+              Los puntos deben ser un número positivo.
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="calorias" class="form-label-custom">Calorías Estimadas</label>
+          <input
+            type="number"
+            id="calorias"
+            name="calorias"
+            [(ngModel)]="calorias"
+            class="form-control-custom"
+            required
+            min="0"
+            #caloriasRef="ngModel"
+            [class.is-invalid]="caloriasRef.invalid && (caloriasRef.dirty || caloriasRef.touched)"
+          />
+          <div
+            *ngIf="caloriasRef.invalid && (caloriasRef.dirty || caloriasRef.touched)"
+            class="invalid-feedback"
+          >
+            <div *ngIf="caloriasRef.errors?.['required']">
+              Las calorías estimadas son requeridas.
+            </div>
+            <div *ngIf="caloriasRef.errors?.['min']">
+              Las calorías deben ser un número positivo.
+            </div>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn-secondary-custom" (click)="cancelForm()">
+            Volver
+          </button>
+          <button type="submit" class="btn-primary-custom">
+            <i class="bi bi-plus-circle"></i> Crear Entrenamiento
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <div class="entrenamientos-page-container" *ngIf="showExerciseSelection && newlyCreatedEntrenamientoId">
+        <div class="title">
+            <h1 class="title-form-ejercicio">Añadir Ejercicios al Entrenamiento</h1>
+            <p class="text-muted">ID de Entrenamiento: {{ newlyCreatedEntrenamientoId }}</p>
+        </div>
+
+        <div class="exercises-associated-section mt-4">
+            <h3>Ejercicios Actualmente en este Entrenamiento:</h3>
+            <ng-container
+                *ngIf="getEjerciciosAsociadosList().length > 0; else noEjerciciosAsociados"
+            >
+                <div class="ejercicios-grid-manage">
+                    <div
+                        class="ejercicio-card-associated"
+                        *ngFor="let ejercicio of getEjerciciosAsociadosList()"
+                    >
+                        <h5 class="card-title">{{ ejercicio.nombre }}</h5>
+                        <p class="card-text">{{ ejercicio.descripcion }}</p>
+                        <p class="card-text">Series: {{ ejercicio.series }}</p>
+                        <p class="card-text">Repeticiones: {{ ejercicio.repeticiones }}</p>
+                        <p class="card-text">Duración: {{ ejercicio.duracion }} mins</p>
+                        <p class="card-text">Nivel: {{ ejercicio.nivel }}</p>
+                        <p class="card-text" *ngIf="ejercicio.urlImagen">
+                            <img
+                                [src]="ejercicio.urlImagen || 'assets/default-exercise-image.png'"
+                                alt="Imagen del ejercicio"
+                                class="ejercicio-img-thumbnail"
+                            />
+                        </p>
+                        <div class="card-actions-small">
+                            <button
+                                class="btn btn-sm btn-danger"
+                                (click)="removeEjercicioFromEntrenamiento(newlyCreatedEntrenamientoId!, ejercicio.id!)"
+                            >
+                                <i class="bi bi-trash"></i> Quitar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-template #noEjerciciosAsociados>
+                <div class="alert alert-info mt-3">
+                    Este entrenamiento aún no tiene ejercicios asociados.
+                </div>
+            </ng-template>
+        </div>
+
+        <hr class="my-4" />
+
+        <div>
+            <h3>Ejercicios Disponibles para Añadir:</h3>
+        </div>
+        <div class="ejercicios-grid-selectable">
+            <ng-container
+                *ngIf="ejerciciosDisponibles.length > 0; else noMoreEjerciciosDisponibles"
+            >
+                <div
+                    class="ejercicio-card-selectable"
+                    *ngFor="let ejercicio of ejerciciosDisponibles"
+                    (click)="addEjercicioToEntrenamiento(ejercicio.id!)"
+                >
+                    <h5 class="card-title">{{ ejercicio.nombre }}</h5>
+                    <p class="card-text">{{ ejercicio.descripcion }}</p>
+                    <p class="card-text">Series: {{ ejercicio.series }}</p>
+                    <p class="card-text">Repeticiones: {{ ejercicio.repeticiones }}</p>
+                    <p class="card-text">Duración: {{ ejercicio.duracion }} mins</p>
+                    <p class="card-text">Nivel: {{ ejercicio.nivel }}</p>
+                    <p class="card-text" *ngIf="ejercicio.urlImagen">
+                        <img
+                            [src]="ejercicio.urlImagen || 'assets/default-exercise-image.png'"
+                            alt="Imagen del ejercicio"
+                            class="ejercicio-img-thumbnail"
+                        />
+                    </p>
+                    <button class="btn btn-sm btn-outline-primary mt-2">
+                        <i class="bi bi-plus-circle"></i> Añadir
+                    </button>
+                </div>
+            </ng-container>
+            <ng-template #noMoreEjerciciosDisponibles>
+                <div class="alert alert-info mt-3">
+                    No hay más ejercicios disponibles para añadir a este entrenamiento.
+                </div>
+            </ng-template>
+        </div>
+        <div class="form-actions mt-3">
+            <button class="btn-secondary-custom" (click)="finishExerciseSelection()">
+                <i class="bi bi-check-circle"></i> Terminar y Ver Mis Entrenamientos
+            </button>
+        </div>
+    </div>
+  </main>
+</div>

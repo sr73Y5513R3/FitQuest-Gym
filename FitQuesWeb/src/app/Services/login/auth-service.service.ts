@@ -186,4 +186,8 @@ export class AuthService {
       catchError(this.handleError)
     );
   }
+
+  getLoggedInUserId(): string | null {
+    return localStorage.getItem(this.USER_ID_KEY);
+  }
 }

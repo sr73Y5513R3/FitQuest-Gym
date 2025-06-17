@@ -27,5 +27,5 @@ public class Valoracion {
 
     private double notaValoracion;
 
-    private String textoDescriptivo;
+    //private String textoDescriptivo;
 }

@@ -25,17 +25,18 @@ public class ValoracionService {
     private final UsuarioRepository usuarioRepository;
 
     @Transactional
-    @PreAuthorize("#idUsuario == authentication.principal.id")
-    public Valoracion añadirValoracion (UUID idUsuario, Long idEntrenamietno, CreateValoracionCmd newValoracion){
-        Usuario usuario = usuarioService.findUsuarioById(idUsuario);
+    @PreAuthorize("#newValoracion.idUsuario == authentication.principal.id")
+    public Valoracion añadirValoracion (CreateValoracionCmd newValoracion){
 
-        Entrenamiento entrenamiento = entrenamientoService.findEntrenamientoById(idEntrenamietno);
+        
+        Usuario usuario = usuarioService.findUsuarioById(newValoracion.idUsuario());
+
+        Entrenamiento entrenamiento = entrenamientoService.findEntrenamientoById(newValoracion.idEntrenamiento());
 
         Valoracion valoracion = new Valoracion().builder()
                 .usuarioValorar(usuario)
                 .entrenamientoValorado(entrenamiento)
                 .notaValoracion(newValoracion.notaValoracion())
-                .textoDescriptivo(newValoracion.textoDescriptivo())
                 .build();
 
         usuario.addValoracion(valoracion);

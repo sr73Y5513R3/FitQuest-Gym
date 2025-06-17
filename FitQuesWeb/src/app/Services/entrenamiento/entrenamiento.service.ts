@@ -1,8 +1,14 @@
 // src/app/services/entrenamiento.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { catchError, Observable } from 'rxjs';
 import { EntrenamientoCreateUpdateDto, GetEntrenoConEjercicioDto, Page } from '../../models/entrenamiento.model';
+
+interface CreateValoracionCommand {
+  idUsuario: string;
+  idEntrenamiento: number; 
+  notaValoracion: number;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -46,5 +52,36 @@ export class EntrenamientoService {
 
   deleteEjercicioToEntrenamiento(entrenamientoId: number, ejercicioId: number): Observable<any> {
     return this.http.delete<void>(`${this.apiUrl}/${entrenamientoId}/ejercicio/${ejercicioId}`, {}); 
+  }
+
+findAllEntrenamientosByEntrenador(
+    idEntrenador: string,
+    page: number = 0,
+    size: number = 10,
+    searchTerm: string = ''
+  ): Observable<Page<GetEntrenoConEjercicioDto>> {
+
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    if (searchTerm.trim() !== '') {
+      
+      params = params.set('searchTerm', searchTerm.trim());
+    }
+
+    return this.http.get<Page<GetEntrenoConEjercicioDto>>(`${this.apiUrl}/all/entrenador/${idEntrenador}`, { params });
+  }
+
+  addValoracion(idUsuario: string, idEntreno: number, notaValoracion: number): Observable<any> {
+    const url = `http://localhost:8080/valoracion/add`;
+    
+    const body: CreateValoracionCommand = {
+      idUsuario: idUsuario,
+      idEntrenamiento: idEntreno, 
+      notaValoracion: notaValoracion
+    };
+    
+    return this.http.post(url, body)
   }
 }

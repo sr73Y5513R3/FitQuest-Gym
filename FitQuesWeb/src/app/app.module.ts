@@ -23,6 +23,8 @@ import { MaterialesComponent } from './Components/materiales/materiales.componen
 import { MaterialesDetallesComponent } from './Components/materiales-detalles/materiales-detalles.component';
 import { authTokenInterceptor } from './intenceptor/auth-token.interceptor';
 import { RegisterComponent } from './Components/register/register.component';
+import { MisEntrenamientosComponent } from './Components/mis-entrenamientos/mis-entrenamientos.component';
+import { CrearEntrenamientoComponent } from './Components/crear-entrenamiento/crear-entrenamiento.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +44,9 @@ import { RegisterComponent } from './Components/register/register.component';
     EjercicioDetallesComponent,
     MaterialesComponent,
     MaterialesDetallesComponent,
-    RegisterComponent
+    RegisterComponent,
+    MisEntrenamientosComponent,
+    CrearEntrenamientoComponent
   ],
   imports: [
     BrowserModule,

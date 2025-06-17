@@ -127,7 +127,7 @@ public class EntrenamientoController {
                     content = @Content)
     })
     @PutMapping("/edit/{id}")
-    @PreAuthorize("hasRole('ADMIN') or #editEntreno.entrenadorId() == authentication.principal.id")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('ENTRENADOR')")
     public GetEntrenamientoDto update (@PathVariable Long id, @io.swagger.v3.oas.annotations.parameters.RequestBody(
             description = "Cuerpo del entrenamiento", required = true,
             content = @Content(mediaType = "application/json",

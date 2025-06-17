@@ -18,9 +18,7 @@ public class ValoracionController {
     public final ValoracionService valoracionService;
 
     @PostMapping("/add")
-    public GetValoracionDto añadirValoracion (@RequestParam @NotNull UUID idUsuario,
-                                              @RequestParam @NotNull Long idEntreno,
-                                              @RequestBody @Valid CreateValoracionCmd newValoracion) {
-        return GetValoracionDto.of(valoracionService.añadirValoracion(idUsuario, idEntreno, newValoracion));
+    public GetValoracionDto añadirValoracion (@RequestBody @Valid CreateValoracionCmd newValoracion) {
+        return GetValoracionDto.of(valoracionService.añadirValoracion(newValoracion));
     }
 }
