@@ -26,7 +26,8 @@
         </a>
       </li>
       
-      <li *ngIf="isLoggedIn$ | async"> <a (click)="togglePerfilPanel()" class="profile-toggle">
+      <li *ngIf="(isLoggedIn$ | async) && (!(isAdmin$ | async) && !(isEntrenador$ | async))"> 
+        <a (click)="togglePerfilPanel()" class="profile-toggle">
           <i class="bi bi-person"></i> Perfil
         </a>
         <ng-container *ngIf="isDropdownProfileOpen">
@@ -52,8 +53,8 @@
           <li routerLinkActive="active"><a routerLink="/admin/material">
             <i class="bi bi-basket"></i> Lista de materiales
           </a></li>
-          <li routerLinkActive="active"><a routerLink="/admin/usuarios">
-            <i class="bi bi-person"></i> Lista de usuarios
+          <li routerLinkActive="active"><a routerLink="/admin/entrenadores">
+            <i class="bi bi-person"></i> Lista de entrenadores
           </a></li>
         </ng-container>
       </li>

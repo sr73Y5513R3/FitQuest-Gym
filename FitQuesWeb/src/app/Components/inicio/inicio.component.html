@@ -1,70 +1,78 @@
 <div class="main-container">
-   <app-menu-lateral></app-menu-lateral>
-  
-    <main class="content-area">
-      <app-top-menu></app-top-menu>
-  
-      <section class="hero-section">
-        <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dGhlJTIwZ3ltfGVufDB8fDB8fHww   " alt="Mejora tu salud" class="hero-image">
-        <div class="hero-overlay">
-          <h2>Mejora tu salud</h2>
-          <p>Descubre entrenamientos personalizados para ti</p>
-        </div>
-      </section>
-  
-      <section class="featured-workouts">
-        <h3>Entrenamientos destacados</h3>
-        <div class="card-container">
-          <div class="workout-card">
-            <img src="https://via.placeholder.com/300x200/444444/ffffff?text=Beginner's+Bootcamp" alt="Beginner's Bootcamp">
-            <h4>Beginner's Bootcamp</h4>
-            <p>Kickstart your fitness journey with our beginner-friendly program.</p>
-          </div>
-          <div class="workout-card">
-            <img src="https://via.placeholder.com/300x200/444444/ffffff?text=Yoga+for+Flexibility" alt="Yoga for Flexibility">
-            <h4>Yoga for Flexibility</h4>
-            <p>Enhance your flexibility and mindfulness with our yoga program.</p>
-          </div>
-          <div class="workout-card">
-            <img src="https://via.placeholder.com/300x200/444444/ffffff?text=Strength+Training" alt="Strength Training Mastery">
-            <h4>Strength Training Mastery</h4>
-            <p>Build strength and muscle with our advanced weightlifting program.</p>
-          </div>
-        </div>
-      </section>
-  
-      <section class="workouts-filter">
-        <div class="header">
-          <h3>Entrenamientos</h3>
-          <a href="#">+ Ver más</a>
-        </div>
-        <div class="filter-buttons">
-          <button class="filter-btn active">Principiante</button>
-          <button class="filter-btn">Intermedio</button>
-          <button class="filter-btn">Avanzado</button>
-        </div>
-        <div class="card-container">
-          <div class="workout-card">
-            <img src="https://via.placeholder.com/300x200/444444/ffffff?text=Cardio+Blast" alt="Cardio Blast">
-            <h4>Cardio Blast</h4>
-            <p>High-intensity cardio workouts to burn calories and improve endurance.</p>
-          </div>
-          <div class="workout-card">
-            <img src="https://via.placeholder.com/300x200/444444/ffffff?text=Core+Crusher" alt="Core Crusher">
-            <h4>Core Crusher</h4>
-            <p>Target your core muscles with effective exercises for a stronger midsection.</p>
-          </div>
-          <div class="workout-card">
-            <img src="https://via.placeholder.com/300x200/444444/ffffff?text=Flexibility+Flow" alt="Flexibility Flow">
-            <h4>Flexibility Flow</h4>
-            <p>Improve your flexibility and range of motion with dynamic stretching routines.</p>
-          </div>
-        </div>
-      </section>
-  
-      <div class="logout-section">
-        <button class="btn btn-danger" (click)="logout()">Cerrar Sesión</button>
+  <app-menu-lateral></app-menu-lateral>
+
+  <main class="content-area">
+    <app-top-menu></app-top-menu>
+
+    <section class="hero-section">
+      <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dGhlJTIwZ3ltfGVufDB8fDB8fHww" alt="Mejora tu salud" class="hero-image">
+      <div class="hero-overlay">
+        <h2>Mejora tu salud</h2>
+        <p>Descubre entrenamientos personalizados para ti</p>
       </div>
-  
-    </main>
-  </div>
+    </section>
+
+    <section class="featured-workouts">
+      <h3>Entrenamientos Destacados</h3>
+      <div *ngIf="errorMessage" class="alert alert-danger mt-3" role="alert">
+        {{ errorMessage }}
+      </div>
+      <div class="card-container">
+        <ng-container *ngIf="featuredWorkouts.length > 0; else noFeaturedWorkouts">
+          <div class="workout-card" *ngFor="let entreno of featuredWorkouts">
+            <h4>{{ entreno.nombre }}</h4>
+            <p>{{ entreno.descripcion }}</p>
+            <p>Nivel: {{ entreno.nivel.nombre }}</p>
+            <p>Valoración: {{ entreno.valoracionMedia | number:'1.1-1' }}</p>
+          </div>
+        </ng-container>
+        <ng-template #noFeaturedWorkouts>
+          <div class="alert alert-info mt-3" style="width: 100%; text-align: center; grid-column: 1 / -1;">
+            No hay entrenamientos destacados disponibles.
+          </div>
+        </ng-template>
+      </div>
+    </section>
+
+    <section class="workouts-filter">
+      <div class="header">
+        <h3>Entrenamientos por Nivel</h3>
+        <a routerLink="/entrenamientos">+ Ver más</a>
+      </div>
+      <div class="filter-buttons">
+        <button class="filter-btn"
+                [class.active]="currentHomeView === 'all'"
+                (click)="setView('all')">Todos</button>
+        <button class="filter-btn"
+                [class.active]="currentHomeView === 'principiante'"
+                (click)="setView('principiante')">Principiante</button>
+        <button class="filter-btn"
+                [class.active]="currentHomeView === 'intermedio'"
+                (click)="setView('intermedio')">Intermedio</button>
+        <button class="filter-btn"
+                [class.active]="currentHomeView === 'avanzado'"
+                (click)="setView('avanzado')">Avanzado</button>
+      </div>
+
+      <div *ngIf="errorMessage" class="alert alert-danger mt-3" role="alert">
+        {{ errorMessage }}
+      </div>
+
+      <div class="card-container">
+        <ng-container *ngIf="currentDisplayWorkouts.length > 0; else noWorkoutsFound">
+          <div class="workout-card" *ngFor="let entreno of currentDisplayWorkouts">
+            <h4>{{ entreno.nombre }}</h4>
+            <p>{{ entreno.descripcion }}</p>
+            <p>Nivel: {{ entreno.nivel.nombre }}</p>
+          </div>
+        </ng-container>
+        <ng-template #noWorkoutsFound>
+          <div class="alert alert-info mt-3" style="width: 100%; text-align: center; grid-column: 1 / -1;">
+            No se encontraron entrenamientos para este nivel.
+          </div>
+        </ng-template>
+      </div>
+    </section>
+
+  </main>
+</div>

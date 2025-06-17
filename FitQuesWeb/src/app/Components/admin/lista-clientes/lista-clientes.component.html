@@ -1,0 +1,126 @@
+<div class="main-container">
+  <app-menu-lateral></app-menu-lateral>
+
+  <main class="content-area">
+    <app-top-menu></app-top-menu>
+    <div class="content-header ms-4 mt-4">
+      <h1>Lista de Entrenadores</h1>
+      </div>
+
+    <div *ngIf="errorMessage" class="alert alert-danger mt-3" role="alert">
+      {{ errorMessage }}
+    </div>
+    <div *ngIf="successMessage" class="alert alert-success mt-3" role="alert">
+      {{ successMessage }}
+    </div>
+
+    <div class="entrenamientos-page-container-card">
+      <div class="entrenamientos-grid">
+        <ng-container *ngIf="currentUsers.length > 0; else noEntrenadores">
+          <div class="entrenamiento-card" *ngFor="let entrenador of currentUsers">
+            <div class="card-body">
+              <h5 class="card-title">{{ entrenador.Username }}</h5>
+              <p class="card-text"><strong>ID:</strong> {{ entrenador.id }}</p>
+              <p class="card-text"><strong>Roles:</strong> {{ entrenador.roles.join(', ') || 'N/A' }}</p>
+
+              <div *ngIf="entrenador.entrenos && entrenador.entrenos.length > 0" class="mt-2">
+                <h6>Entrenos Asignados:</h6>
+                <ul class="exercise-list">
+                  <li *ngFor="let entreno of entrenador.entrenos">{{ entreno.nombre || 'Entreno sin nombre' }}</li>
+                </ul>
+              </div>
+              <div *ngIf="!entrenador.entrenos || entrenador.entrenos.length === 0" class="mt-2">
+                <p class="card-text text-muted">Ningún entreno asignado.</p>
+              </div>
+
+              <div class="card-actions">
+                <button class="btn btn-sm btn-info" (click)="openEditModal(entrenador)">
+                  <i class="bi bi-pencil"></i> Editar
+                </button>
+                <button class="btn btn-sm btn-danger" (click)="confirmDelete(entrenador)">
+                  <i class="bi bi-person-x"></i> Dar de Baja
+                </button>
+                <button class="btn btn-sm btn-manage-exercises">
+                  <i class="bi bi-gear"></i> Gestionar Entrenamientos
+                </button>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+        <ng-template #noEntrenadores>
+          <div class="alert alert-info mt-3 no-data-message-alt">
+            No se encontraron entrenadores.
+          </div>
+        </ng-template>
+      </div>
+
+      <nav aria-label="Page navigation" *ngIf="totalPages > 1">
+        <ul class="pagination justify-content-center mt-4">
+          <li class="page-item" [class.disabled]="currentPage === 0">
+            <a class="page-link" (click)="prevPage()">Anterior</a>
+          </li>
+          <li class="page-item" *ngFor="let pageNum of [].constructor(totalPages); let i = index"
+            [class.active]="i === currentPage">
+            <a class="page-link" (click)="goToPage(i)">{{ i + 1 }}</a>
+          </li>
+          <li class="page-item" [class.disabled]="currentPage === totalPages - 1">
+            <a class="page-link" (click)="nextPage()">Siguiente</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </main>
+</div>
+
+<div class="modal-overlay" *ngIf="showEditModal">
+  <div class="modal-content">
+    <h2>Editar Entrenador</h2>
+    <form [formGroup]="editForm" (ngSubmit)="saveEdit()">
+      <div class="form-group">
+        <label for="id" class="form-label-custom">ID:</label>
+        <input id="id" formControlName="id" type="text" class="form-control-custom" readonly>
+      </div>
+      <div class="form-group">
+        <label for="username" class="form-label-custom">Username:</label>
+        <input id="username" formControlName="username" type="text" class="form-control-custom">
+        <div *ngIf="editForm.get('username')?.invalid && (editForm.get('username')?.dirty || editForm.get('username')?.touched)"
+          class="invalid-feedback">
+          Username es requerido.
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="nombre" class="form-label-custom">Nombre:</label>
+        <input id="nombre" formControlName="nombre" type="text" class="form-control-custom">
+        <div *ngIf="editForm.get('nombre')?.invalid && (editForm.get('nombre')?.dirty || editForm.get('nombre')?.touched)"
+          class="invalid-feedback">
+          Nombre es requerido.
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="apellido1" class="form-label-custom">Primer Apellido:</label>
+        <input id="apellido1" formControlName="apellido1" type="text" class="form-control-custom">
+        <div *ngIf="editForm.get('apellido1')?.invalid && (editForm.get('apellido1')?.dirty || editForm.get('apellido1')?.touched)"
+          class="invalid-feedback">
+          Primer Apellido es requerido.
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="apellido2" class="form-label-custom">Segundo Apellido:</label>
+        <input id="apellido2" formControlName="apellido2" type="text" class="form-control-custom">
+      </div>
+      <div class="form-group">
+        <label for="email" class="form-label-custom">Email:</label>
+        <input id="email" formControlName="email" type="email" class="form-control-custom">
+        <div *ngIf="editForm.get('email')?.invalid && (editForm.get('email')?.dirty || editForm.get('email')?.touched)"
+          class="invalid-feedback">
+          Email es requerido y debe ser válido.
+        </div>
+      </div>
+
+      <div class="modal-actions form-actions">
+        <button type="button" class="btn-secondary-custom" (click)="closeEditModal()">Cancelar</button>
+        <button type="submit" class="btn-primary-custom" [disabled]="editForm.invalid">Guardar Cambios</button>
+      </div>
+    </form>
+  </div>
+</div>

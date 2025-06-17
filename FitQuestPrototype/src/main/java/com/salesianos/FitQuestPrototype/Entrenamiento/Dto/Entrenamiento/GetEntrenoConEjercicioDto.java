@@ -1,6 +1,7 @@
 package com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Entrenamiento;
 
 import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Ejercicio.GetEjercicioFromEntrenoDto;
+import com.salesianos.FitQuestPrototype.Entrenamiento.Dto.Nivel.GetNivelDto;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Model.Ejercicio;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Model.Entrenamiento;
 import com.salesianos.FitQuestPrototype.Entrenamiento.Model.Valoracion;
@@ -17,7 +18,8 @@ public record GetEntrenoConEjercicioDto(
         double puntos,
         double valoracionMedia,
         GetEntrenadorFromEntreno entrenador,
-        Set<GetEjercicioFromEntrenoDto> ejercicios
+        Set<GetEjercicioFromEntrenoDto> ejercicios,
+        GetNivelDto nivel
 ) {
 
     public static GetEntrenoConEjercicioDto of(Entrenamiento entrenamiento){
@@ -42,7 +44,8 @@ public record GetEntrenoConEjercicioDto(
                 entrenamiento.getEjercicios()
                         .stream()
                         .map(GetEjercicioFromEntrenoDto::of)
-                        .collect(Collectors.toSet())
+                        .collect(Collectors.toSet()),
+                GetNivelDto.of(entrenamiento.getNivel())
         );
     }
 }

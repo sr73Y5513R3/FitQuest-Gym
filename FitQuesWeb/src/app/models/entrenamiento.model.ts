@@ -1,6 +1,7 @@
 // src/app/core/models/entrenamiento.model.ts
 
 import { GetEjercicioDto } from "./ejercicio.model";
+import { Nivel } from "./nivel.model";
 
 export interface EjercicioDto {
   id: number;
@@ -22,6 +23,7 @@ export interface GetEntrenoConEjercicioDto {
   valoracionMedia: number;
   entrenador: EntrenadorDto;
   ejercicios: GetEjercicioDto[];
+  nivel: Nivel;
 }
 
 export interface Page<T> {

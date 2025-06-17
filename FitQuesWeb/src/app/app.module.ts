@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { TopMenuComponent } from './Shared/top-menu/top-menu.component';
 import { FooterComponent } from './Shared/footer/footer.component';
@@ -27,6 +27,7 @@ import { MisEntrenamientosComponent } from './Components/mis-entrenamientos/mis-
 import { CrearEntrenamientoComponent } from './Components/crear-entrenamiento/crear-entrenamiento.component';
 import { EntrenadorValidaComponent } from './Components/entrenador-valida/entrenador-valida.component';
 import { EntrenamientosRealizadosComponent } from './Components/entrenamientos-realizados/entrenamientos-realizados.component';
+import { PerfilComponent } from './Components/perfil/perfil.component';
 
 @NgModule({
   declarations: [
@@ -50,14 +51,16 @@ import { EntrenamientosRealizadosComponent } from './Components/entrenamientos-r
     MisEntrenamientosComponent,
     CrearEntrenamientoComponent,
     EntrenadorValidaComponent,
-    EntrenamientosRealizadosComponent
+    EntrenamientosRealizadosComponent,
+    PerfilComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NgbModule,
     FormsModule, 
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   providers: [
     {

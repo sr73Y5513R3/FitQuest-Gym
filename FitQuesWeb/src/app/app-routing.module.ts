@@ -16,6 +16,8 @@ import { MisEntrenamientosComponent } from './Components/mis-entrenamientos/mis-
 import { CrearEntrenamientoComponent } from './Components/crear-entrenamiento/crear-entrenamiento.component';
 import { EntrenadorValidaComponent } from './Components/entrenador-valida/entrenador-valida.component';
 import { EntrenamientosRealizadosComponent } from './Components/entrenamientos-realizados/entrenamientos-realizados.component';
+import { PerfilComponent } from './Components/perfil/perfil.component';
+import { ListaClientesComponent } from './Components/admin/lista-clientes/lista-clientes.component';
 
 
 const routes: Routes = [
@@ -31,10 +33,12 @@ const routes: Routes = [
   { path: 'admin/entrenamiento', component: ListaEntrenamientosComponent},
   { path: 'admin/ejercicio', component: ListaEjerciciosComponent},
   { path: 'admin/material', component: ListaMaterialesComponent},
+  { path: 'admin/entrenadores', component: ListaClientesComponent},
   { path: 'entrenador/mis-entrenamientos', component: MisEntrenamientosComponent},
   { path: 'entrenador/crear-entrenamiento', component: CrearEntrenamientoComponent},
   { path: 'entrenador/validar', component: EntrenadorValidaComponent},
   { path: 'perfil/entrenamientos-realizados', component: EntrenamientosRealizadosComponent},
+  { path: 'perfil/informacion', component: PerfilComponent},
   
 
 
