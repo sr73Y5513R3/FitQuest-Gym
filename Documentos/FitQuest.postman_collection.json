@@ -262,6 +262,25 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "GetAllByEntrenador",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{UrlVariable}}entrenamiento/all/entrenador/e2e55861-356d-4087-bdb7-879b234c972c",
+							"host": [
+								"{{UrlVariable}}entrenamiento"
+							],
+							"path": [
+								"all",
+								"entrenador",
+								"e2e55861-356d-4087-bdb7-879b234c972c"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -709,7 +728,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nombre\": \"ejercicio de patas\",\r\n    \"descripcion\": \"Hacer sentadillas\",\r\n    \"series\": 4,\r\n    \"repeticiones\": 10,\r\n    \"duracion\": 10,\r\n    \"urlImagen\": \"todavia no hay\"\r\n}",
+							"raw": "{\r\n    \"nombre\": \"ejercicio de patas\",\r\n    \"descripcion\": \"Hacer sentadillas\",\r\n    \"series\": 4,\r\n    \"repeticiones\": 10,\r\n    \"duracion\": 10,\r\n    \"urlImagen\": \"todavia no hay\",\r\n    \"nivel\":{\r\n       \"id\": 1,\r\n        \"nombre\": \"Principiante\"\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1362,15 +1381,24 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlMmU1NTg2MS0zNTZkLTQwODctYmRiNy04NzliMjM0Yzk3MmMiLCJpYXQiOjE3NDA1MjkzNzAsImV4cCI6MTc0MDUyOTQzMH0.9UFmhVAWyIA8r57g4atW72jV-9Tifj-JT3sLjX1Wk-o",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlMmU1NTg2MS0zNTZkLTQwODctYmRiNy04NzliMjM0Yzk3MmMiLCJpYXQiOjE3NTAxNzY0MTIsImV4cCI6MTc1MDUzNjQxMn0.oNfreOzpD3tvg4KZfDSbdKzW7cft0DGSuZ5x_pz2mi0",
 									"type": "string"
 								}
 							]
 						},
 						"method": "PUT",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "{{UrlVariable}}realizado/aceptar?idEntrenador=e2e55861-356d-4087-bdb7-879b234c972c&idUsuario=9481cf3a-6c0e-47a0-9296-df686ea1e5f5&idEntrenamiento=1",
+							"raw": "{{UrlVariable}}realizado/aceptar?idEntrenador=e2e55861-356d-4087-bdb7-879b234c972c&idUsuario=9371392f-ca63-4254-8d10-415a2da16924&idEntrenamiento=1",
 							"host": [
 								"{{UrlVariable}}realizado"
 							],
@@ -1384,7 +1412,7 @@
 								},
 								{
 									"key": "idUsuario",
-									"value": "9481cf3a-6c0e-47a0-9296-df686ea1e5f5"
+									"value": "9371392f-ca63-4254-8d10-415a2da16924"
 								},
 								{
 									"key": "idEntrenamiento",
@@ -1392,6 +1420,30 @@
 								}
 							]
 						}
+					},
+					"response": []
+				},
+				{
+					"name": "FinAllSinAceptar",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "FinAllAceptadas",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "FindAllById",
+					"request": {
+						"method": "GET",
+						"header": []
 					},
 					"response": []
 				}
@@ -1417,7 +1469,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"notaValoracion\": \"10\",\r\n    \"textoDescriptivo\": \"Lorem Ipsum\"\r\n}",
+							"raw": "{\r\n    \"idUsuario\":\"8dc6a461-f0dc-4876-b727-834cbc396fa4\",\r\n    \"idEntrenamiento\": 1,\r\n    \"notaValoracion\": \"10\"\r\n\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1425,22 +1477,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{UrlVariable}}valoracion/add?idUsuario=9481cf3a-6c0e-47a0-9296-df686ea1e5f5&idEntreno=1",
+							"raw": "{{UrlVariable}}valoracion/add",
 							"host": [
 								"{{UrlVariable}}valoracion"
 							],
 							"path": [
 								"add"
-							],
-							"query": [
-								{
-									"key": "idUsuario",
-									"value": "9481cf3a-6c0e-47a0-9296-df686ea1e5f5"
-								},
-								{
-									"key": "idEntreno",
-									"value": "1"
-								}
 							]
 						}
 					},
